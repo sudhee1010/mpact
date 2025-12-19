@@ -2,10 +2,11 @@ import { Routes, Route ,BrowserRouter} from "react-router-dom";
 
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-
+import About from "./pages/About/About";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
+
 
 function App() {
   return (
@@ -19,6 +20,8 @@ function App() {
           <Route path="/products" element={<Product />} />
           <Route path="/checkout" element={<Checkout />} />
           
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<Faq/>} />
         </Routes>
       </div>
 
