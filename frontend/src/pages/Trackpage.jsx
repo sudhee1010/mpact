@@ -363,6 +363,97 @@ export default function TrackOrder() {
           font-weight: 700;
           margin-top: 8px;
         }
+
+        /* ===== LARGE DESKTOP / 4K ===== */
+@media (min-width: 1400px) {
+  .orders-page {
+    padding: 140px 120px;
+  }
+
+  .orders-heading-outline {
+    font-size: 96px;
+  }
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 900px) {
+  .orders-page {
+    padding: 120px 40px;
+  }
+
+  .orders-heading-outline {
+    font-size: 60px;
+    -webkit-text-stroke: 3px #ffd400;
+  }
+
+  .order-info-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .orders-page {
+    padding: 100px 20px;
+  }
+
+  .orders-heading-outline {
+    font-size: 44px;
+    -webkit-text-stroke: 2px #ffd400;
+  }
+
+  .order-summary {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .order-price {
+    text-align: left;
+  }
+
+  .order-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .track-bar {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .track-step::before {
+    display: none;
+  }
+
+  .order-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+
+  .order-info-grid {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 360px) {
+  .orders-heading-outline {
+    font-size: 36px;
+  }
+
+  .order-info {
+    font-size: 13px;
+  }
+
+  .order-price {
+    font-size: 13px;
+  }
+}
+
       `}</style>
 
       <div className="orders-page">
