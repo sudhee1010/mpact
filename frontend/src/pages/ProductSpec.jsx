@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 const ProductPage = () => {
   return (
-    <div style={{ background: "rgba(24, 23, 23, 1)", color: "#fff", fontFamily: "Arial" }}>
+    <div style={{  color: "#fff", fontFamily: "Arial" }}>
     
 
       {/* PRODUCT SECTION */}
