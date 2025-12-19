@@ -151,7 +151,7 @@ export default function Products() {
 
       <style>{`
   .page-wrapper {
-    padding-top: 92px;
+    padding-top: 35px;
     background-color: #2e2e2e;
   }
 
