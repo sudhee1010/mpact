@@ -153,7 +153,6 @@ export default function Products() {
       <style>{`
   .page-wrapper {
     padding-top: 35px;
-    background-color: #rgba(24, 23, 23, 1);
   }
 
   .products-page {
@@ -189,7 +188,7 @@ export default function Products() {
   }
 
   .product-card {
-    background-color: #3a3a3a;
+    background-color: #353434ff;
     border: 2px solid #ffeb00;
     padding: 14px;
     text-align: center;

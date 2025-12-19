@@ -8,7 +8,6 @@ export default function OrderSuccess() {
     <>
       <style>{`
         .success-page {
-          background: #2f2f2f;
           color: #fff;
           min-height: 100vh;
           padding: 120px 60px 60px;
