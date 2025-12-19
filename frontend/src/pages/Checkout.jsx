@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 export default function Checkout() {
   return (
@@ -23,6 +24,8 @@ export default function Checkout() {
         .billing-section h2 {
           margin-bottom: 25px;
           font-family: 'Jersey 25';
+          font-weight: 400;
+          font-size: 36px;
         }
 
         .billing-form label {
@@ -207,7 +210,7 @@ export default function Checkout() {
           <div className="order-section">
 
             <div className="order-item">
-              <img src="/images/product.png" alt="" />
+              <img src="/images/product.jpg" alt="" />
               <div className="order-info">
                 <p>PROTEIN WAFERS – VARIETY PACK</p>
                 <span>$25</span>
@@ -215,7 +218,7 @@ export default function Checkout() {
             </div>
 
             <div className="order-item">
-              <img src="/images/product.png" alt="" />
+              <img src="/images/product.jpg" alt="" />
               <div className="order-info">
                 <p>PROTEIN WAFERS – VARIETY PACK</p>
                 <span>$11</span>
@@ -260,7 +263,9 @@ export default function Checkout() {
               <button>Apply Coupon</button>
             </div>
 
-            <button className="place-order-btn">Place Order</button>
+            <Link to="/success">
+  <button className="place-order-btn">Place Order</button>
+</Link>
 
           </div>
         </div>
