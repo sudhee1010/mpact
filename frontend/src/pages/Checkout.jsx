@@ -22,6 +22,7 @@ export default function Checkout() {
         /* ===== LEFT ===== */
         .billing-section h2 {
           margin-bottom: 25px;
+          font-family: 'Jersey 25';
         }
 
         .billing-form label {
@@ -34,7 +35,7 @@ export default function Checkout() {
         .billing-form input {
           width: 100%;
           padding: 12px;
-          background: #8f8a2f;
+          background: #989890ff;
           border: none;
           margin-bottom: 18px;
           color: #000;
