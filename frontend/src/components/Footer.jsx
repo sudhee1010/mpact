@@ -15,7 +15,7 @@ export default function Footer() {
 }
 
 body {
-  background-color: #2f2f2f;
+  background-color: rgba(24, 23, 23, 1);
   color: #ffffff;
   font-family: "Segoe UI", Arial, sans-serif;
 }
