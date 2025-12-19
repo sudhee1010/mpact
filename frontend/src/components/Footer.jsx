@@ -151,6 +151,90 @@ body {
   cursor: pointer;
 }
 
+/* ===== LARGE DESKTOPS / 4K ===== */
+@media (min-width: 1400px) {
+  .footer {
+    padding: 100px 140px 50px;
+  }
+
+  .footer-center h1 {
+    font-size: 72px;
+  }
+}
+
+/* ===== LAPTOPS ===== */
+@media (max-width: 1200px) {
+  .footer {
+    padding: 80px 60px 40px;
+  }
+
+  .footer-top {
+    gap: 40px;
+  }
+}
+
+/* ===== TABLETS ===== */
+@media (max-width: 900px) {
+  .footer-top {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 50px;
+  }
+
+  .footer-links {
+    justify-content: center;
+    gap: 60px;
+  }
+
+  .footer-right p {
+    margin: auto;
+  }
+
+  .footer-bottom {
+    flex-direction: column;
+    gap: 16px;
+    text-align: center;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .footer {
+    padding: 60px 20px 30px;
+  }
+
+  .footer-links {
+    flex-direction: column;
+    gap: 30px;
+    align-items: center;
+  }
+
+  .footer-center h1 {
+    font-size: 44px;
+  }
+
+  .social-icons span {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 360px) {
+  .footer-center h1 {
+    font-size: 36px;
+  }
+
+  .footer-right p {
+    font-size: 12px;
+  }
+
+  .footer-logo {
+    font-size: 20px;
+  }
+}
+
+
       `}</style>
 
       {/* ================= FOOTER ================= */}

@@ -119,6 +119,73 @@ export default function OrderSuccess() {
         .product-card button:hover {
           opacity: 0.9;
         }
+
+        /* ===== LARGE DESKTOP / 4K ===== */
+@media (min-width: 1400px) {
+  .success-page {
+    padding: 140px 120px 80px;
+  }
+
+  .success-text {
+    font-size: 26px;
+  }
+}
+
+/* ===== TABLET ===== */
+@media (max-width: 900px) {
+  .success-page {
+    padding: 120px 40px 60px;
+  }
+
+  .success-actions {
+    gap: 20px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .success-page {
+    padding: 100px 20px 40px;
+  }
+
+  .success-text {
+    font-size: 18px;
+  }
+
+  .success-actions {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .success-actions button {
+    width: 100%;
+    height: 48px;
+    font-size: 18px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 360px) {
+  .success-icon {
+    width: 70px;
+    height: 70px;
+  }
+
+  .success-icon svg {
+    width: 36px;
+    height: 36px;
+  }
+
+  .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
       `}</style>
 
       <div className="success-page">

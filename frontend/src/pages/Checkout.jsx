@@ -165,6 +165,108 @@ export default function Checkout() {
           .checkout-container {
             grid-template-columns: 1fr;
           }
+            /* ===== LARGE DESKTOPS / 4K ===== */
+@media (min-width: 1400px) {
+  .checkout-container {
+    max-width: 1400px;
+    gap: 80px;
+  }
+
+  .billing-section h2 {
+    font-size: 40px;
+  }
+
+  .billing-form input {
+    padding: 14px;
+    font-size: 15px;
+  }
+
+  .place-order-btn {
+    width: 220px;
+    padding: 16px;
+    font-size: 16px;
+  }
+}
+
+/* ===== LAPTOPS & NORMAL DESKTOPS ===== */
+@media (max-width: 1399px) {
+  .checkout-container {
+    padding: 0 30px;
+  }
+}
+
+/* ===== TABLETS ===== */
+@media (max-width: 900px) {
+  .checkout-container {
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .place-order-btn {
+    width: 100%;
+  }
+}
+
+/* ===== MOBILE DEVICES ===== */
+@media (max-width: 600px) {
+  .checkout-page {
+    padding: 30px 0;
+  }
+
+  .billing-section h2 {
+    font-size: 26px;
+    text-align: center;
+  }
+
+  .billing-form label {
+    font-size: 12px;
+  }
+
+  .billing-form input {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .order-info {
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .coupon-section {
+    flex-direction: column;
+  }
+
+  .coupon-section button {
+    width: 100%;
+  }
+
+  .place-order-btn {
+    width: 100%;
+    font-size: 15px;
+  }
+}
+
+/* ===== VERY SMALL PHONES ===== */
+@media (max-width: 360px) {
+  .billing-section h2 {
+    font-size: 22px;
+  }
+
+  .order-info p {
+    font-size: 12px;
+  }
+
+  .order-summary div {
+    font-size: 12px;
+  }
+
+  .place-order-btn {
+    font-size: 14px;
+    padding: 14px;
+  }
+}
+
         }
       `}</style>
 
