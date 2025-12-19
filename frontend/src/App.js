@@ -9,6 +9,7 @@ import Checkout from "./pages/Checkout";
 import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
+import ProductPage from "./pages/ProductSpec";
 
 
 function App() {
@@ -21,6 +22,9 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/productspec" element={<ProductPage />} />
+
+
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />

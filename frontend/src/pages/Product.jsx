@@ -1,298 +1,355 @@
-import React from "react";
+import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
-const ProductPage = () => {
+/* ================= PRODUCT DATA ================= */
+const PRODUCT_DATA = {
+  "PROTIEN BARS": [
+    {
+      id: 1,
+      title: "Protein Bar – Chocolate",
+      oldPrice: 299,
+      price: 180,
+      discount: "40% OFF",
+      rating: 5,
+      reviews: 199,
+      image: "/images/Product1.png",
+      specs: ["NO PRESERVATIVES", "HIGH PROTEIN", "NO ADDED SUGAR"],
+    },
+    {
+      id: 2,
+      title: "Protein Bar – Peanut",
+      oldPrice: 260,
+      price: 200,
+      discount: "23% OFF",
+      rating: 4,
+      reviews: 142,
+      image: "/images/Product1.png",
+      specs: ["JAGGERY BASED", "NO GLUCOSE", "RICH PEANUT"],
+    },
+    {
+      id: 3,
+      title: "Protein Bar – Almond",
+      oldPrice: 280,
+      price: 220,
+      discount: "21% OFF",
+      rating: 5,
+      reviews: 175,
+      image: "/images/Product1.png",
+      specs: ["ALMOND RICH", "NO PRESERVATIVES", "HIGH ENERGY"],
+    },
+    {
+      id: 4,
+      title: "Protein Bar – Caramel",
+      oldPrice: 240,
+      price: 190,
+      discount: "20% OFF",
+      rating: 4,
+      reviews: 98,
+      image: "/images/Product1.png",
+      specs: ["SOFT CARAMEL", "NO ADDED COLOURS", "HIGH PROTEIN"],
+    },
+  ],
+
+  "PEANUT BUTTER": [
+    {
+      id: 5,
+      title: "Peanut Butter – Crunchy",
+      oldPrice: 499,
+      price: 350,
+      discount: "30% OFF",
+      rating: 5,
+      reviews: 221,
+      image: "/images/Product1.png",
+      specs: ["100% PEANUTS", "NO PALM OIL", "NO ADDED SUGAR"],
+    },
+    {
+      id: 6,
+      title: "Peanut Butter – Smooth",
+      oldPrice: 420,
+      price: 320,
+      discount: "24% OFF",
+      rating: 4,
+      reviews: 167,
+      image: "/images/Product1.png",
+      specs: ["SMOOTH TEXTURE", "HIGH PROTEIN", "NO PRESERVATIVES"],
+    },
+    {
+      id: 7,
+      title: "Peanut Butter – Honey",
+      oldPrice: 520,
+      price: 380,
+      discount: "27% OFF",
+      rating: 5,
+      reviews: 190,
+      image: "/images/Product1.png",
+      specs: ["HONEY INFUSED", "NATURAL SWEET", "NO PALM OIL"],
+    },
+    {
+      id: 8,
+      title: "Peanut Butter – Dark Roast",
+      oldPrice: 480,
+      price: 360,
+      discount: "25% OFF",
+      rating: 4,
+      reviews: 134,
+      image: "/images/Product1.png",
+      specs: ["DARK ROASTED", "RICH FLAVOUR", "NO ADDED SUGAR"],
+    },
+  ],
+
+  "WAFERS": [
+    {
+      id: 9,
+      title: "Protein Wafer – Chocolate",
+      oldPrice: 199,
+      price: 150,
+      discount: "25% OFF",
+      rating: 4,
+      reviews: 112,
+      image: "/images/Product1.png",
+      specs: ["CRISPY WAFER", "LOW SUGAR", "HIGH PROTEIN"],
+    },
+    {
+      id: 10,
+      title: "Protein Wafer – Vanilla",
+      oldPrice: 180,
+      price: 140,
+      discount: "22% OFF",
+      rating: 3,
+      reviews: 76,
+      image: "/images/Product1.png",
+      specs: ["VANILLA FLAVOUR", "LIGHT SNACK", "LOW FAT"],
+    },
+    {
+      id: 11,
+      title: "Protein Wafer – Strawberry",
+      oldPrice: 210,
+      price: 160,
+      discount: "24% OFF",
+      rating: 5,
+      reviews: 148,
+      image: "/images/Product1.png",
+      specs: ["FRUIT FLAVOUR", "HIGH PROTEIN", "NO PRESERVATIVES"],
+    },
+    {
+      id: 12,
+      title: "Protein Wafer – Hazelnut",
+      oldPrice: 230,
+      price: 170,
+      discount: "26% OFF",
+      rating: 4,
+      reviews: 101,
+      image: "/images/Product1.png",
+      specs: ["HAZELNUT RICH", "CRUNCHY", "ENERGY BOOST"],
+    },
+  ],
+};
+
+export default function Products() {
   return (
-    <div style={{ background: "rgba(24, 23, 23, 1)", color: "#fff", fontFamily: "Arial" }}>
-    
+    <>
+      <Navbar />
 
-      {/* PRODUCT SECTION */}
-      <section
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: 40,
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 40,
-        }}
-      >
-        <div style={{ background: "#353434ff", padding: 20, borderRadius: 12 }}>
-          <img
-            src="/images/proteins.avif"
-            alt="product"
-            style={{ width: "100%", borderRadius: 12 }}
-          />
-        </div>
+      <style>{`
+  .page-wrapper {
+    padding-top: 92px;
+    background-color: #2e2e2e;
+  }
 
-        <div>
-          <h1 style={{ fontSize: 36, fontWeight: 800 }}>
-            PROTEIN WAFERS – <br /> VARIETY PACK OF 10
-          </h1>
-          <p style={{ color: "#ffe600" }}>★★★★★ (198 Reviews)</p>
-          <p style={{ color: "#4ade80", fontWeight: "bold" }}>25% OFF</p>
-          <h2>RS : 2000</h2>
+  .products-page {
+    max-width: 1800px;
+    margin: auto;
+    padding: clamp(16px, 4vw, 60px);
+    min-height: 100vh;
+  }
 
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {[
-              "No Preservatives",
-              "Jaggery Based",
-              "No Glucose Added",
-              "80% Peanut",
-              "No Added Colours",
-            ].map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  border: "1px solid #ffe600",
-                  padding: "6px 12px",
-                  borderRadius: 20,
-                  fontSize: 12,
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+  .page-title {
+    text-align: center;
+    font-size: clamp(26px, 4vw, 48px);
+    font-weight: 900;
+    color: #ffeb00;
+    margin: 24px 0 40px;
+  }
 
-          <button
-            style={{
-              marginTop: 20,
-              background: "#ffe600",
-              border: "none",
-              padding: "12px 32px",
-              fontWeight: "bold",
-              borderRadius: 8,
-              cursor: "pointer",
-            }}
-          >
-            BUY NOW
-          </button>
-        </div>
-      </section> 
-       {/* EXPLORE */}
-      <section style={{ textAlign: "center", padding: 60 }}>
-        <h1 style={{ color: "#ffe600", fontSize: 48 }}>
-         
-        </h1>
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: "40px auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              style={{
-                background: "#353434ff",
-                padding: 20,
-                borderRadius: 12,
-              }}
-            >
-              <img
-                src="/images/chocolate.webp"
-                alt="product"
-                style={{ width: "100%", borderRadius: 12 }}
-              />
-              <p>Protein Wafers</p>
-              <button
-                style={{
-                  marginTop: 10,
-                  background: "#ffe600",
-                  border: "none",
-                  padding: "8px 20px",
-                  fontWeight: "bold",
-                  borderRadius: 6,
-                }}
-              >
-                BUY NOW
-              </button>
+  .section {
+    margin-bottom: 64px;
+  }
+
+  .section-title {
+    color: #ffffff;
+    font-size: clamp(18px, 2.2vw, 24px);
+    margin-bottom: 20px;
+  }
+
+  /* ✅ GRID FIX */
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(14px, 2vw, 28px);
+  }
+
+  .product-card {
+    background-color: #3a3a3a;
+    border: 2px solid #ffeb00;
+    padding: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* ✅ IMAGE FIX */
+  .product-card img {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    object-fit: contain;
+    margin-bottom: 10px;
+  }
+
+  .product-title {
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  /* ✅ SPECS FIX */
+  .specs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 8px;
+  }
+
+  .spec {
+    border: 1px solid #ffeb00;
+    color: #ffeb00;
+    font-size: 10px;
+    padding: 4px 6px;
+    border-radius: 3px;
+  }
+
+  /* Limit specs visually on small screens */
+  @media (max-width: 480px) {
+    .specs {
+      max-height: 34px;
+      overflow: hidden;
+    }
+  }
+
+  .rating {
+    color: #ffeb00;
+    font-size: 13px;
+    margin-bottom: 2px;
+  }
+
+  .reviews {
+    color: #cccccc;
+    font-size: 12px;
+    margin-bottom: 6px;
+  }
+
+  .price-box {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .old-price {
+    color: #999;
+    font-size: 12px;
+    text-decoration: line-through;
+  }
+
+  .discount {
+    color: #00ff7f;
+    font-size: 12px;
+    font-weight: bold;
+  }
+
+  .price {
+    color: #ffffff;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  /* ✅ BUTTON ALWAYS AT BOTTOM */
+  .buy-btn {
+    margin-top: auto;
+    width: 100%;
+    padding: 10px;
+    background-color: #ffeb00;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .see-more {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
+
+  .see-more button {
+    background-color: #ffeb00;
+    border: none;
+    padding: 10px 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+`}</style>
+
+
+      <div className="page-wrapper">
+        <div className="products-page">
+          <h1 className="page-title">FIND OUR PRODUCTS</h1>
+
+          {Object.keys(PRODUCT_DATA).map((section) => (
+            <div className="section" key={section}>
+              <h2 className="section-title">{section}</h2>
+
+              <div className="product-grid">
+                {PRODUCT_DATA[section].map((product) => (
+                  <div className="product-card" key={product.id}>
+                    <img src={product.image} alt={product.title} />
+                    <div className="product-title">{product.title}</div>
+
+                    <div className="specs">
+                      {product.specs.map((spec, i) => (
+                        <span className="spec" key={i}>{spec}</span>
+                      ))}
+                    </div>
+
+                    <div className="rating">
+                      {"★".repeat(product.rating)}
+                      {"☆".repeat(5 - product.rating)}
+                    </div>
+
+                    <div className="reviews">⭐ {product.reviews} Reviews</div>
+
+                    <div className="price-box">
+                      <span className="old-price">₹{product.oldPrice}</span>
+                      <span className="discount">{product.discount}</span>
+                    </div>
+
+                    <div className="price">RS : {product.price}</div>
+
+                    <Link to="/productspec">
+                      <button className="buy-btn">Place Order</button>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+
+              <div className="see-more">
+                <button>SEE MORE →</button>
+              </div>
             </div>
           ))}
         </div>
-      </section>
-    {/* REVIEWS */}
-<section
-  style={{
-    maxWidth: 1200,
-    margin: "0 auto",
-    padding: 40,
-    color: "#fff",
-  }}
->
-  {/* Header */}
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 32,
-    }}
-  >
-    <div>
-      <h2 style={{ margin: 0 }}>REVIEWS (111)</h2>
-      <div style={{ color: "#ffe600", marginTop: 6 }}>★★★★★</div>
-    </div>
-
-    <div style={{ display: "flex", gap: 12 }}>
-      <button
-        style={{
-          background: "#ffe600",
-          border: "none",
-          padding: "10px 18px",
-          fontWeight: "bold",
-          borderRadius: 6,
-          cursor: "pointer",
-        }}
-      >
-        WRITE A REVIEW
-      </button>
-
-      <button
-        style={{
-          background: "transparent",
-          border: "1px solid #ffe600",
-          color: "#ffe600",
-          padding: "10px 18px",
-          fontWeight: "bold",
-          borderRadius: 6,
-          cursor: "pointer",
-        }}
-      >
-        TOP RATED
-      </button>
-    </div>
-  </div>
-
-  {/* Reviews Grid */}
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "1.3fr 1fr",
-      gap: 30,
-    }}
-  >
-    {/* Left – Image Reviews */}
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      {[1, 2].map((i) => (
-        <div
-          key={i}
-          style={{
-            background: "#171717ff",
-            border: "1px solid #ffe600",
-            borderRadius: 10,
-            padding: 16,
-            height: "50%",
-          }}
-        >
-          <img
-            src="/images/ajmal.jpg"
-            alt="review"
-            style={{
-              width: "100%",
-              borderRadius: 10,
-              marginBottom: 12,
-            }}
-          />
-
-          <strong>Sanju</strong>
-          <div style={{ color: "#ffe600", margin: "6px 0" }}>★★★★★</div>
-
-          <p style={{ fontSize: 13, lineHeight: 1.6 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry’s standard dummy text
-            ever since the 1500s.
-          </p>
-        </div>
-      ))}
-    </div>
-
-    {/* Right – Text Reviews */}
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          style={{
-            background: "#171717ff",
-            border: "1px solid #ffe600",
-            borderRadius: 12,
-            padding: 20,
-            height: "30%",
-            width: "120%",
-          
-          }}
-        >
-          <strong>Sanju</strong>
-          <div style={{ color: "#ffe600", margin: "6px 0" }}>★★★★★</div>
-
-          <p style={{ fontSize: 13, lineHeight: 1.6 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry’s standard dummy text
-            ever since the 1500s.
-          </p>
-        </div>
-        
-      ))}
-    </div>
-  </div>
-  
-</section>
-
-
-
-      {/* EXPLORE */}
-      <section style={{ textAlign: "center", padding: 60 }}>
-        <h1 style={{ color: "#ffe600", fontSize: 48 }}>
-          EXPLORE OUR RANGE
-        </h1>
-        <div
-          style={{
-            maxWidth: 1200,
-            margin: "40px auto",
-            display: "grid",
-            gridTemplateColumns: "repeat(4, 1fr)",
-            gap: 24,
-          }}
-        >
-          {[1, 2, 3, 4].map((i) => (
-            <div
-              key={i}
-              style={{
-                background: "#353434ff",
-                padding: 20,
-                borderRadius: 12,
-              }}
-            >
-              <img
-                src="/images/creatien.jpg"
-                alt="product"
-                style={{ width: "100%", borderRadius: 12 }}
-              />
-              <p>Protein Wafers</p>
-              <button
-                style={{
-                  marginTop: 10,
-                  background: "#ffe600",
-                  border: "none",
-                  padding: "8px 20px",
-                  fontWeight: "bold",
-                  borderRadius: 6,
-                }}
-              >
-                BUY NOW
-              </button>
-            </div>
-          ))}
-        </div>
-      </section>
-
-     
-    </div>
+      </div>
+    </>
   );
 };
 
-export default ProductPage;
