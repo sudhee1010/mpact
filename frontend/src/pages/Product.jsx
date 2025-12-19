@@ -1,4 +1,5 @@
 import Navbar from "../components/Navbar";
+import { Link } from "react-router-dom";
 
 /* ================= PRODUCT DATA ================= */
 const PRODUCT_DATA = {
@@ -334,7 +335,9 @@ export default function Products() {
 
                     <div className="price">RS : {product.price}</div>
 
-                    <button className="buy-btn">BUY NOW</button>
+                    <Link to="/productspec">
+                      <button className="buy-btn">Place Order</button>
+                    </Link>
                   </div>
                 ))}
               </div>
@@ -348,4 +351,5 @@ export default function Products() {
       </div>
     </>
   );
-}
+};
+
