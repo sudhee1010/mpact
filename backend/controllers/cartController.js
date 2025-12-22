@@ -45,6 +45,7 @@ export const addToCart = async (req, res) => {
   }
 
   cart.totalPrice = calculateTotal(cart.items);
+  cart.appliedCoupon = null;
   await cart.save();
 
   res.json(cart);
@@ -65,7 +66,7 @@ export const updateCartItem = async (req, res) => {
 
   item.quantity = quantity;
   cart.totalPrice = calculateTotal(cart.items);
-
+  cart.appliedCoupon = null;
   await cart.save();
   res.json(cart);
 };
@@ -82,6 +83,7 @@ export const removeCartItem = async (req, res) => {
   );
 
   cart.totalPrice = calculateTotal(cart.items);
+  cart.appliedCoupon = null;
   await cart.save();
 
   res.json(cart);
