@@ -149,9 +149,10 @@ export default function Navbar() {
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo">
+        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
           MPACT
         </Link>
+
 
         {/* CENTER MENU */}
         <div className="nav-links">

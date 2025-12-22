@@ -5,35 +5,47 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
+const NAVBAR_HEIGHT = 72; // adjust if needed
+
 export default function Home() {
   const sectionRef = useRef(null);
   const stripsRef = useRef([]);
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top+=" + NAVBAR_HEIGHT,
+          end: "+=1000",        // short scroll distance
+          scrub: true,
+          pin: true,
+          pinSpacing: true,
+          anticipatePin: 1,
+        },
+      });
+
       stripsRef.current.forEach((el, i) => {
-        gsap.fromTo(
+        const baseTilt = i % 2 === 0 ? -10 : 10;
+        const finalTilt = i % 2 === 0 ? -3 : 3;
+
+        tl.fromTo(
           el,
           {
             clipPath: "inset(0 50% 0 50%)",
-            y: 120,
-            rotate: i % 2 === 0 ? -6 : 6,
-            scale: 0.9,
             opacity: 0,
+            scale: 0.9,
+            rotate: baseTilt,
+            y: 120,
           },
           {
             clipPath: "inset(0 0% 0 0%)",
-            y: 0,
-            rotate: 0,
-            scale: 1,
             opacity: 1,
+            scale: 1,
+            rotate: finalTilt,
+            y: 0,
             ease: "power3.out",
-            scrollTrigger: {
-              trigger: sectionRef.current,
-              start: `top+=${i * 120} center`,
-              end: `top+=${i * 120 + 300} center`,
-              scrub: true,
-            },
+            duration: 1,
           }
         );
       });
@@ -45,13 +57,18 @@ export default function Home() {
   return (
     <>
       <style>{`
-        /* ===== GLOBAL ===== */
-        .home-page {
+        html, body {
+          margin: 0;
           background: #1e1e1e;
+        }
+
+        /* PAGE CONTENT OFFSET FOR NAVBAR */
+        .home-page {
+          padding-top: ${NAVBAR_HEIGHT}px;
           color: #fff;
         }
 
-        /* ===== HERO ===== */
+        /* HERO */
         .hero {
           max-width: 1200px;
           margin: auto;
@@ -59,82 +76,77 @@ export default function Home() {
         }
 
         .hero h1 {
-          font-size: 48px;
+          font-size: 52px;
           font-weight: 900;
+          line-height: 1.1;
         }
 
         .hero span {
           color: #ffd400;
         }
 
-        /* ===== SPYLT SECTION ===== */
-        .spylt-section {
-          position: relative;
-          height: 240vh;
-          background: #1c1c1c;
+        .hero button {
+          margin-top: 24px;
+          padding: 14px 28px;
+          font-weight: 800;
+          background: #ffd400;
+          border: none;
+          cursor: pointer;
         }
 
-        .spylt-sticky {
-          position: sticky;
-          top: 0;
-          height: 100vh;
+        /* SPYLT SECTION */
+        .spylt-section {
+          pading: 10px;
+          height: calc(100vh - ${NAVBAR_HEIGHT}px);
+          background: #1c1c1c;
           display: flex;
           align-items: center;
           justify-content: center;
         }
 
         .spylt-stack {
-          position: relative;
-          width: 100%;
-          max-width: 900px;
-          height: 420px;
+          display: flex;
+          flex-direction: column;
+          gap: 32px;
+          align-items: center;
         }
 
         .spylt-strip {
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-          padding: 22px 64px;
-          font-size: 48px;
+          padding: 28px 72px;
+          font-size: 50px;          /* 🔥 BIG TEXT */
           font-weight: 900;
           text-transform: uppercase;
           white-space: nowrap;
-          box-shadow: 0 25px 60px rgba(0,0,0,0.5);
-          will-change: transform, clip-path;
+          box-shadow: 0 30px 70px rgba(0,0,0,0.6);
+          clip-path: inset(0 50% 0 50%);
+          opacity: 0;
+          will-change: transform, clip-path, opacity;
         }
 
         .spylt-strip:nth-child(1) {
           background: #c79264;
           color: #fff;
-          top: 0;
-          z-index: 4;
         }
 
         .spylt-strip:nth-child(2) {
           background: #f5ede4;
           color: #111;
-          top: 80px;
-          z-index: 3;
         }
 
         .spylt-strip:nth-child(3) {
           background: #8b3f2b;
           color: #fff;
-          top: 160px;
-          z-index: 2;
         }
 
         .spylt-strip:nth-child(4) {
           background: #c9b06c;
           color: #111;
-          top: 240px;
-          z-index: 1;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 900px) {
           .spylt-strip {
-            font-size: 26px;
-            padding: 14px 32px;
+            font-size: 34px;
+            padding: 18px 36px;
           }
         }
       `}</style>
@@ -143,7 +155,8 @@ export default function Home() {
         {/* HERO */}
         <section className="hero">
           <h1>
-            Fuel Your <span>Workout</span><br />
+            Fuel Your <span>Workout</span>
+            <br />
             Power Your <span>Life</span>
           </h1>
           <Link to="/products">
@@ -151,25 +164,23 @@ export default function Home() {
           </Link>
         </section>
 
-        {/* ===== SPYLT ANIMATION ===== */}
+        {/* 100vh SPYLT SECTION */}
         <section className="spylt-section" ref={sectionRef}>
-          <div className="spylt-sticky">
-            <div className="spylt-stack">
-              {[
-                "Shelf Stable",
-                "Protein + Caffeine",
-                "Infinitely Recyclable",
-                "Lactose Free",
-              ].map((text, i) => (
-                <div
-                  key={i}
-                  className="spylt-strip"
-                  ref={(el) => (stripsRef.current[i] = el)}
-                >
-                  {text}
-                </div>
-              ))}
-            </div>
+          <div className="spylt-stack">
+            {[
+              "Shelf Stable",
+              "Protein + Caffeine",
+              "Infinitely Recyclable",
+              "Lactose Free",
+            ].map((text, i) => (
+              <div
+                key={i}
+                className="spylt-strip"
+                ref={(el) => (stripsRef.current[i] = el)}
+              >
+                {text}
+              </div>
+            ))}
           </div>
         </section>
       </div>
