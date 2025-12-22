@@ -13,7 +13,7 @@ export default function Navbar() {
           left: 0;
           width: 100%;
           height: 92px;
-          background-color: #ffd400;
+          background-color: #2f2f2f;
           display: flex;
           align-items: center;
           justify-content: space-between;
@@ -29,6 +29,15 @@ export default function Navbar() {
           letter-spacing: -0.04em;
           color: #000;
           text-decoration: none;
+           text-shadow:2px 2px 0 #ffee00,
+    -2px -2px 0 #ffee00,
+     2px -2px 0 #ffee00,
+    -2px  2px 0 #ffee00,
+     2px  2px 0 #ffee00,
+    -3px  0px 0 #ffee00,
+     3px  0px 0 #ffee00,
+     0px -3px 0 #ffee00,
+     0px  3px 0 #ffee00;
         }
 
         /* CENTER LINKS */
@@ -69,106 +78,30 @@ export default function Navbar() {
         .page-wrapper {
           padding-top: 92px;
         }
-
-        /* ===== LARGE DESKTOPS / 4K ===== */
-@media (min-width: 1400px) {
-  .navbar {
-    padding: 0 100px;
-  }
-
-  .nav-logo {
-    font-size: 56px;
-  }
-
-  .nav-links a {
-    font-size: 22px;
-  }
-}
-
-/* ===== LAPTOPS ===== */
-@media (max-width: 1200px) {
-  .navbar {
-    padding: 0 40px;
-  }
-
-  .nav-links {
-    gap: 32px;
-  }
-}
-
-/* ===== TABLETS ===== */
-@media (max-width: 900px) {
-  .nav-links {
-    display: none; /* hide center menu */
-  }
-
-  .navbar {
-    padding: 0 30px;
-  }
-
-  .nav-logo {
-    font-size: 42px;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .navbar {
-    height: 72px;
-    padding: 0 20px;
-  }
-
-  .nav-logo {
-    font-size: 34px;
-  }
-
-  .nav-icons img {
-    width: 18px;
-    height: 18px;
-  }
-
-  .page-wrapper {
-    padding-top: 72px;
-  }
-}
-
-/* ===== SMALL MOBILE ===== */
-@media (max-width: 360px) {
-  .nav-logo {
-    font-size: 30px;
-  }
-
-  .nav-icons {
-    gap: 16px;
-  }
-}
-
-
       `}</style>
 
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
+        <Link to="/" className="nav-logo">
           MPACT
         </Link>
 
-
         {/* CENTER MENU */}
-        <div className="nav-links">
-          <Link to="/">HOME</Link>
-          <Link to="/products">PRODUCTS</Link>
-          <Link to="/about">ABOUT US</Link>
-          <Link to="/blog">BLOG</Link>
-        </div>
+            {/* <div className="nav-links">
+            <Link to="/">HOME</Link>
+            <Link to="/products">PRODUCTS</Link>
+            <Link to="/about">ABOUT US</Link>
+            <Link to="/blog">BLOG</Link>
+            <Link to="/blog">demo</Link>
+
+            </div> */}
 
         {/* RIGHT ICONS */}
         <div className="nav-icons">
           <img src="/icons/search.png" alt="Search" />
           <img src="/icons/avatar.png" alt="User" />
-          <Link to="/cart">
-  <img src="/icons/bag.png" alt="Cart" />
-</Link>
+          <img src="/icons/bag.png" alt="Cart" />
         </div>
       </nav>
     </>
