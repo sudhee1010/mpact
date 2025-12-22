@@ -16,7 +16,7 @@ import ProductPage from "./pages/ProductSpec";
 function App() {
   return (
     <>
-      <Navbar />
+      
 
       <div className="page-wrapper">
         
