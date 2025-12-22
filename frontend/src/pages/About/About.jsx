@@ -1,4 +1,5 @@
-import React from 'react'
+import React from "react";
+import styles from "./About.module.css";
 import Navbar from '../../components/Navbar'
 function About() {
   return (
@@ -15,5 +16,6 @@ function About() {
     </div>
   )
 }
-
-export default About
+ export default About;
+            
+ 
