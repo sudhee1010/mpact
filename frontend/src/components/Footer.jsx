@@ -13,6 +13,17 @@ export default function Footer() {
   padding: 0;
   box-sizing: border-box;
 }
+  /* Hide scrollbar but allow scroll */
+html, body {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
 
 body {
   background-color: rgba(24, 23, 23, 1);

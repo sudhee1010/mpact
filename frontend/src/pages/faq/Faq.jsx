@@ -1,13 +1,16 @@
 import React from 'react'
-import "./Faq.css"
+import styles from "./Faq.module.css"
+import Navbar from '../../components/NavbarTwo'
 
 function Faq() {
   return (
+
     <div>
-      <section class="a">
+      <Navbar/>
+      <section className={styles.heading}>
         <h1>FREQUENTLY ASKED QUESTIONS</h1>
       </section>
-      <section>
+      <section className={styles.title}>
         <h2>PRODUCT INFORMATION</h2>
       </section>
     </div>
