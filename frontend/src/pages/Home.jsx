@@ -1,32 +1,63 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "../components/Footer";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const NAVBAR_HEIGHT = 92;
+/* ================= DATA ================= */
+const heroImages = [
+  "/images/img1.jpg",
+  "/images/ajmal.jpg",
+  "/images/product1.png",
+];
+
+const FALLBACK_PRODUCT_IMG = "/images/product1.png";
+
+const products = Array.from({ length: 8 }).map((_, i) => ({
+  id: i + 1,
+  title: "EXTRA HUNGRY?\nPROTEIN BAR",
+  price: "₹299",
+  img: `/images/product${(i % 4) + 1}.png`,
+}));
+
+const videos = [
+  "/images/video1.mp4",
+  "/images/video1.mp4",
+  "/images/video1.mp4",
+  "/images/video1.mp4",
+  "/images/video1.mp4",
+];
 
 export default function Home() {
+  /* ================= STATE ================= */
+  const [currentSlide, setCurrentSlide] = useState(0);
+
+  /* ================= REFS ================= */
   const wordSectionRef = useRef(null);
   const wordRefs = useRef([]);
   const fuelRef = useRef(null);
-
   const parallaxSectionRef = useRef(null);
   const stripsRef = useRef([]);
 
+  /* ================= HERO SLIDER ================= */
+  useEffect(() => {
+    const id = setInterval(() => {
+      setCurrentSlide((s) => (s + 1) % heroImages.length);
+    }, 4500);
+    return () => clearInterval(id);
+  }, []);
+
+  /* ================= GSAP WORD + PARALLAX ================= */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      /* WORD SCROLL COLOR */
       gsap.fromTo(
         wordRefs.current,
-        { color: "rgba(255,255,255,0.35)", y: 12 },
+        { color: "rgba(87, 78, 78, 0.35)", y: 14 },
         {
-          color: "#e3e1d4ff",
+          color: "#ffffff",
           y: 0,
           stagger: 0.06,
-          ease: "power3.out",
           scrollTrigger: {
             trigger: wordSectionRef.current,
             start: "top 80%",
@@ -36,13 +67,12 @@ export default function Home() {
         }
       );
 
-      /* FUEL SLAB FLOAT */
       gsap.fromTo(
         fuelRef.current,
-        { rotate: -6, y: 10 },
+        { rotate: -6, y: 16 },
         {
           rotate: -3,
-          y: -10,
+          y: -12,
           scrollTrigger: {
             trigger: wordSectionRef.current,
             start: "top 70%",
@@ -52,37 +82,30 @@ export default function Home() {
         }
       );
 
-      /* PARALLAX SECTION (PIN SAFE) */
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: parallaxSectionRef.current,
-          start: "top top+=" + NAVBAR_HEIGHT,
+          start: "top top",
           end: "+=900",
           scrub: true,
           pin: true,
-          pinSpacing: true,
-          anticipatePin: 1,
         },
       });
 
       stripsRef.current.forEach((el, i) => {
-        const base = i % 2 === 0 ? -8 : 8;
-        const final = i % 2 === 0 ? -3 : 3;
-
         tl.fromTo(
           el,
           {
             clipPath: "inset(0 50% 0 50%)",
             y: 120,
-            rotate: base,
+            rotate: i % 2 === 0 ? -8 : 8,
             scale: 0.9,
           },
           {
             clipPath: "inset(0 0% 0 0%)",
             y: 0,
-            rotate: final,
+            rotate: i % 2 === 0 ? -3 : 3,
             scale: 1,
-            ease: "power3.out",
           }
         );
       });
@@ -93,218 +116,220 @@ export default function Home() {
 
   return (
     <>
+      {/* ================= STYLES ================= */}
       <style>{`
-        body {
-          margin: 0;
-          background: #0f0f0f;
-        }
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
 
-        .home-page {
-          padding-top: ${NAVBAR_HEIGHT}px;
-          color: #f5f5f5;
-          position: relative;
-          z-index: 1;
-        }
+/* HERO */
+.hero{
+  height:100vh;
+  position:relative;
+  overflow:hidden;
+  background:#000;
+}
+.hero img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:.6s ease;
+}
+.hero img.active{opacity:1}
 
-        /* HERO */
-        .hero {
-          max-width: 1200px;
-          margin: auto;
-          padding: 140px 20px 120px;
-        }
+/* PRODUCTS */
+.section-title{
+  text-align:center;
+  color:#ffeb00;
+  font-size:2.6rem;
+  font-weight:900;
+  padding:60px 0 30px;
+}
+.product-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:26px;
+  padding:0 50px 80px;
+}
+.product-card{
+  background:#1c1c1c;
+  border:2px solid #ffeb00;
+  display:flex;
+  flex-direction:column;
+}
+.product-card img{
+  width:100%;
+  height:300px;
+  object-fit:cover;
+}
+.product-body{
+  padding:14px;
+}
+.buy-btn{
+  width:100%;
+  background:#ffeb00;
+  border:none;
+  padding:10px;
+  font-weight:900;
+  cursor:pointer;
+}
 
-        .hero h1 {
-          font-size: 52px;
-          font-weight: 900;
-          line-height: 1.1;
-        }
+/* WORD SECTION */
+.word-section{
+  padding:120px 20px;
+  background:#3a3a3a;
+  text-align:center;
+}
+.word-line{
+  font-size:clamp(42px,7vw,90px);
+  font-weight:900;
+  text-transform:uppercase;
+}
 
-        .hero span {
-          color: #f5f5f5ff;
-        }
+.word{display:inline-block}
+.fuel{
+  background:#ffeb00;
+  color:#000;
+  display:inline-block;
+  padding:16px 40px;
+  margin:20px 0;
+  font-size:clamp(48px,8vw,110px);
+  font-weight:900;
+}
 
-        .hero button {
-          margin-top: 24px;
-          padding: 14px 28px;
-          font-weight: 800;
-          background: #ffd400;
-          border: none;
-          color: #000;
-          cursor: pointer;
-        }
+/* VIDEOS */
+.video-grid{
+  display:grid;
+  grid-template-columns:repeat(5,1fr);
+  gap:24px;
+  padding:0 40px 80px;
+}
+.video-card{
+  border:2px solid #ffeb00;
+  background:#000;
+}
+.video-card video{
+  width:100%;
+  height:320px;
+  object-fit:cover;
+}
 
-        /* WORD SECTION */
-        .word-section {
-          min-height: 100vh;
-          padding: 140px 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          background: #141414;
-          position: relative;
-          z-index: 2;
-        }
+/* PARALLAX */
+.parallax-section{
+  min-height:100vh;
+  background:rgba(32,29,29,0.85);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+.strip{
+  margin:16px 0;
+  padding:18px 50px;
+  font-size:2.4rem;
+  font-weight:900;
+  text-transform:uppercase;
+}
+.strip:nth-child(1){background:#ffeb00;color:#000}
+.strip:nth-child(2){background:#111}
+.strip:nth-child(3){background:#e30000}
+.strip:nth-child(4){background:#ffeb00;color:#000}
 
-        .word-wrap {
-          max-width: 1000px;
-          text-align: center;
-        }
-
-        .word-line {
-          font-size: clamp(44px, 7vw, 96px);
-          font-weight: 900;
-          text-transform: uppercase;
-          line-height: 1.05;
-        }
-
-        .word {
-          display: inline-block;
-          transition: color 0.3s ease, transform 0.3s ease;
-        }
-
-        .word:hover {
-          color: #e9e7deff;
-          transform: translateY(-4px);
-        }
-
-        .fuel {
-          display: inline-block;
-          background: #ffd400;
-          color: #000;
-          padding: 16px 60px;
-          margin: 28px 0;
-          font-size: clamp(48px, 8vw, 110px);
-          font-weight: 900;
-          transform: rotate(-4deg);
-        }
-
-        .fade {
-          opacity: 0.25;
-        }
-
-        /* PARALLAX SECTION */
-        .parallax-section {
-          min-height: 100vh;
-          background: #0b0b0b;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          position: relative;
-          z-index: 1;
-        }
-
-        .strip-stack {
-          display: flex;
-          flex-direction: column;
-          gap: 32px;
-          align-items: center;
-        }
-
-        .strip {
-          padding: 28px 72px;
-          font-size: 50px;
-          font-weight: 900;
-          text-transform: uppercase;
-          white-space: nowrap;
-          text-align: center;
-          box-shadow: 0 30px 70px rgba(0,0,0,0.7);
-        }
-
-        .strip:nth-child(1) { background:#ffd400; color:#000; }
-        .strip:nth-child(2) { background:#f5f5f5; color:#000; }
-        .strip:nth-child(3) { background:#1e1e1e; color:#ffd400; }
-        .strip:nth-child(4) { background:#2a2a2a; color:#f5f5f5; }
-
-        @media (max-width: 900px) {
-          .strip {
-            font-size: 34px;
-            padding: 18px 36px;
-          }
-        }
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .product-grid{grid-template-columns:repeat(2,1fr)}
+  .video-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:600px){
+  .product-grid,.video-grid{grid-template-columns:1fr;padding:0 20px}
+}
       `}</style>
 
-      <div className="home-page">
-        {/* HERO */}
-        <section className="hero">
-          <h1>
-            Fuel Your <span>Workout</span>
-            <br />
-            Power Your <span>Life</span>
-          </h1>
-          <Link to="/products">
-            <button>Shop Now</button>
-          </Link>
-        </section>
+      {/* ================= HERO ================= */}
+      <section className="hero">
+        {heroImages.map((img, i) => (
+          <img
+            key={i}
+            src={img}
+            className={i === currentSlide ? "active" : ""}
+            alt=""
+          />
+        ))}
+      </section>
 
-        {/* WORD SECTION */}
-        <section className="word-section" ref={wordSectionRef}>
-          <div className="word-wrap">
-            {["STIR UP YOUR", "FEARLESS PAST AND"].map((line, i) => (
-              <div className="word-line" key={i}>
-                {line.split(" ").map((w, j) => (
-                  <span
-                    key={j}
-                    className="word"
-                    ref={(el) => (wordRefs.current[i * 10 + j] = el)}
-                  >
-                    {w}&nbsp;
-                  </span>
-                ))}
-              </div>
-            ))}
-
-            <div className="fuel" ref={fuelRef}>FUEL UP</div>
-
-            {["YOUR FUTURE", "WITH EVERY","GULP OF PERFECT PROTEIN"].map((line, i) => (
-              <div className="word-line" key={i + 2}>
-                {line.split(" ").map((w, j) => (
-                  <span
-                    key={j}
-                    className="word"
-                    ref={(el) => (wordRefs.current[(i + 2) * 10 + j] = el)}
-                  >
-                    {w}&nbsp;
-                  </span>
-                ))}
-              </div>
-            ))}
-
-            {/* <div className="word-line fade">
-  {"GULP OF PERFECT PROTEIN".split(" ").map((w, j) => (
-    <span
-      key={j}
-      className="word"
-      ref={(el) => (wordRefs.current[40 + j] = el)}
-    >
-      {w}&nbsp;
-    </span>
-  ))}
-</div> */}
-
+      {/* ================= PRODUCTS ================= */}
+      <div className="section-title">FIND OUR PRODUCTS</div>
+      <section className="product-grid">
+        {products.map((p) => (
+          <div className="product-card" key={p.id}>
+            <img
+              src={p.img}
+              alt={p.title}
+              onError={(e) => (e.currentTarget.src = FALLBACK_PRODUCT_IMG)}
+            />
+            <div className="product-body">
+              <h4>{p.title}</h4>
+              <div>{p.price}</div>
+              <button className="buy-btn">BUY NOW</button>
+            </div>
           </div>
-        </section>
+        ))}
+      </section>
 
-        {/* PARALLAX */}
-        <section className="parallax-section" ref={parallaxSectionRef}>
-          <div className="strip-stack">
-            {[
-              "Shelf Stable",
-              "Protein + Caffeine",
-              "Infinitely Recyclable",
-              "Lactose Free",
-            ].map((text, i) => (
-              <div
-                key={i}
-                className="strip"
-                ref={(el) => (stripsRef.current[i] = el)}
+      {/* ================= WORD SECTION ================= */}
+      <section className="word-section" ref={wordSectionRef}>
+        <div className="word-line">
+          {"STIR UP YOUR FEARLESS PAST AND".split(" ").map((w, j) => (
+            <span key={j} className="word" ref={(el) => (wordRefs.current[j] = el)}>
+              {w}&nbsp;
+            </span>
+          ))}
+        </div>
+        <div className="fuel" ref={fuelRef}>FUEL UP</div>
+        <div className="word-line">
+          {"YOUR FUTURE WITH EVERY GULP OF PERFECT PROTEIN"
+            .split(" ")
+            .map((w, j) => (
+              <span
+                key={j}
+                className="word"
+                ref={(el) => (wordRefs.current[20 + j] = el)}
               >
-                {text}
-              </div>
+                {w}&nbsp;
+              </span>
             ))}
+        </div>
+      </section>
+
+      {/* ================= VIDEOS ================= */}
+      <div className="section-title">WATCH IMPACT TAKE OVER</div>
+      <section className="video-grid">
+        {videos.map((src, i) => (
+          <div className="video-card" key={i}>
+            <video controls muted playsInline>
+              <source src={src} type="video/mp4" />
+            </video>
           </div>
-        </section>
-      </div>
+        ))}
+      </section>
+
+      {/* ================= PARALLAX STRIPS ================= */}
+      <section className="parallax-section" ref={parallaxSectionRef}>
+        <div>
+          {[
+            "SHELF STABLE",
+            "PROTEIN + CAFFEINE",
+            "INFINITELY RECYCLABLE",
+            "LACTOSE FREE",
+          ].map((t, i) => (
+            <div key={i} className="strip" ref={(el) => (stripsRef.current[i] = el)}>
+              {t}
+            </div>
+          ))}
+        </div>
+      </section>
+
       <Footer />
     </>
   );
