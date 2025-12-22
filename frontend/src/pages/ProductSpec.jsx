@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
@@ -668,7 +669,7 @@ const ProductPage = () => {
 </section>
 
 
-     
+     <Footer />
     </div>
   );
 };
