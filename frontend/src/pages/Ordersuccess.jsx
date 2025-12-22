@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function OrderSuccess() {
   const navigate = useNavigate();
@@ -228,6 +229,7 @@ export default function OrderSuccess() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

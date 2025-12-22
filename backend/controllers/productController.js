@@ -85,29 +85,132 @@ import cloudinary from "../config/cloudinary.js";
  * @route   GET /api/products
  * @access  Public
  */
+// export const getProducts = async (req, res) => {
+//   const keyword = req.query.keyword
+//     ? {
+//         name: {
+//           $regex: req.query.keyword,
+//           $options: "i"
+//         }
+//       }
+//     : {};
+
+//   const products = await Product.find({
+//     ...keyword,
+//     isActive: true
+//   })
+//     .populate({
+//       path: "category",
+//       match: { isActive: true },
+//       select: "name"
+//     })
+//     .sort({ createdAt: -1 });
+
+//   res.json(products);
+// };
+
+
+
+
+
+
+
+// export const getProducts = async (req, res) => {
+//   try {
+//     const { keyword, category, minPrice, maxPrice, rating } = req.query;
+
+//     const filter = { isActive: true };
+
+//     if (keyword) {
+//       filter.name = { $regex: keyword, $options: "i" };
+//     }
+
+//     if (category) filter.category = category;
+
+//     if (rating) {
+//       filter.rating = { $gte: Number(rating) };
+//     }
+
+//     if (minPrice || maxPrice) {
+//       filter.price = {};
+//       if (minPrice) filter.price.$gte = Number(minPrice);
+//       if (maxPrice) filter.price.$lte = Number(maxPrice);
+//     }
+
+//     const products = await Product.find(filter).populate("category", "name");
+//     res.json(products);
+//   } catch (error) {
+//     res.status(500).json({ message: error.message });
+//   }
+// };
+
+
+
+
+
 export const getProducts = async (req, res) => {
-  const keyword = req.query.keyword
-    ? {
-        name: {
-          $regex: req.query.keyword,
-          $options: "i"
-        }
+  try {
+    const {
+      keyword,
+      category,
+      minPrice,
+      maxPrice,
+      rating,
+      limit = 10,
+      cursor
+    } = req.query;
+
+    const filter = { isActive: true };
+
+    if (keyword) {
+      filter.name = { $regex: keyword, $options: "i" };
+    }
+
+    if (category) filter.category = category;
+
+    if (rating) {
+      filter.rating = { $gte: Number(rating) };
+    }
+
+    if (minPrice || maxPrice) {
+      filter.price = {};
+      if (minPrice) filter.price.$gte = Number(minPrice);
+      if (maxPrice) filter.price.$lte = Number(maxPrice);
+    }
+
+    // 🔥 Cursor logic
+    if (cursor) {
+      filter.createdAt = { $lt: new Date(cursor) };
+    }
+
+    const pageSize = Number(limit) + 1;
+
+    const products = await Product.find(filter)
+      .populate("category", "name")
+      .sort({ createdAt: -1 })
+      .limit(pageSize);
+
+    const hasNextPage = products.length > limit;
+    if (hasNextPage) products.pop();
+
+    const nextCursor = hasNextPage
+      ? products[products.length - 1].createdAt
+      : null;
+
+    res.json({
+      products,
+      pageInfo: {
+        hasNextPage,
+        nextCursor
       }
-    : {};
-
-  const products = await Product.find({
-    ...keyword,
-    isActive: true
-  })
-    .populate({
-      path: "category",
-      match: { isActive: true },
-      select: "name"
-    })
-    .sort({ createdAt: -1 });
-
-  res.json(products);
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
+
+
+
 
 /**
  * @desc    Get single product
@@ -115,16 +218,20 @@ export const getProducts = async (req, res) => {
  * @access  Public
  */
 export const getProductById = async (req, res) => {
-  const product = await Product.findOne({
-    _id: req.params.id,
-    isActive: true
-  }).populate("category", "name");
+  try {
+    const product = await Product.findOne({
+      _id: req.params.id,
+      isActive: true
+    }).populate("category", "name");
 
-  if (!product) {
-    return res.status(404).json({ message: "Product not found" });
+    if (!product) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  res.json(product);
 };
 
 /**
@@ -133,20 +240,24 @@ export const getProductById = async (req, res) => {
  * @access  Admin
  */
 export const createProduct = async (req, res) => {
-  const { category } = req.body;
+  try {
+    const { category } = req.body;
 
-  // ✅ Validate category
-  const categoryExists = await Category.findOne({
-    _id: category,
-    isActive: true
-  });
+    // ✅ Validate category
+    const categoryExists = await Category.findOne({
+      _id: category,
+      isActive: true
+    });
 
-  if (!categoryExists) {
-    return res.status(400).json({ message: "Invalid category" });
+    if (!categoryExists) {
+      return res.status(400).json({ message: "Invalid category" });
+    }
+
+    const product = await Product.create(req.body);
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  const product = await Product.create(req.body);
-  res.status(201).json(product);
 };
 
 /**
@@ -155,28 +266,32 @@ export const createProduct = async (req, res) => {
  * @access  Admin
  */
 export const updateProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  try {
+    const product = await Product.findById(req.params.id);
 
-  if (!product || !product.isActive) {
-    return res.status(404).json({ message: "Product not found" });
-  }
-
-  // ✅ If category is updated, validate it
-  if (req.body.category) {
-    const categoryExists = await Category.findOne({
-      _id: req.body.category,
-      isActive: true
-    });
-
-    if (!categoryExists) {
-      return res.status(400).json({ message: "Invalid category" });
+    if (!product || !product.isActive) {
+      return res.status(404).json({ message: "Product not found" });
     }
+
+    // ✅ If category is updated, validate it
+    if (req.body.category) {
+      const categoryExists = await Category.findOne({
+        _id: req.body.category,
+        isActive: true
+      });
+
+      if (!categoryExists) {
+        return res.status(400).json({ message: "Invalid category" });
+      }
+    }
+
+    Object.assign(product, req.body);
+    const updatedProduct = await product.save();
+
+    res.json(updatedProduct);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  Object.assign(product, req.body);
-  const updatedProduct = await product.save();
-
-  res.json(updatedProduct);
 };
 
 /**
@@ -185,88 +300,101 @@ export const updateProduct = async (req, res) => {
  * @access  Admin
  */
 export const deleteProduct = async (req, res) => {
-  const product = await Product.findById(req.params.id);
+  try {
+    const product = await Product.findById(req.params.id);
 
-  if (!product || !product.isActive) {
-    return res.status(404).json({ message: "Product not found" });
+    if (!product || !product.isActive) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    // ✅ Soft delete
+    product.isActive = false;
+    await product.save();
+
+    res.json({ message: "Product removed successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  // ✅ Soft delete
-  product.isActive = false;
-  await product.save();
-
-  res.json({ message: "Product removed successfully" });
 };
 
 /* ================= DELETE IMAGE ================= */
 
 export const deleteProductImage = async (req, res) => {
-  const { productId, imageId } = req.params;
+  try {
+    const { productId, imageId } = req.params;
 
-  const product = await Product.findById(productId);
-  if (!product || !product.isActive) {
-    return res.status(404).json({ message: "Product not found" });
+    const product = await Product.findById(productId);
+    if (!product || !product.isActive) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const image = product.images.find(
+      img => img._id.toString() === imageId
+    );
+
+    if (!image) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    // Delete from Cloudinary
+    await cloudinary.uploader.destroy(image.public_id);
+
+    // Remove from DB
+    product.images = product.images.filter(
+      img => img._id.toString() !== imageId
+    );
+
+    await product.save();
+
+    res.json({ message: "Image deleted successfully" });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  const image = product.images.find(
-    img => img._id.toString() === imageId
-  );
-
-  if (!image) {
-    return res.status(404).json({ message: "Image not found" });
-  }
-
-  // Delete from Cloudinary
-  await cloudinary.uploader.destroy(image.public_id);
-
-  // Remove from DB
-  product.images = product.images.filter(
-    img => img._id.toString() !== imageId
-  );
-
-  await product.save();
-
-  res.json({ message: "Image deleted successfully" });
 };
 
 /* ================= UPDATE IMAGE ================= */
 
 export const updateProductImage = async (req, res) => {
-  const { productId, imageId } = req.params;
+  try {
+    const { productId, imageId } = req.params;
 
-  if (!req.file) {
-    return res.status(400).json({ message: "No image uploaded" });
+    if (!req.file) {
+      return res.status(400).json({ message: "No image uploaded" });
+    }
+
+    const product = await Product.findById(productId);
+    if (!product || !product.isActive) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    const index = product.images.findIndex(
+      img => img._id.toString() === imageId
+    );
+
+    if (index === -1) {
+      return res.status(404).json({ message: "Image not found" });
+    }
+
+    // Delete old image
+    await cloudinary.uploader.destroy(
+      product.images[index].public_id
+    );
+
+    // Replace with new image
+    product.images[index] = {
+      url: req.file.path,
+      public_id: req.file.filename
+    };
+
+    await product.save();
+
+    res.json({
+      message: "Image updated successfully",
+      image: product.images[index]
+    });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  const product = await Product.findById(productId);
-  if (!product || !product.isActive) {
-    return res.status(404).json({ message: "Product not found" });
-  }
-
-  const index = product.images.findIndex(
-    img => img._id.toString() === imageId
-  );
-
-  if (index === -1) {
-    return res.status(404).json({ message: "Image not found" });
-  }
-
-  // Delete old image
-  await cloudinary.uploader.destroy(
-    product.images[index].public_id
-  );
-
-  // Replace with new image
-  product.images[index] = {
-    url: req.file.path,
-    public_id: req.file.filename
-  };
-
-  await product.save();
-
-  res.json({
-    message: "Image updated successfully",
-    image: product.images[index]
-  });
 };
+
 

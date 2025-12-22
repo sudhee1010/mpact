@@ -1,6 +1,6 @@
 import React from "react";
-import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 /* ================= CART DATA ================= */
 const CART_ITEMS = [
@@ -58,7 +58,6 @@ export default function Cart() {
 
   return (
     <>
-      <Navbar />
 
       <style>{`
         body {
@@ -247,6 +246,7 @@ export default function Cart() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { generateInvoice } from "../services/invoiceService";
+import Footer from "../components/Footer";
 
 
 export default function TrackOrder() {
@@ -452,6 +453,7 @@ export default function TrackOrder() {
           </div>
         ))}
       </div>
+      <Footer />
     </>
   );
 }
