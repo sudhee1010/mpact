@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 
 export default function Checkout() {
   return (
@@ -163,7 +164,7 @@ export default function Checkout() {
           }
         }
       `}</style>
-
+  <Navbar/>
       <div className="checkout-page">
         <div className="checkout-container">
 

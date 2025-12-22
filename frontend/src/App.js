@@ -6,12 +6,13 @@ import About from "./pages/About/About";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import Checkout from "./pages/Checkout";
+import Faq from "./pages/faq/Faq";
 
 
 function App() {
   return (
     <>
-      <Navbar />
+      
 
       <div className="page-wrapper">
         
