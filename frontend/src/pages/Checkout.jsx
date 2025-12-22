@@ -1,4 +1,5 @@
 import React from "react";
+import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 
 export default function Checkout() {
@@ -268,7 +269,7 @@ export default function Checkout() {
 
         }
       `}</style>
-
+  <Navbar/>
       <div className="checkout-page">
         <div className="checkout-container">
 

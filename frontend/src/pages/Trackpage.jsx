@@ -1,5 +1,6 @@
-
 import React, { useState } from "react";
+import { generateInvoice } from "../services/invoiceService";
+
 
 export default function TrackOrder() {
 
@@ -386,7 +387,7 @@ export default function TrackOrder() {
                   </div>
 
                   <div className="header-actions">
-                    <button className="invoice-btn">Invoice</button>
+                    <button className="invoice-btn"onClick={() => generateInvoice(order)}>Invoice</button>
                     <button className="track-btn">Track order</button>
                   </div>
                 </div>

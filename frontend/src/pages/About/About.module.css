@@ -1,0 +1,56 @@
+
+.thing1{
+    text-align: center;
+    /* padding: 60px 20px; */
+     background-color: #3a3a3a;
+    height: 196px;
+    width: 100%;
+}
+
+.head{
+    font: Khand;
+    font-family:'Impact', Arial, sans-serif ;
+    font-size: 72px;
+    font-style: bold;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: #000000;
+    display: inline-block;
+    text-transform: uppercase;
+    -webkit-text-stroke: 1.0px #FFED23;
+     text-shadow: 
+     0 1px 0 #FFED23,
+     0 4px 4px rgba(0,0,0,0.55);
+    margin-top: 29px;
+    margin-right: 220px;
+} 
+
+.para{
+    color: #FFFFFF;
+    font-family: "Inter",sans-serif;
+    font-size: 15px;
+    margin-right: 180px;
+    line-height: 1;
+    text-align: center;
+    padding-right: 10px;
+    margin-top: 10px;
+    letter-spacing: 2px;
+
+}
+
+.card{
+    background-color: #3a3a3a;
+    display: flex;
+    gap: 10px;
+}
+
+.card1{
+    border: 2px solid #FFED23;
+    height: 325px; width: 176px;
+    border-radius: 10px;
+    /* margin-left: 40px; */
+    /* margin-right: 70px; */
+    margin: 0;
+    
+}
+

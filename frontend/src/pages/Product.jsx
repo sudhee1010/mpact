@@ -163,11 +163,13 @@ export default function Products() {
   }
 
   .page-title {
-    text-align: center;
-    font-size: clamp(26px, 4vw, 48px);
-    font-weight: 900;
-    color: #ffeb00;
-    margin: 24px 0 40px;
+  text-align: center;
+  font-family: 'Jersey 25', cursive;
+  font-size: clamp(32px, 6vw, 72px);
+  font-weight: 400;
+  margin: 24px 0 40px;
+  color: black;
+  -webkit-text-stroke: 2px #ffeb00;
   }
 
   .section {
