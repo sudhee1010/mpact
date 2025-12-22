@@ -1,0 +1,46 @@
+.heading{
+    background-color: #2f2f2f;
+    width: 100vw;
+    height: 197px;
+    text-align: center;
+}
+.heading h1{
+    color: #2f2f2f;
+    font: Khand;
+    font-weight: bold;
+    font-size: 60px;
+    height: 122px;
+    /* width: 895px; */
+    padding-top: 38px;
+    /* padding-left: 180px; */
+    text-align: center;
+    border: 5px;
+    text-transform: uppercase;
+    text-shadow:2px 2px 0 #ffee00,
+    -2px -2px 0 #ffee00,
+     2px -2px 0 #ffee00,
+    -2px  2px 0 #ffee00,
+     2px  2px 0 #ffee00,
+    -3px  0px 0 #ffee00,
+     3px  0px 0 #ffee00,
+     0px -3px 0 #ffee00,
+     0px  3px 0 #ffee00;
+     letter-spacing: 0;
+}
+.title h2{
+    color: #2f2f2f;
+    font: Khand;
+    text-transform: uppercase;
+    text-shadow:2px 2px 0 #ffee00,
+    -2px -2px 0 #ffee00,
+     2px -2px 0 #ffee00,
+    -2px  2px 0 #ffee00,
+     2px  2px 0 #ffee00,
+    -3px  0px 0 #ffee00,
+     3px  0px 0 #ffee00,
+     0px -3px 0 #ffee00,
+     0px  3px 0 #ffee00;
+     text-align: center;
+     border: 5px;
+    padding-top: 13px;
+}
