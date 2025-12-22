@@ -31,10 +31,10 @@ const ProductPage = () => {
           {/* MAIN IMAGE */}
           <div
             style={{
-              background: "#353434ff",
-              padding: 20,
+              background: "#242323ff",
+              padding: 0,
               borderRadius: 12,
-              marginBottom: 16,
+              marginBottom: 17,
             }}
           >
             <img
@@ -47,27 +47,30 @@ const ProductPage = () => {
           {/* THUMBNAILS */}
           <div
             style={{
+              height: "200px",
+              width: "100%",
               display: "grid",
               gridTemplateColumns: "repeat(4, 1fr)",
               gap: 12,
+              
             }}
           >
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
                 style={{
-                  background: "#2a2a2a",
-                  padding: 10,
+                  backgroundImage: `url('/images/chocolate.webp')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: 120,
+                  padding: 1,
                   borderRadius: 8,
                   border: "1px solid #ffffffff",
                   cursor: "pointer",
+                  
                 }}
               >
-                <img
-                  src={`/images/chocolate.webp`}
-                  alt="thumb"
-                  style={{ width: "100%", height: 80, objectFit: "contain" }}
-                />
+               
               </div>
             ))}
           </div>
@@ -126,66 +129,97 @@ const ProductPage = () => {
             ever since the 1500s.
           </p>
 
-          {/* QTY + BUY */}
-          <div
-            style={{
-              display: "flex",
-              gap: 16,
-              alignItems: "center",
-              marginBottom: 24,
-            }}
-          >
-            {/* QUANTITY */}
-            <div
-              style={{
-                display: "flex",
-                border: "1px solid #555",
-                borderRadius: 6,
-                alignItems: "center",
-              }}
-            >
-              <button
-                style={qtyBtn}
-                onClick={() => setQty((prev) => Math.max(1, prev - 1))}
-              >
-                -
-              </button>
+     {/* QTY + BUY + CART */}
+<div
+  style={{
+    display: "flex",
+    gap: 16,
+    alignItems: "center",
+    marginBottom: 24,
+  }}
+>
+  {/* QUANTITY */}
+  <div
+    style={{
+      display: "flex",
+      border: "1px solid #555",
+      borderRadius: 6,
+      alignItems: "center",
+    }}
+  >
+    <button
+      style={qtyBtn}
+      onClick={() => setQty((prev) => Math.max(1, prev - 1))}
+    >
+      -
+    </button>
 
-              <div
-                style={{
-                  padding: "10px 16px",
-                  minWidth: 40,
-                  textAlign: "center",
-                }}
-              >
-                {qty}
-              </div>
+    <div
+      style={{
+        padding: "10px 16px",
+        minWidth: 40,
+        textAlign: "center",
+      }}
+    >
+      {qty}
+    </div>
 
-              <button
-                style={qtyBtn}
-                onClick={() => setQty((prev) => prev + 1)}
-              >
-                +
-              </button>
-            </div>
+    <button
+      style={qtyBtn}
+      onClick={() => setQty((prev) => prev + 1)}
+    >
+      +
+    </button>
+  </div>
 
-            {/* BUY */}
-            <Link to="/checkout" style={{ flex: 1 }}>
-              <button
-                style={{
-                  width: "100%",
-                  background: "#ffe600",
-                  border: "none",
-                  padding: "14px",
-                  fontWeight: "bold",
-                  borderRadius: 8,
-                  cursor: "pointer",
-                }}
-              >
-                BUY NOW
-              </button>
-            </Link>
-          </div>
+  {/* BUY NOW */}
+  <Link to="/checkout" style={{ flex: 1 }}>
+    <button
+      style={{
+        width: "100%",
+        background: "#ffe600",
+        border: "none",
+        padding: "14px",
+        fontWeight: "bold",
+        borderRadius: 8,
+        cursor: "pointer",
+        fontSize: 16,
+      }}
+    >
+      BUY NOW
+    </button>
+  </Link>
+
+  {/* CART BUTTON */}
+<button
+  title="Add to cart"
+  onClick={() => {
+    console.log("Added to cart", { qty });
+  }}
+  style={{
+    width: 52,
+    height: 47,
+    background: "#ffe600",
+    border: "none",
+    borderRadius: 8,
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  }}
+>
+  <img
+    src="/icons/bag.png"
+    alt="cart"
+    style={{
+      width: 24,
+      height: 24,
+      objectFit: "contain",
+    }}
+  />
+</button>
+</div>
+
 
           {/* RECOMMENDED PRODUCTS */}
           <h3 style={{ marginBottom: 12 }}>Recommended products</h3>
@@ -198,34 +232,48 @@ const ProductPage = () => {
             }}
           >
             {[1, 2, 3, 4].map((i) => (
-              <div
+              // <div
+              //   key={i}
+              //   style={{
+              //     background: "#2a2a2a",
+              //     padding: 10,
+              //     borderRadius: 8,
+              //     border: "1px solid #ffffffff",
+              //   }}
+              // >
+              //   <img
+              //     src={`/images/chocolate.webp`}
+              //     alt="recommended"
+              //     style={{
+              //       width: "100%",
+              //       height: 90,
+              //       objectFit: "contain",
+              //     }}
+              //   />
+              // </div>
+                     <div
                 key={i}
                 style={{
-                  background: "#2a2a2a",
-                  padding: 10,
+                  backgroundImage: `url('/images/goku.jpeg')`,
+                  backgroundSize: "cover",
+                  backgroundPosition: "center",
+                  height: 120,
+                  padding: 1,
                   borderRadius: 8,
                   border: "1px solid #ffffffff",
+                  cursor: "pointer",
+                  
                 }}
               >
-                <img
-                  src={`/images/chocolate.webp`}
-                  alt="recommended"
-                  style={{
-                    width: "100%",
-                    height: 90,
-                    objectFit: "contain",
-                  }}
-                />
+               
               </div>
             ))}
           </div>
         </div>
       </section>
     
-
-       {/* EXPLORE */}
-    <section style={{ padding: "60px 0", background: "#1c1c1c" }}>
-
+{/* EXPLORE */}
+<section style={{ padding: "60px 0", background: "#1c1c1c" }}>
   {/* PRODUCT GRID */}
   <div
     style={{
@@ -242,7 +290,7 @@ const ProductPage = () => {
         key={i}
         style={{
           background: "#353434ff",
-          border: "2px solid #ffe600",
+          border: "1px solid #ffe600",
           padding: 16,
           borderRadius: 6,
           textAlign: "center",
@@ -251,8 +299,6 @@ const ProductPage = () => {
         {/* IMAGE BOX */}
         <div
           style={{
-            background: "#2a2a2a",
-            padding: 12,
             borderRadius: 6,
             marginBottom: 12,
           }}
@@ -269,13 +315,7 @@ const ProductPage = () => {
         </div>
 
         {/* PRODUCT NAME */}
-        <p
-          style={{
-            color: "#fff",
-            fontSize: 16,
-            marginBottom: 10,
-          }}
-        >
+        <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
           Protein Bar – Chocolate
         </p>
 
@@ -289,16 +329,18 @@ const ProductPage = () => {
             marginBottom: 10,
           }}
         >
-          {["No Preservatives",
-              "Jaggery Based",
-              "No Glucose Added",
-              "80% Peanut",
-              "No Added Colours",].map((tag, idx) => (
+          {[
+            "No Preservatives",
+            "Jaggery Based",
+            "No Glucose Added",
+            "80% Peanut",
+            "No Added Colours",
+          ].map((tag, idx) => (
             <span
               key={idx}
               style={{
                 border: "1px solid #ffe600",
-                color: "#ffffffff",
+                color: "#fff",
                 fontSize: 11,
                 padding: "4px 8px",
                 borderRadius: 4,
@@ -315,13 +357,7 @@ const ProductPage = () => {
         </div>
 
         {/* REVIEWS */}
-        <div
-          style={{
-            color: "#ccc",
-            fontSize: 12,
-            marginBottom: 8,
-          }}
-        >
+        <div style={{ color: "#ccc", fontSize: 12, marginBottom: 8 }}>
           ⭐ 120 Reviews
         </div>
 
@@ -370,7 +406,33 @@ const ProductPage = () => {
       </div>
     ))}
   </div>
+
+  {/* SEE MORE BUTTON */}
+  <div
+    style={{
+      maxWidth: 1300,
+      margin: "30px auto 0",
+      padding: "0 30px",
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    <button
+      style={{
+        background: "#ffe600",
+        color: "#000",
+        border: "none",
+        padding: "10px 20px",
+        fontWeight: 700,
+        cursor: "pointer",
+        borderRadius: 4,
+      }}
+    >
+      SEE MORE →
+    </button>
+  </div>
 </section>
+
 
     {/* REVIEWS */}
 <section
@@ -439,7 +501,7 @@ const ProductPage = () => {
         <div
           key={i}
           style={{
-            background: "#171717ff",
+            // background: "#171717ff",
             border: "1px solid #ffe600",
             borderRadius: 10,
             padding: 16,
@@ -474,7 +536,7 @@ const ProductPage = () => {
         <div
           key={i}
           style={{
-            background: "#171717ff",
+            // background: "#171717ff",
             border: "1px solid #ffe600",
             borderRadius: 12,
             padding: 20,
@@ -521,6 +583,8 @@ const ProductPage = () => {
 
 
 
+{/* PRODUCT GRID WRAPPER */}
+<div style={{ position: "relative", paddingBottom: 40 }}>
   {/* PRODUCT GRID */}
   <div
     style={{
@@ -546,8 +610,6 @@ const ProductPage = () => {
         {/* IMAGE BOX */}
         <div
           style={{
-            background: "#2a2a2a",
-            padding: 12,
             borderRadius: 6,
             marginBottom: 12,
           }}
@@ -564,13 +626,7 @@ const ProductPage = () => {
         </div>
 
         {/* PRODUCT NAME */}
-        <p
-          style={{
-            color: "#fff",
-            fontSize: 16,
-            marginBottom: 10,
-          }}
-        >
+        <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
           Protein Bar – Chocolate
         </p>
 
@@ -584,16 +640,18 @@ const ProductPage = () => {
             marginBottom: 10,
           }}
         >
-          {["No Preservatives",
-              "Jaggery Based",
-              "No Glucose Added",
-              "80% Peanut",
-              "No Added Colours",].map((tag, idx) => (
+          {[
+            "No Preservatives",
+            "Jaggery Based",
+            "No Glucose Added",
+            "80% Peanut",
+            "No Added Colours",
+          ].map((tag, idx) => (
             <span
               key={idx}
               style={{
                 border: "1px solid #ffe600",
-                color: "#ffffffff",
+                color: "#fff",
                 fontSize: 11,
                 padding: "4px 8px",
                 borderRadius: 4,
@@ -605,18 +663,10 @@ const ProductPage = () => {
         </div>
 
         {/* RATING */}
-        <div style={{ color: "#ffe600", marginBottom: 4 }}>
-          ★★★★★
-        </div>
+        <div style={{ color: "#ffe600", marginBottom: 4 }}>★★★★★</div>
 
         {/* REVIEWS */}
-        <div
-          style={{
-            color: "#ccc",
-            fontSize: 12,
-            marginBottom: 8,
-          }}
-        >
+        <div style={{ color: "#ccc", fontSize: 12, marginBottom: 8 }}>
           ⭐ 120 Reviews
         </div>
 
@@ -631,9 +681,7 @@ const ProductPage = () => {
           >
             ₹240
           </span>
-          <span style={{ color: "#00ff66", fontSize: 13 }}>
-            25% OFF
-          </span>
+          <span style={{ color: "#00ff66", fontSize: 13 }}>25% OFF</span>
         </div>
 
         <div
@@ -665,10 +713,33 @@ const ProductPage = () => {
       </div>
     ))}
   </div>
+
+  {/* SEE MORE BUTTON */}
+  <div
+    style={{
+      maxWidth: 1500,
+      margin: "20px auto 0",
+      padding: "0 30px",
+      display: "flex",
+      justifyContent: "flex-end",
+    }}
+  >
+    <button
+      style={{
+        background: "#ffe600",
+        color: "#000",
+        border: "none",
+        padding: "10px 20px",
+        fontWeight: 700,
+        cursor: "pointer",
+        borderRadius: 4,
+      }}
+    >
+      SEE MORE →
+    </button>
+  </div>
+  </div>
 </section>
-
-
-     
     </div>
   );
 };
