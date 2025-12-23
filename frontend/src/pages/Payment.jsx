@@ -1,8 +1,73 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Payment() {
-  const [selectedCard, setSelectedCard] = useState(1);
-  const [setDefault, setSetDefault] = useState(false);
+  /* ================= STATE ================= */
+  const [cards, setCards] = useState([]);
+  const [selectedCardId, setSelectedCardId] = useState(null);
+
+  const [newCard, setNewCard] = useState({
+    number: "",
+    name: "",
+    month: "",
+    year: "",
+    cvv: "",
+    setDefault: false,
+  });
+
+  const navigate = useNavigate();
+
+  /* ================= FETCH SAVED CARDS (BACKEND READY) ================= */
+  useEffect(() => {
+    // 🔗 Replace with real API later
+    const mockCards = [
+      {
+        id: 1,
+        bank: "Ziraat Bankası",
+        last4: "1234",
+        name: "Hızır Kocaman",
+        expiry: "12/34",
+        isDefault: true,
+      },
+      {
+        id: 2,
+        bank: "T. İş Bankası",
+        last4: "4321",
+        name: "Jane Cooper",
+        expiry: "11/26",
+        isDefault: false,
+      },
+    ];
+
+    setCards(mockCards);
+    setSelectedCardId(mockCards.find(c => c.isDefault)?.id);
+  }, []);
+
+  /* ================= HANDLERS ================= */
+  const handleSelectCard = (id) => {
+    setSelectedCardId(id);
+    // 🔗 API later: PUT /cards/default
+  };
+
+  const handleInputChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setNewCard({
+      ...newCard,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleReviewOrder = () => {
+    const payload = {
+      selectedCardId,
+      newCard,
+    };
+
+    console.log("Payment payload →", payload);
+
+    // TEMP FLOW
+    navigate("/success");
+  };
 
   return (
     <>
@@ -13,14 +78,13 @@ body{background:#2f2f2f;color:#fff;font-family:Arial}
 /* PAGE */
 .payment-page{
   max-width:1100px;
-  margin:120px auto;
+  margin:140px auto;
   padding:0 20px;
 }
 
 /* STEPPER */
 .stepper{
   display:flex;
-  align-items:center;
   gap:24px;
   margin-bottom:40px;
 }
@@ -30,9 +94,13 @@ body{background:#2f2f2f;color:#fff;font-family:Arial}
   gap:8px;
   opacity:.5;
 }
-.step.active{opacity:1;color:#ffeb00}
-.step .dot{
-  width:22px;height:22px;
+.step.active{
+  opacity:1;
+  color:#ffeb00;
+}
+.dot{
+  width:22px;
+  height:22px;
   border-radius:50%;
   border:2px solid #777;
   display:flex;
@@ -46,18 +114,13 @@ body{background:#2f2f2f;color:#fff;font-family:Arial}
   font-weight:900;
 }
 
-/* CARD BOX */
+/* REGISTERED CARDS */
 .box{
   background:#777;
   border-radius:16px;
   padding:26px;
   margin-bottom:30px;
 }
-.box h3{
-  margin-bottom:20px;
-}
-
-/* REGISTERED CARD */
 .card-row{
   display:grid;
   grid-template-columns:40px 1.2fr 1fr 1.2fr 1fr;
@@ -67,8 +130,10 @@ body{background:#2f2f2f;color:#fff;font-family:Arial}
   cursor:pointer;
 }
 .card-row:last-child{border:none}
+
 .check{
-  width:22px;height:22px;
+  width:22px;
+  height:22px;
   border-radius:50%;
   border:2px solid #ffeb00;
   display:flex;
@@ -87,19 +152,17 @@ body{background:#2f2f2f;color:#fff;font-family:Arial}
   border-radius:16px;
   padding:30px;
 }
-.add-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
+.add-card h3{
   margin-bottom:20px;
 }
 input{
   width:100%;
   padding:14px;
-  border-radius:8px;
-  border:none;
-  background:#9aa3a0;
   margin-top:6px;
+  border:none;
+  border-radius:8px;
+  background:#9aa3a0;
+  font-weight:600;
 }
 .row{
   display:grid;
@@ -107,26 +170,32 @@ input{
   gap:16px;
 }
 
-/* DEFAULT */
+/* ACTIONS */
+.payment-actions{
+  margin-top:30px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  align-items:flex-start;
+}
 .default{
   display:flex;
-  justify-content:flex-end;
+  align-items:center;
   gap:10px;
-  margin:20px 0;
+  font-size:14px;
 }
 
 /* BUTTON */
 .btn{
   background:#ffeb00;
   border:none;
-  padding:18px;
-  width:260px;
+  padding:16px 30px;
   font-weight:900;
   cursor:pointer;
   border-radius:6px;
 }
 
-/* FOOTER ITEM */
+/* ORDER ITEM */
 .order-item{
   display:flex;
   align-items:center;
@@ -158,69 +227,61 @@ input{
         <div className="box">
           <h3>Registered cards</h3>
 
-          {[1, 2].map((id) => (
+          {cards.map((c) => (
             <div
-              key={id}
+              key={c.id}
               className="card-row"
-              onClick={() => setSelectedCard(id)}
+              onClick={() => handleSelectCard(c.id)}
             >
-              <div className={`check ${selectedCard === id ? "active" : ""}`}>
-                {selectedCard === id && "✓"}
+              <div className={`check ${selectedCardId === c.id ? "active" : ""}`}>
+                {selectedCardId === c.id && "✓"}
               </div>
-              <div>{id === 1 ? "Ziraat Bankası" : "T. İş Bankası"}</div>
-              <div>1234</div>
-              <div>{id === 1 ? "Hızır Kocaman" : "Jane Cooper"}</div>
-              <div>12/34</div>
+              <div>{c.bank}</div>
+              <div>{c.last4}</div>
+              <div>{c.name}</div>
+              <div>{c.expiry}</div>
             </div>
           ))}
         </div>
 
         {/* ADD NEW CARD */}
         <div className="add-card">
-          <div className="add-header">
-            <h3>Add new card</h3>
-            <span>VISA • Mastercard</span>
-          </div>
+          <h3>Add new card</h3>
 
           <label>
             Card number
-            <input placeholder="1234 5678 9012 3456" />
+            <input name="number" onChange={handleInputChange} />
           </label>
 
           <label>
             Card owner
-            <input placeholder="Name on card" />
+            <input name="name" onChange={handleInputChange} />
           </label>
 
           <div className="row">
-            <label>
-              MM
-              <input placeholder="12" />
-            </label>
-            <label>
-              YY
-              <input placeholder="34" />
-            </label>
-            <label>
-              CVV
-              <input placeholder="012" />
-            </label>
+            <input name="month" placeholder="MM" onChange={handleInputChange} />
+            <input name="year" placeholder="YY" onChange={handleInputChange} />
+            <input name="cvv" placeholder="CVV" onChange={handleInputChange} />
           </div>
         </div>
 
-        {/* DEFAULT */}
-        <div className="default">
-          <input
-            type="checkbox"
-            checked={setDefault}
-            onChange={(e) => setSetDefault(e.target.checked)}
-          />
-          <span>Set as default</span>
+        {/* ACTIONS */}
+        <div className="payment-actions">
+          <label className="default">
+            <input
+              type="checkbox"
+              name="setDefault"
+              onChange={handleInputChange}
+            />
+            <span>Set as default</span>
+          </label>
+
+          <button className="btn" onClick={handleReviewOrder}>
+            Review your order
+          </button>
         </div>
 
-        <button className="btn">Review your order</button>
-
-        {/* ORDER ITEM */}
+        {/* ORDER SUMMARY */}
         <div className="order-item">
           <img src="/images/product.jpg" width="60" alt="Protein Wafers" />
           <div>
@@ -228,6 +289,7 @@ input{
             <strong>₹15.00</strong>
           </div>
         </div>
+
       </div>
     </>
   );
