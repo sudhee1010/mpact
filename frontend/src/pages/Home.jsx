@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Footer from "../components/Footer";
+import { useLayoutEffect } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,13 +22,7 @@ const products = Array.from({ length: 8 }).map((_, i) => ({
   img: `/images/product${(i % 4) + 1}.png`,
 }));
 
-const videos = [
-  "/images/video1.mp4",
-  "/images/video1.mp4",
-  "/images/video1.mp4",
-  "/images/video1.mp4",
-  "/images/video1.mp4",
-];
+const videos = Array.from({ length: 5 }).map(() => "/images/video1.mp4");
 
 export default function Home() {
   /* ================= STATE ================= */
@@ -35,208 +30,183 @@ export default function Home() {
 
   /* ================= REFS ================= */
   const wordSectionRef = useRef(null);
-  const wordRefs = useRef([]);
   const fuelRef = useRef(null);
   const parallaxSectionRef = useRef(null);
+
+  const wordRefs = useRef([]);
   const stripsRef = useRef([]);
 
   /* ================= HERO SLIDER ================= */
   useEffect(() => {
-    const id = setInterval(() => {
-      setCurrentSlide((s) => (s + 1) % heroImages.length);
+    const interval = setInterval(() => {
+      setCurrentSlide((p) => (p + 1) % heroImages.length);
     }, 4500);
-    return () => clearInterval(id);
+
+    return () => clearInterval(interval);
   }, []);
 
-  /* ================= GSAP WORD + PARALLAX ================= */
-  useEffect(() => {
+  const slideNext = () =>
+    setCurrentSlide((p) => (p + 1) % heroImages.length);
+
+  const slidePrev = () =>
+    setCurrentSlide((p) => (p === 0 ? heroImages.length - 1 : p - 1));
+
+  /* ================= GSAP ANIMATIONS ================= */
+  gsap.registerPlugin(ScrollTrigger);
+
+  useLayoutEffect(() => {
+    if (!parallaxSectionRef.current) return;
+
     const ctx = gsap.context(() => {
+
+      /* ================= WORDS ================= */
       gsap.fromTo(
-        wordRefs.current,
-        { color: "rgba(87, 78, 78, 0.35)", y: 14 },
+        wordRefs.current.filter(Boolean),
+        { y: 20, opacity: 0.3 },
         {
-          color: "#ffffff",
           y: 0,
-          stagger: 0.06,
+          opacity: 1,
+          stagger: 0.08,
           scrollTrigger: {
             trigger: wordSectionRef.current,
             start: "top 80%",
-            end: "bottom 50%",
             scrub: true,
           },
         }
       );
 
-      gsap.fromTo(
-        fuelRef.current,
-        { rotate: -6, y: 16 },
-        {
-          rotate: -3,
-          y: -12,
-          scrollTrigger: {
-            trigger: wordSectionRef.current,
-            start: "top 70%",
-            end: "bottom 40%",
-            scrub: true,
-          },
-        }
-      );
-
-      const tl = gsap.timeline({
+      /* ================= FUEL – CENTER OPEN PARALLAX ================= */
+      const fuelTL = gsap.timeline({
         scrollTrigger: {
-          trigger: parallaxSectionRef.current,
-          start: "top top",
-          end: "+=900",
+          trigger: fuelRef.current,
+          start: "top center",
+          end: "+=100",
           scrub: true,
-          pin: true,
         },
       });
 
+      fuelTL.fromTo(
+        fuelRef.current,
+        {
+          clipPath: "inset(0 50% 0 50%)", // 🔥 closed from center
+          scale: 0.9,
+          rotate: -6,
+          y: 60,
+        },
+        {
+          clipPath: "inset(0 0% 0 0%)",   // 🔥 opens outward
+          scale: 1.05,
+          rotate: 0,
+          y: -5,
+          ease: "none",
+        }
+      );
+
+    /* ================= PARALLAX STRIPS ================= */
+    /* PARALLAX (SAFE PIN) */ const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: parallaxSectionRef.current,
+          start: "top top", end: "+=800", scrub: true, pin: true,
+        },
+      });
       stripsRef.current.forEach((el, i) => {
-        tl.fromTo(
-          el,
-          {
-            clipPath: "inset(0 50% 0 50%)",
-            y: 120,
-            rotate: i % 2 === 0 ? -8 : 8,
-            scale: 0.9,
-          },
-          {
-            clipPath: "inset(0 0% 0 0%)",
-            y: 0,
-            rotate: i % 2 === 0 ? -3 : 3,
-            scale: 1,
-          }
-        );
+        tl.fromTo(el,
+          { clipPath: "inset(0 50% 0 50%)", y: 100, rotate: i % 2 ? 6 : -6, },
+          { clipPath: "inset(0 0% 0 0%)", y: 0, rotate: i % 2 ? 2 : -2, });
       });
     });
+    return () => {
+      ScrollTrigger.getAll().forEach((t) => t.kill()); ctx.revert();
+      wordRefs.current = []; stripsRef.current = [];
+    };
+  },
 
-    return () => ctx.revert();
-  }, []);
-
+    []);
   return (
     <>
       {/* ================= STYLES ================= */}
       <style>{`
 *{margin:0;padding:0;box-sizing:border-box}
-body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{background:#2f2f2f;color:#fff;font-family:Arial}
 
-/* HERO */
-.hero{
-  height:100vh;
-  position:relative;
-  overflow:hidden;
-  background:#000;
-}
-.hero img{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  object-fit:cover;
-  opacity:0;
-  transition:.6s ease;
-}
+.hero{height:100vh;position:relative;overflow:hidden;background:#000}
+.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:.6s}
 .hero img.active{opacity:1}
 
-/* PRODUCTS */
-.section-title{
-  text-align:center;
-  color:#ffeb00;
-  font-size:2.6rem;
-  font-weight:900;
-  padding:60px 0 30px;
+.hero-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.5);border:2px solid #ffeb00;
+  color:#ffeb00;font-size:48px;width:64px;height:64px;
+  cursor:pointer;z-index:5
 }
+.hero-btn:hover{background:#ffeb00;color:#000}
+.hero-btn.prev{left:30px}
+.hero-btn.next{right:30px}
+
+.section-title{
+  text-align:center;font-size:2.6rem;font-weight:900;
+  color:#ffeb00;padding:70px 0 30px
+}
+
 .product-grid{
-  display:grid;
-  grid-template-columns:repeat(4,1fr);
-  gap:26px;
-  padding:0 50px 80px;
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:26px;padding:0 50px 80px
 }
 .product-card{
-  background:#1c1c1c;
-  border:2px solid #ffeb00;
-  display:flex;
-  flex-direction:column;
+  background:#1c1c1c;border:2px solid #ffeb00;
 }
-.product-card img{
-  width:100%;
-  height:300px;
-  object-fit:cover;
-}
-.product-body{
-  padding:14px;
-}
+.product-card img{width:100%;height:280px;object-fit:cover}
+.product-body{padding:14px}
 .buy-btn{
-  width:100%;
-  background:#ffeb00;
-  border:none;
-  padding:10px;
-  font-weight:900;
-  cursor:pointer;
+  width:100%;padding:10px;background:#ffeb00;
+  border:none;font-weight:900;cursor:pointer
 }
 
-/* WORD SECTION */
 .word-section{
-  padding:120px 20px;
-  background:#3a3a3a;
-  text-align:center;
+  padding:100px 20px;text-align:center;background:#3a3a3a
 }
 .word-line{
-  font-size:clamp(42px,7vw,90px);
-  font-weight:900;
-  text-transform:uppercase;
+  font-size:clamp(40px,7vw,90px);
+  font-weight:900;text-transform:uppercase
 }
-
 .word{display:inline-block}
-.fuel{
-  background:#ffeb00;
-  color:#000;
-  display:inline-block;
-  padding:16px 40px;
-  margin:20px 0;
-  font-size:clamp(48px,8vw,110px);
-  font-weight:900;
+
+.fuel {
+  background: #ffeb00;
+  color: #000;
+
+  display: inline-block;
+  padding: 20px 26px;
+
+  font-size: clamp(38px, 4vw, 48px); /* 🔥 smaller, controlled */
+  font-weight: 900;
+  letter-spacing: 0.12em;
+
+  will-change: transform, clip-path;
+  transform-origin: center;
 }
 
-/* VIDEOS */
+
 .video-grid{
-  display:grid;
-  grid-template-columns:repeat(5,1fr);
-  gap:24px;
-  padding:0 40px 80px;
+  display:grid;grid-template-columns:repeat(5,1fr);
+  gap:24px;padding:0 40px 80px
 }
-.video-card{
-  border:2px solid #ffeb00;
-  background:#000;
-}
-.video-card video{
-  width:100%;
-  height:320px;
-  object-fit:cover;
-}
+.video-card{border:2px solid #ffeb00}
+.video-card video{width:100%;height:320px;object-fit:cover}
 
-/* PARALLAX */
 .parallax-section{
-  min-height:100vh;
-  background:rgba(32,29,29,0.85);
-  display:flex;
-  align-items:center;
-  justify-content:center;
+  min-height:100vh;background:#201d1d;
+  display:flex;align-items:center;justify-content:center
 }
 .strip{
-  margin:16px 0;
-  padding:18px 50px;
-  font-size:2.4rem;
-  font-weight:900;
-  text-transform:uppercase;
+  margin:16px 0;padding:18px 50px;
+  font-size:2.4rem;font-weight:900
 }
 .strip:nth-child(1){background:#ffeb00;color:#000}
 .strip:nth-child(2){background:#111}
 .strip:nth-child(3){background:#e30000}
 .strip:nth-child(4){background:#ffeb00;color:#000}
 
-/* RESPONSIVE */
 @media(max-width:1024px){
   .product-grid{grid-template-columns:repeat(2,1fr)}
   .video-grid{grid-template-columns:repeat(2,1fr)}
@@ -255,7 +225,10 @@ body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
             className={i === currentSlide ? "active" : ""}
             alt=""
           />
+
         ))}
+        <button className="hero-btn prev" onClick={slidePrev}>‹</button>
+        <button className="hero-btn next" onClick={slideNext}>›</button>
       </section>
 
       {/* ================= PRODUCTS ================= */}
@@ -268,6 +241,7 @@ body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
               alt={p.title}
               onError={(e) => (e.currentTarget.src = FALLBACK_PRODUCT_IMG)}
             />
+
             <div className="product-body">
               <h4>{p.title}</h4>
               <div>{p.price}</div>
@@ -280,21 +254,23 @@ body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
       {/* ================= WORD SECTION ================= */}
       <section className="word-section" ref={wordSectionRef}>
         <div className="word-line">
-          {"STIR UP YOUR FEARLESS PAST AND".split(" ").map((w, j) => (
-            <span key={j} className="word" ref={(el) => (wordRefs.current[j] = el)}>
+          {"STIR UP YOUR FEARLESS PAST AND".split(" ").map((w, i) => (
+            <span key={i} className="word" ref={(el) => (wordRefs.current[i] = el)}>
               {w}&nbsp;
             </span>
           ))}
         </div>
+
         <div className="fuel" ref={fuelRef}>FUEL UP</div>
+
         <div className="word-line">
           {"YOUR FUTURE WITH EVERY GULP OF PERFECT PROTEIN"
             .split(" ")
-            .map((w, j) => (
+            .map((w, i) => (
               <span
-                key={j}
+                key={i}
                 className="word"
-                ref={(el) => (wordRefs.current[20 + j] = el)}
+                ref={(el) => (wordRefs.current[20 + i] = el)}
               >
                 {w}&nbsp;
               </span>
@@ -307,14 +283,12 @@ body{background:#2f2f2f;color:#fff;font-family:Arial,Helvetica,sans-serif}
       <section className="video-grid">
         {videos.map((src, i) => (
           <div className="video-card" key={i}>
-            <video controls muted playsInline>
-              <source src={src} type="video/mp4" />
-            </video>
+            <video src={src} muted playsInline controls />
           </div>
         ))}
       </section>
 
-      {/* ================= PARALLAX STRIPS ================= */}
+      {/* ================= PARALLAX ================= */}
       <section className="parallax-section" ref={parallaxSectionRef}>
         <div>
           {[

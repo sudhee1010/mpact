@@ -11,7 +11,7 @@ export default function Loader({ onFinish }) {
           clearInterval(interval);
           setTimeout(() => {
             setHide(true);
-            setTimeout(onFinish, 800);
+            setTimeout(onFinish, 1000);
           }, 600);
           return 100;
         }

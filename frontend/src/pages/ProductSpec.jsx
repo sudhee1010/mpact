@@ -741,12 +741,9 @@ const ProductPage = () => {
   </div>
   </div>
 </section>
-<<<<<<< HEAD
-=======
 
 
      <Footer />
->>>>>>> 100a0d056d5db4bbf39ab85b41d4bc1859a61460
     </div>
   );
 };
