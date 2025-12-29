@@ -2,8 +2,18 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
+
 
 export default function Checkout() {
+  const navigate = useNavigate();
+
+  const handlePaymentChange = (method) => {
+    if (method === "bank") {
+      navigate("/payment");
+    }
+  };
+
   return (
     <>
       <style>{`
@@ -270,7 +280,7 @@ export default function Checkout() {
 
         }
       `}</style>
-  <Navbar/>
+      <Navbar />
       <div className="checkout-page">
         <div className="checkout-container">
 
@@ -345,21 +355,30 @@ export default function Checkout() {
 
             <div className="payment-methods">
               <label>
-                <input type="radio" name="payment" />
+                <input
+                  type="radio"
+                  name="payment"
+                  onChange={() => handlePaymentChange("bank")}
+                />
                 Bank
               </label>
 
               <div className="card-icons">
-                <img src="/images/visa.png" alt="" />
-                <img src="/images/mastercard.png" alt="" />
-                <img src="/images/gpay.png" alt="" />
+                <img src="/images/visa.png" alt="Visa" />
+                <img src="/images/mastercard.png" alt="Mastercard" />
+                <img src="/images/gpay.png" alt="Google Pay" />
               </div>
 
               <label>
-                <input type="radio" name="payment" defaultChecked />
+                <input
+                  type="radio"
+                  name="payment"
+                  defaultChecked
+                />
                 Cash on delivery
               </label>
             </div>
+
 
             <div className="coupon-section">
               <input type="text" placeholder="Coupon Code" />
@@ -367,8 +386,8 @@ export default function Checkout() {
             </div>
 
             <Link to="/success">
-  <button className="place-order-btn">Place Order</button>
-</Link>
+              <button className="place-order-btn">Place Order</button>
+            </Link>
 
           </div>
         </div>

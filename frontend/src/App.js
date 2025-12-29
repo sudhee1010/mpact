@@ -14,6 +14,7 @@ import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
 import Cart from "./pages/Cart";
+import Payment from "./pages/Payment";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -32,6 +33,7 @@ function App() {
           <Route path="/products" element={<Product />} />
           <Route path="/productspec" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/payment" element={<Payment />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />
