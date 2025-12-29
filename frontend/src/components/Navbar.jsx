@@ -7,6 +7,29 @@ export default function Navbar() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  /* Hide scrollbar but allow scroll */
+html, body {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+
+body {
+  background-color: rgba(24, 23, 23, 1);
+  color: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
         .navbar {
           position: fixed;
           top: 0;
@@ -149,9 +172,10 @@ export default function Navbar() {
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo">
+        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
           MPACT
         </Link>
+
 
         {/* CENTER MENU */}
         <div className="nav-links">
@@ -165,7 +189,9 @@ export default function Navbar() {
         <div className="nav-icons">
           <img src="/icons/search.png" alt="Search" />
           <img src="/icons/avatar.png" alt="User" />
-          <img src="/icons/bag.png" alt="Cart" />
+          <Link to="/cart">
+  <img src="/icons/bag.png" alt="Cart" />
+</Link>
         </div>
       </nav>
     </>

@@ -8,17 +8,6 @@ export default function Footer() {
       <style>{`
        @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  background-color: rgba(24, 23, 23, 1);
-  color: #ffffff;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
 
 .footer {
   background: #3a3a3a;
