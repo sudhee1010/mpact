@@ -1,5 +1,6 @@
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 /* ================= PRODUCT DATA ================= */
 const PRODUCT_DATA = {
@@ -350,7 +351,11 @@ export default function Products() {
           ))}
         </div>
       </div>
+      <Footer />
     </>
+
+    
   );
+  
 };
 

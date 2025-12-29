@@ -3,7 +3,7 @@ import { Routes, Route } from "react-router-dom";
 
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+// import Footer from "./components/Footer";
 
 import About from "./pages/About/About";
 import Home from "./pages/Home";
@@ -40,7 +40,7 @@ function App() {
         </Routes>
       </div>
 
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 }

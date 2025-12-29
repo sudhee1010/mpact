@@ -7,6 +7,29 @@ export default function Navbar() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  /* Hide scrollbar but allow scroll */
+html, body {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+
+body {
+  background-color: rgba(24, 23, 23, 1);
+  color: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
         .navbar {
           position: fixed;
           top: 0;

@@ -1,6 +1,7 @@
 import React from "react";
 import Navbar from "../components/Navbar";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
 
 export default function Checkout() {
   return (
@@ -372,6 +373,7 @@ export default function Checkout() {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 }
