@@ -17,7 +17,7 @@ function About() {
             <br />
             and rediscover your inner rebel with each sip
           </p>
-        </div>
+        </div>  
 
         {/* Product Cards */}
         <div className={styles.productCards}>
