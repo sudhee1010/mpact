@@ -4,8 +4,6 @@ import Navbar from '../../components/NavbarTwo';
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);
 
-
-  
   const faqData = [
     {
       category: "PRODUCT INFORMATION",
