@@ -1,6 +1,6 @@
 import React from 'react'
 import styles from "./Faq.module.css"
-import Navbar from '../../components/NavbarTwo'
+import Navbar from '../../components/Navbar'
 
 function Faq() {
   return (
