@@ -7,6 +7,29 @@ export default function Navbar() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
+        * {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+  /* Hide scrollbar but allow scroll */
+html, body {
+  scrollbar-width: none;        /* Firefox */
+  -ms-overflow-style: none;     /* IE & Edge */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;                /* Chrome, Safari */
+}
+
+
+body {
+  background-color: rgba(24, 23, 23, 1);
+  color: #ffffff;
+  font-family: "Segoe UI", Arial, sans-serif;
+}
+
         .navbar {
           position: fixed;
           top: 0;
@@ -69,14 +92,90 @@ export default function Navbar() {
         .page-wrapper {
           padding-top: 92px;
         }
+
+        /* ===== LARGE DESKTOPS / 4K ===== */
+@media (min-width: 1400px) {
+  .navbar {
+    padding: 0 100px;
+  }
+
+  .nav-logo {
+    font-size: 56px;
+  }
+
+  .nav-links a {
+    font-size: 22px;
+  }
+}
+
+/* ===== LAPTOPS ===== */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 0 40px;
+  }
+
+  .nav-links {
+    gap: 32px;
+  }
+}
+
+/* ===== TABLETS ===== */
+@media (max-width: 900px) {
+  .nav-links {
+    display: none; /* hide center menu */
+  }
+
+  .navbar {
+    padding: 0 30px;
+  }
+
+  .nav-logo {
+    font-size: 42px;
+  }
+}
+
+/* ===== MOBILE ===== */
+@media (max-width: 600px) {
+  .navbar {
+    height: 72px;
+    padding: 0 20px;
+  }
+
+  .nav-logo {
+    font-size: 34px;
+  }
+
+  .nav-icons img {
+    width: 18px;
+    height: 18px;
+  }
+
+  .page-wrapper {
+    padding-top: 72px;
+  }
+}
+
+/* ===== SMALL MOBILE ===== */
+@media (max-width: 360px) {
+  .nav-logo {
+    font-size: 30px;
+  }
+
+  .nav-icons {
+    gap: 16px;
+  }
+}
+
+
       `}</style>
 
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo">
+        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
           MPACT
         </Link>
+
 
         {/* CENTER MENU */}
         <div className="nav-links">
@@ -90,7 +189,9 @@ export default function Navbar() {
         <div className="nav-icons">
           <img src="/icons/search.png" alt="Search" />
           <img src="/icons/avatar.png" alt="User" />
-          <img src="/icons/bag.png" alt="Cart" />
+          <Link to="/cart">
+  <img src="/icons/bag.png" alt="Cart" />
+</Link>
         </div>
       </nav>
     </>

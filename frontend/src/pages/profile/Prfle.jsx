@@ -304,7 +304,7 @@ export default function UpdateProfilePage() {
               </button>
             </div>
           </div>
-
+  
           <div style={styles.formGrid}>
             <div style={styles.formGroup}>
               <label style={styles.label}>First Name</label>

@@ -286,7 +286,7 @@ export default function ProfileChangePassword() {
             <span>wade.warren@example.com</span>
             <span style={styles.copyIcon}>📋</span>
           </div>
-
+  
           <ul style={styles.menuList}>
             <li style={styles.menuItem}>Orders</li>
             <li style={styles.menuItem}>Track orders</li>

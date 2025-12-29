@@ -1,0 +1,542 @@
+/* Reset and Base Styles */
+.aboutPage {
+  font-family: 'Inter', Arial, sans-serif;
+  background-color: #3a3a3a;
+  margin: 0;
+  padding: 0;
+}
+
+/* Navbar Styles */
+.navbar {
+  background-color: #FFED23;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navLogo {
+  font-family: 'Impact', Arial, sans-serif;
+  font-size: 32px;
+  font-weight: bold;
+  color: #000000;
+  letter-spacing: 1px;
+}
+
+.navLinks {
+  display: flex;
+  gap: 40px;
+}
+
+.navLinks a {
+  color: #000000;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+  transition: opacity 0.3s;
+}
+
+.navLinks a:hover {
+  opacity: 0.7;
+}
+
+.navIcons {
+  display: flex;
+  gap: 15px;
+}
+
+.navIcons button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.navIcons button:hover {
+  transform: scale(1.1);
+}
+
+.searchIcon,
+.userIcon {
+  background: none;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
+/* Hero Section */
+.heroSection {
+  background-color: #3a3a3a;
+  padding: 60px 20px 0;
+  overflow: hidden;
+}
+   
+.heroContent {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.heroTitle {
+  font-family: 'Impact', Arial, sans-serif;
+  font-size: 94px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #000000;
+  -webkit-text-stroke: 1px #FFED23;
+  text-shadow: 0 1px 0 #FFED23, 0 4px 4px rgba(0, 0, 0, 0.55);
+  letter-spacing: 3px;
+  margin-bottom: 20px;
+}
+
+.heroSubtitle {
+  color: #FFFFFF;
+  font-size: 20px;
+  line-height: 1.5;
+  letter-spacing: 0.5px;
+}
+
+/* Product Cards */
+.productCards {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  padding: 0 30px;
+  margin-bottom: 40px;
+}
+
+.productCard {
+  width: 17.5%;
+  /* aspect-ratio: 2.9 / 5.4; */
+  border: 2px solid #FFED23;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s;
+}
+
+.productCard:hover {
+  transform: translateY(-5px);
+}
+
+.cardContent {
+  position: relative;
+  height:max-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+
+
+.productImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  position: relative;
+}
+
+ .peanutsBg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100"><circle cx="20" cy="20" r="8" fill="%23D2691E"/><circle cx="50" cy="30" r="10" fill="%23CD853F"/><circle cx="80" cy="25" r="7" fill="%23D2691E"/></svg>');
+  background-size: 50px 50px;
+  opacity: 0.6;
+} 
+
+/* Features Banner */
+.featuresBanner {
+  background-color: #FFED23;
+  padding: 25px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+  font-weight: 700;
+  font-size: 14px;
+  color: #000000;
+  letter-spacing: 0.5px;
+}
+
+.featuresBanner .divider {
+  color: #000000;
+  font-weight: 400;
+}
+
+.divider {
+  color: #000000;
+  font-weight: 400;
+}
+
+/* Know More Section */
+.knowMoreSection {
+  background-color: #3a3a3a;
+  padding: 80px 50px;
+}
+
+.sectionTitle {
+  font-family: 'Impact', Arial, sans-serif;
+  font-size: 48px;
+  text-align: center;
+  color: #FFED23;
+  letter-spacing: 2px;
+  margin-bottom: 60px;
+  text-transform: uppercase;
+  -webkit-text-stroke: 0.5px #000000;
+}
+
+.contentGrid {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 50px;
+  margin-bottom: 60px;
+  align-items: center;
+}
+
+.productShowcase {
+  display: flex;
+  justify-content: center;
+}
+
+.showcaseCard {
+  background: linear-gradient(135deg, #8B4513 0%, #654321 100%);
+  border: 2px solid #FFED23;
+  border-radius: 15px;
+  /* padding: 30px; */
+  width: 100%;
+  max-width: 350px;
+  position: relative;
+  overflow: hidden;
+}
+
+.showcaseTitle {
+  font-family: 'Impact', Arial, sans-serif;
+  font-size: 48px;
+  color: #FFFFFF;
+  text-align: center;
+  -webkit-text-stroke: 1px #000000;
+  margin-bottom: 20px;
+}
+
+.showcaseImage {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  border-radius: 10px;
+}
+
+.descriptionText {
+  color: #FFFFFF;
+  font-size: 16px;
+  line-height: 1.8;
+  padding: 20px;
+}
+
+.descriptionText p {
+  text-align: justify;
+}
+
+.bottom {
+  margin-top: 40px;
+}
+
+/* Media Queries */
+
+/* Large Desktop */
+@media (max-width: 1440px) {
+  .heroTitle {
+    font-size: 80px;
+  }
+  
+  .productCard {
+    width: 18%;
+  }
+}
+
+/* Desktop */
+@media (max-width: 1200px) {
+  .navbar {
+    padding: 15px 30px;
+  }
+  
+  .heroTitle {
+    font-size: 70px;
+  }
+  
+  .heroSubtitle {
+    font-size: 18px;
+  }
+  
+  .productCards {
+    gap: 12px;
+    padding: 0 20px;
+  }
+  
+  .productCard {
+    width: 18.5%;
+  }
+  
+  .contentGrid {
+    gap: 40px;
+  }
+  
+  .sectionTitle {
+    font-size: 42px;
+  }
+}
+
+/* Tablet Landscape */
+@media (max-width: 1024px) {
+  .navLinks {
+    gap: 25px;
+  }
+  
+  .navLinks a {
+    font-size: 13px;
+  }
+  
+  .heroTitle {
+    font-size: 60px;
+  }
+  
+  .heroSubtitle {
+    font-size: 16px;
+  }
+  
+  .productCards {
+    gap: 10px;
+  }
+  
+  .productCard {
+    width: 19%;
+  }
+  
+  .cardTitle {
+    font-size: 20px;
+  }
+  
+  .contentGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  
+  .showcaseCard {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+  
+  .knowMoreSection {
+    padding: 60px 30px;
+  }
+}
+
+/* Tablet Portrait */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 12px 20px;
+  }
+  
+  .navLogo {
+    font-size: 28px;
+  }
+  
+  .navLinks {
+    gap: 20px;
+  }
+  
+  .navLinks a {
+    font-size: 12px;
+  }
+  
+  .heroSection {
+    padding: 40px 15px 0;
+  }
+  
+  .heroTitle {
+    font-size: 48px;
+  }
+  
+  .heroSubtitle {
+    font-size: 14px;
+  }
+  
+  .productCards {
+    gap: 8px;
+    padding: 0 10px;
+  }
+  
+  .productCard {
+    width: 19.5%;
+  }
+  
+  .cardTitle {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+  
+  .featuresBanner {
+    font-size: 12px;
+    padding: 20px 15px;
+    gap: 10px;
+  }
+  
+  .sectionTitle {
+    font-size: 36px;
+    margin-bottom: 40px;
+  }
+  
+  .descriptionText {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+}
+
+/* Mobile Large */
+@media (max-width: 640px) {
+  .navbar {
+    flex-wrap: wrap;
+    padding: 10px 15px;
+  }
+  
+  .navLinks {
+    order: 3;
+    width: 100%;
+    justify-content: center;
+    margin-top: 10px;
+    gap: 15px;
+  }
+  
+  .heroTitle {
+    font-size: 40px;
+    letter-spacing: 1px;
+  }
+  
+  .heroSubtitle {
+    font-size: 13px;
+    padding: 0 10px;
+  }
+  
+  .productCards {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  .productCard {
+    width: 48%;
+  }
+  
+  .cardTitle {
+    font-size: 18px;
+  }
+  
+  .sectionTitle {
+    font-size: 32px;
+  }
+  
+  .knowMoreSection {
+    padding: 40px 20px;
+  }
+}
+
+/* Mobile Medium */
+@media (max-width: 480px) {
+  .navLogo {
+    font-size: 24px;
+  }
+  
+  .navLinks a {
+    font-size: 11px;
+  }
+  
+  .heroTitle {
+    font-size: 32px;
+  }
+  
+  .heroSubtitle {
+    font-size: 12px;
+  }
+  
+  .productCards {
+    gap: 8px;
+  }
+  
+  .productCard {
+    width: 48%;
+  }
+  
+  .cardTitle {
+    font-size: 16px;
+  }
+  
+  .featuresBanner {
+    font-size: 10px;
+    gap: 8px;
+    padding: 15px 10px;
+  }
+  
+  .sectionTitle {
+    font-size: 28px;
+  }
+  
+  .showcaseCard {
+    padding: 20px;
+  }
+  
+  .showcaseTitle {
+    font-size: 36px;
+  }
+  
+  .descriptionText {
+    font-size: 13px;
+    padding: 15px;
+  }
+}
+
+/* Mobile Small */
+@media (max-width: 375px) {
+  .navLogo {
+    font-size: 20px;
+  }
+  
+  .navLinks {
+    gap: 10px;
+  }
+  
+  .navLinks a {
+    font-size: 10px;
+  }
+  
+  .heroTitle {
+    font-size: 28px;
+  }
+  
+  .heroSubtitle {
+    font-size: 11px;
+  }
+  
+  .productCard {
+    width: 47%;
+  }
+  
+  .cardTitle {
+    font-size: 14px;
+  }
+  
+  .sectionTitle {
+    font-size: 24px;
+  }
+  
+  .featuresBanner {
+    font-size: 9px;
+  }
+}
