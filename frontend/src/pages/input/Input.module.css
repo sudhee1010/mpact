@@ -1,0 +1,169 @@
+/* // Module CSS styles */
+.container {
+    font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    padding: 40px;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+.heading {
+    font-size: 32px;
+    font-weight: 600;
+    margin-bottom:30px;
+    color:#000;
+  }
+.formGrid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap:30px;
+    max-width:1400px;
+  }
+.formGridTablet {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+.formGridMobile {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+.column {
+    display:flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+.inputGroup {
+    border: 2px dashed #ccc;
+    padding: 20px;
+    border-radius: 8px;
+    background-color: #fff;
+  }
+.inputGroupError {
+    border: 2px dashed #ff4444;
+  }
+.inputGroupSuccess {
+    border: 2px dashed #00cc66;
+  }
+.label {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: #000;
+  }
+.helper-Text {
+    font-size: 12px;
+    color: #666;
+    margin-bottom: 12px;
+  }
+.cardNumberWrapper {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+.cardNumberWrapperFocused {
+    border: 2px solid #0066ff;
+    padding: 11px;
+  }
+.cardNumberWrapperError {
+    border: 2px solid #ff4444;
+    padding: 11px;
+  }
+.cardNumberWrapperSuccess {
+    border: 2px solid #00cc66;
+    padding: 11px;
+  }
+.cardIcon {
+    font-size: 18px;
+    color: #666;
+  }
+.cardNumberInputs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex: 1;
+  }
+.cardInput {
+    width: 50px;
+    border: none;
+    outline: none;
+    font-size: 16px;
+    text-align: center;
+    font-family: monospace;
+  }
+.separator {
+    color: #999;
+  }
+.statusIcon {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+.successIcon {
+    background-color: #00cc66;
+    color: #fff;
+  }
+.errorIcon {
+    background-color: #ff4444;
+    color: #fff;
+  }
+.textInput {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    outline: none;
+  }
+.textInputFocused {
+    border: 2px solid #0066ff;
+    padding: 11px;
+  }
+.textInputError {
+    border: 2px solid #ff4444;
+    padding: 11px;
+  }
+.expiryWrapper {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+.expiryInput {
+    width: 60px;
+    padding:12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    text-align: center;
+    outline: none;
+  }
+.expiryInputFocused {
+    border: 2px solid #0066ff;
+    padding: 11px
+  }
+.expiryInputError {
+    border: 2px solid #ff4444;
+    padding: 11px;
+  }
+.errorMessage {
+    color: #ff4444;
+    font-size: 12px;
+    margin-top: 8px;
+  }
+.dimensionBadge {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #8b5cf6;
+    color: #fff;
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-Weight: 600px;
+  }
