@@ -5,12 +5,14 @@ import {
   sendOTP,
   verifyOTP, forgotPassword,
   resetPassword, sendPhoneOTP,
-  verifyPhoneOTP,googleLogin
+  verifyPhoneOTP,googleLogin,
+  registerAdmin
 } from "../controllers/authController.js";
 
 const router = express.Router();
 
-router.post("/register", registerUser);
+router.post("/register-user", registerUser);
+router.post("/register-admin", registerAdmin);
 router.post("/login", loginUser);
 router.post("/send-otp", sendOTP);
 router.post("/verify-otp", verifyOTP);
