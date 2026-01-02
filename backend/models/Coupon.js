@@ -6,7 +6,8 @@ const couponSchema = new mongoose.Schema(
       type: String,
       required: true,
       unique: true,
-      uppercase: true
+      uppercase: true,
+      trim: true
     },
 
     discountType: {
@@ -17,8 +18,16 @@ const couponSchema = new mongoose.Schema(
 
     discountValue: {
       type: Number,
-      required: true
+      required: true,
+      min: 1,
+      validate: {
+        validator: function (v) {
+          return this.discountType === "percentage" ? v <= 100 : true;
+        },
+        message: "Percentage discount cannot exceed 100"
+      }
     },
+
 
     expiryDate: {
       type: Date,
@@ -30,7 +39,18 @@ const couponSchema = new mongoose.Schema(
       default: true
     },
 
-    // 🔥 PRODUCT-SPECIFIC RULES
+    // Global limit
+    maxRedemptions: { type: Number, default: 0 },
+    usedCount: { type: Number, default: 0 },
+
+    // Track users who used
+    usersUsed: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User"
+      }
+    ],
+
     applicableProducts: [
       {
         product: {
@@ -40,14 +60,15 @@ const couponSchema = new mongoose.Schema(
         },
 
         usageLimit: {
-          type: Number, // e.g. 50 users
+          type: Number,
           required: true
         },
 
         usedBy: [
           {
             type: mongoose.Schema.Types.ObjectId,
-            ref: "User"
+            ref: "User",
+            default: []
           }
         ]
       }
@@ -55,5 +76,7 @@ const couponSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+couponSchema.index({ code: 1 });
 
 export default mongoose.model("Coupon", couponSchema);
