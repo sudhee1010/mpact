@@ -16,8 +16,6 @@ import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
 import Input from "./pages/input/Input";
-// import Cart from "./pages/Cart";
-
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 
