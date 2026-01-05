@@ -1,107 +1,3 @@
-// import User from "../models/User.js";
-// import bcrypt from "bcryptjs";
-// import generateToken from "../utils/generateToken.js";
-// import { generateOTP } from "../utils/sendOTP.js";
-// import sendEmail from "../utils/sendEmail.js";
-
-// export const registerUser = async (req, res) => {
-//   const { name, email, password } = req.body;
-
-//   const userExists = await User.findOne({ email });
-//   if (userExists) {
-//     return res.status(400).json({ message: "User already exists" });
-//   }
-
-//   const hashedPassword = await bcrypt.hash(password, 10);
-
-//   const user = await User.create({
-//     name,
-//     email,
-//     password: hashedPassword
-//   });
-
-//   res.status(201).json({
-//     _id: user._id,
-//     name: user.name,
-//     email: user.email,
-//     token: generateToken(user._id)
-//   });
-// };
-
-
-// export const loginUser = async (req, res) => {
-//   const { email, password } = req.body;
-
-//   const user = await User.findOne({ email });
-//   if (!user) {
-//     return res.status(401).json({ message: "Invalid email or password" });
-//   }
-
-//   const isMatch = await bcrypt.compare(password, user.password);
-//   if (!isMatch) {
-//     return res.status(401).json({ message: "Invalid email or password" });
-//   }
-
-//   res.json({
-//     _id: user._id,
-//     name: user.name,
-//     email: user.email,
-//     token: generateToken(user._id)
-//   });
-// };
-
-
-
-// export const sendOTP = async (req, res) => {
-//   const { email } = req.body;
-
-//   const user = await User.findOne({ email });
-//   if (!user) return res.status(404).json({ message: "User not found" });
-
-//   const otp = generateOTP();
-
-//   user.otp = otp;
-//   user.otpExpiry = Date.now() + 10 * 60 * 1000; // 10 mins
-//   await user.save();
-
-//   // console.log("OTP (mock):", otp); 
-//   await sendEmail({
-//   to: user.email,
-//   subject: "Your OTP Code",
-//   text: `Your OTP is ${otp}. It is valid for 10 minutes.`
-// });
-
-//   res.json({ message: "OTP sent successfully" });
-// };
-
-
-// export const verifyOTP = async (req, res) => {
-//   const { email, otp } = req.body;
-
-//   const user = await User.findOne({ email });
-
-//   if (
-//     !user ||
-//     user.otp !== otp ||
-//     user.otpExpiry < Date.now()
-//   ) {
-//     return res.status(400).json({ message: "Invalid or expired OTP" });
-//   }
-
-//   user.isVerified = true;
-//   user.otp = null;
-//   user.otpExpiry = null;
-//   await user.save();
-
-//   res.json({
-//     message: "OTP verified",
-//     token: generateToken(user._id)
-//   });
-// };
-
-
-
-
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
 import generateToken from "../utils/generateToken.js";
@@ -110,7 +6,7 @@ import sendEmail from "../utils/sendEmail.js";
 import { verifyGoogleToken } from "../utils/googleVerify.js";
 
 /* ===========================
-   EMAIL REGISTER
+   EMAIL REGISTER LOGIN
 =========================== */
 export const registerUser = async (req, res) => {
   try {
@@ -127,11 +23,47 @@ export const registerUser = async (req, res) => {
       name,
       email,
       password: hashedPassword,
-      isEmailVerified: false
+      isEmailVerified: false,
+      role:"customer"
     });
 
     res.status(201).json({
-      token: generateToken(user._id)
+      token: generateToken(user._id),user
+    });
+
+    
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+
+
+
+/* ===========================
+   EMAIL REGISTER ADMIN
+=========================== */
+export const registerAdmin = async (req, res) => {
+  try {
+    const { name, email, password } = req.body;
+
+    const exists = await User.findOne({ email });
+    if (exists) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    const user = await User.create({
+      name,
+      email,
+      password: hashedPassword,
+      isEmailVerified: true,
+      role:"admin"
+    });
+
+    res.status(201).json({
+      token: generateToken(user._id),user
     });
 
     
@@ -161,7 +93,7 @@ export const loginUser = async (req, res) => {
       return res.status(401).json({ message: "Invalid credentials" });
     }
 
-    res.json({ token: generateToken(user._id) });
+    res.json({ token: generateToken(user._id),user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

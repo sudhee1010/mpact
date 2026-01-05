@@ -7,7 +7,7 @@ const CART_ITEMS = [
   {
     id: 1,
     title: "PROTEIN WAFERS – VARIETY PACK OF 10",
-    oldPrice: 49,
+    oldPrice: 499,
     price: 399,
     rating: 5,
     reviews: 15,
@@ -40,25 +40,29 @@ const CART_ITEMS = [
 
 export default function Cart() {
   /* ================= PRICE CALCULATIONS ================= */
+
   const packingCharges = 20;
 
+  // Total MRP (safety: oldPrice should not be less than price)
   const totalMRP = CART_ITEMS.reduce(
-    (sum, item) => sum + item.oldPrice,
+    (sum, item) => sum + Math.max(item.oldPrice, item.price),
     0
   );
 
-  const totalPrice = CART_ITEMS.reduce(
+  // Total selling price
+  const totalSellingPrice = CART_ITEMS.reduce(
     (sum, item) => sum + item.price,
     0
   );
 
-  const totalDiscount = totalMRP - totalPrice;
+  // Discount amount
+  const totalDiscount = Math.max(totalMRP - totalSellingPrice, 0);
 
-  const finalAmount = totalPrice + packingCharges;
+  // Final payable amount
+  const finalAmount = totalSellingPrice + packingCharges;
 
   return (
     <>
-
       <style>{`
         body {
           background: #2f2f2f;
@@ -139,6 +143,10 @@ export default function Cart() {
           padding-left: 30px;
         }
 
+        .price-box h3 {
+          margin-bottom: 20px;
+        }
+
         .price-row {
           display: flex;
           justify-content: space-between;
@@ -179,12 +187,18 @@ export default function Cart() {
             border-top: 1px solid #aaa;
             padding-top: 30px;
           }
+
+          .cart-item {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+          }
         }
       `}</style>
 
       <div className="cart-page">
         <div className="cart-layout">
-          {/* LEFT */}
+          {/* LEFT SIDE */}
           <div>
             {CART_ITEMS.map((item) => (
               <div className="cart-item" key={item.id}>
@@ -214,7 +228,7 @@ export default function Cart() {
             ))}
           </div>
 
-          {/* RIGHT */}
+          {/* RIGHT SIDE */}
           <div className="price-box">
             <h3>PRICE DETAILS</h3>
 
@@ -246,6 +260,7 @@ export default function Cart() {
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );
