@@ -192,6 +192,7 @@ const ProductPage = () => {
   </Link>
 
   {/* CART BUTTON */}
+  <Link to="/cart" style={{ flex: 1 }}>
 <button
   title="Add to cart"
   onClick={() => {
@@ -219,6 +220,7 @@ const ProductPage = () => {
     }}
   />
 </button>
+</Link>
 </div>
 
 
@@ -317,7 +319,7 @@ const ProductPage = () => {
 
         {/* PRODUCT NAME */}
         <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
-          Protein Bar – Chocolate
+          Protein Powder
         </p>
 
         {/* TAGS */}
@@ -389,6 +391,7 @@ const ProductPage = () => {
           RS : 180
         </div>
 
+          <Link to="/checkout" style={{ flex: 1 }}>
         {/* BUTTON */}
         <button
           style={{
@@ -404,6 +407,7 @@ const ProductPage = () => {
         >
           Buy Now
         </button>
+        </Link>
       </div>
     ))}
   </div>
@@ -628,7 +632,7 @@ const ProductPage = () => {
 
         {/* PRODUCT NAME */}
         <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
-          Protein Bar – Chocolate
+          Protein Pow
         </p>
 
         {/* TAGS */}
@@ -695,8 +699,7 @@ const ProductPage = () => {
         >
           RS : 180
         </div>
-
-        {/* BUTTON */}
+  <Link to="/checkout" style={{ flex: 1 }}>
         <button
           style={{
             width: "100%",
@@ -711,6 +714,7 @@ const ProductPage = () => {
         >
           Buy Now
         </button>
+      </Link>
       </div>
     ))}
   </div>
