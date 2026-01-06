@@ -64,7 +64,7 @@ export default function Footer() {
 
 .footer-center h1 {
   font-family: 'Khand', sans-serif;
-  font-size: 64px;
+  // font-size: 150px;
   font-weight: 700;
   color: #ffee00;
   margin-bottom: 30px;
@@ -198,9 +198,9 @@ export default function Footer() {
     align-items: center;
   }
 
-  .footer-center h1 {
-    font-size: 44px;
-  }
+  // .footer-center h1 {
+  //   font-size: 150px;
+  // }
 
   .social-icons span {
     width: 44px;
