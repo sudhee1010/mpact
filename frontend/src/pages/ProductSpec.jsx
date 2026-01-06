@@ -458,8 +458,8 @@ const ProductPage = () => {
     }}
   >
     <div>
-      <h2 style={{ margin: 0 }}>REVIEWS (111)</h2>
-      <div style={{ color: "#ffe600", marginTop: 6 }}>★★★★★</div>
+      <h2 style={{ marginRight:70}}>REVIEWS (111)</h2>
+      <div style={{ color: "#ffe600", marginTop: 6 ,}}>★★★★★</div>
     </div>
 
     <div style={{ display: "flex", gap: 12 }}>
@@ -471,6 +471,9 @@ const ProductPage = () => {
           fontWeight: "bold",
           borderRadius: 6,
           cursor: "pointer",
+          marginleft: 100,
+           
+          
         }}
       >
         WRITE A REVIEW
@@ -480,12 +483,14 @@ const ProductPage = () => {
         style={{
           background: "transparent",
           border: "1px solid #ffe600",
-          color: "#ffe600",
+          color: "#ffffffff",
           padding: "10px 18px",
           fontWeight: "bold",
           borderRadius: 6,
           cursor: "pointer",
+          marginRight: 10,
         }}
+          
       >
         TOP RATED
       </button>
@@ -496,8 +501,10 @@ const ProductPage = () => {
   <div
     style={{
       display: "grid",
-      gridTemplateColumns: "1.3fr 1fr",
-      gap: 30,
+      gridTemplateColumns: "1.0fr 1fr",
+      gap: 10,
+      marginRight:70,
+         
     }}
   >
     {/* Left – Image Reviews */}
@@ -514,7 +521,7 @@ const ProductPage = () => {
           }}
         >
           <img
-            src="/images/mpact.png"
+            src="./images/image2.jpg"
             alt="review"
             style={{
               width: "100%",
