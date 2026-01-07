@@ -63,9 +63,9 @@ export default function Footer() {
 }
 
 .footer-center h1 {
-  font-family: 'Khand', sans-serif;
+  font-family: 'Jersey 25', sans-serif;
   // font-size: 150px;
-  font-weight: 700;
+  font-weight: 400;
   color: #ffee00;
   margin-bottom: 30px;
 }

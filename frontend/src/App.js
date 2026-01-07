@@ -18,6 +18,7 @@ import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import Review from "./pages/review";
 
+
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 
@@ -47,6 +48,7 @@ function App() {
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />
           <Route path="/review" element={<Review />} />
+          
 
 
           
