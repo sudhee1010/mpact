@@ -43,7 +43,7 @@ export default function ProductPage({
     <>
       <div className="page">
         <header className="header">
-          <h1>Products</h1>
+          <h1>All Products</h1>
         </header>
 
         <div className="products">
@@ -61,10 +61,20 @@ export default function ProductPage({
           font-family: Inter, system-ui, sans-serif;
         }
 
+        h1{
+        font-family: 'Jersey 25', cursive;
+        font-size: clamp(32px, 6vw, 72px);
+        font-weight: 350;
+        align-items: center;
+        justify-content: center;
+        display: flex;
+        height: 100px;
+        }
+
         .page {
           max-width: 1380px;
           margin: auto;
-          padding: 20px 20px 40px;
+          // padding: 20px 20px 40px;
           color: #fff;
         }
 
@@ -80,7 +90,7 @@ export default function ProductPage({
           width: 291.51px;
           height: 635.17px;
           background: #151515;
-          border-radius: 6.69px;
+          // border-radius: 6.69px;
           border: 1.34px solid #ffeb00;
           display: flex;
           flex-direction: column;
@@ -88,8 +98,8 @@ export default function ProductPage({
         }
 
         .card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 18px 42px rgba(255, 235, 0, 0.25);
+          // transform: translateY(-6px);
+          // box-shadow: 0 18px 42px rgba(255, 235, 0, 0.25);
         }
 
         /* ===== IMAGE ===== */
@@ -246,6 +256,7 @@ export default function ProductPage({
           background: transparent;
           border: 1px solid #ffeb00;
           color: #fff;
+          font-family: 'Jersey 25', cursive;
         }
 
         .cartBtn:hover {
@@ -257,6 +268,7 @@ export default function ProductPage({
           background: #111;
           border: 1px solid #ffeb00;
           color: #ffeb00;
+          font-family: 'Jersey 25', cursive;
         }
 
         .buyBtn:hover {
@@ -310,7 +322,7 @@ const ProductCard = ({ product }) => {
 
         <div className="actions">
           <button className="cartBtn">Add to Cart</button>
-          <button className="buyBtn">Buy Now</button>
+          <button className="buyBtn">BUY NOW</button>
         </div>
       </div>
     </div>
