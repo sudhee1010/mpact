@@ -345,7 +345,9 @@ export default function Products() {
               </div>
 
               <div className="see-more">
+                <Link to="/seeMore">
                 <button>SEE MORE →</button>
+                </Link>
               </div>
             </div>
           ))}
