@@ -41,10 +41,52 @@ export default function ProductPage({
 
   return (
     <>
+    {/* ================= TOP SECTION ================= */}
+      <div className="topSection">
+        <h1 className="topTitle">FIND OUR PRODUCTS</h1>
+
+        <div className="topControls">
+          <div className="left">
+            <h2>ALL PRODUCTS</h2>
+            <p>Showing {data.length} of {data.length} products</p>
+
+            <div className="actionsRow">
+              <button className="filterBtn">
+                <FilterIcon />
+                Filters
+              </button>
+
+              <select className="sort">
+                <option>Featured</option>
+                <option>Price: Low to High</option>
+                <option>Price: High to Low</option>
+              </select>
+
+              <span className="count">{data.length} products</span>
+            </div>
+          </div>
+
+          <div className="right">
+            <div className="searchBox">
+              <SearchIcon />
+              <input placeholder="Search products..." />
+            </div>
+
+            <div className="viewToggle">
+              <button className="active">
+                <GridIcon />
+              </button>
+              <button>
+                <ListIcon />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="page">
-        <header className="header">
+        {/* <header className="header">
           <h1>All Products</h1>
-        </header>
+        </header> */}
 
         <div className="products">
           {data.map((p) => (
@@ -55,9 +97,158 @@ export default function ProductPage({
 
       {/* ================= INTERNAL CSS ================= */}
       <style jsx>{`
+
+/* ================= TOP SECTION ================= */
+
+.topSection {
+  width: 100%;
+  background: rgba(24, 23, 23, 1);
+  padding: 40px 60px 30px;
+  color: #fff;
+}
+
+/* CENTER TITLE */
+.topTitle {
+  font-family: 'Jersey 25', cursive;
+  font-size: clamp(36px, 6vw, 72px);
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+/* CONTROLS WRAPPER */
+.topControls {
+  max-width: 1380px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+/* LEFT SIDE */
+.topControls .left h2 {
+  font-family: 'Jersey 25', cursive;
+  color: #ffeb00;
+  font-size: 28px;
+  margin-bottom: 6px;
+}
+
+.topControls .left p {
+  font-size: 14px;
+  color: #9fb3c8;
+  margin-bottom: 14px;
+}
+
+/* ACTION ROW */
+.actionsRow {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.filterBtn {
+  background: #ffeb00;
+  color: #000;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-family: 'Jersey 25', cursive;
+}
+
+.sort {
+  background: transparent;
+  border: 2px solid #ffeb00;
+  color: #fff;
+  padding: 10px 16px;
+  border-radius: 6px;
+  font-family: 'Jersey 25', cursive;
+}
+
+.count {
+  font-size: 15px;
+  color: #fff;
+}
+
+/* RIGHT SIDE */
+.topControls .right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* SEARCH */
+.searchBox {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 2px solid #ffeb00;
+  padding: 10px 14px;
+  border-radius: 6px;
+  min-width: 260px;
+}
+
+.searchBox input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  width: 100%;
+}
+
+/* VIEW TOGGLE */
+.viewToggle {
+  display: flex;
+  border: 2px solid #ffeb00;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.viewToggle button {
+  background: transparent;
+  border: none;
+  padding: 10px 12px;
+  cursor: pointer;
+}
+
+.viewToggle button.active {
+  background: #ffeb00;
+}
+
+.viewToggle svg {
+  stroke: #fff;
+}
+
+.viewToggle button.active svg {
+  stroke: #000;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .topSection {
+    padding: 30px 20px;
+  }
+
+  .topControls {
+    align-items: flex-start;
+  }
+
+  .searchBox {
+    min-width: 200px;
+  }
+}
+
+
         body {
           margin: 0;
-          background: #0d0d0d;
+          background: rgba(24, 23, 23, 1);
           font-family: Inter, system-ui, sans-serif;
         }
 
@@ -499,5 +690,41 @@ const MOCK_PRODUCTS = [
 const HeartIcon = () => (
   <svg viewBox="0 0 24 24">
     <path d="M12 21s-6.7-4.4-9.3-7.6C-1.1 8.5 2.3 3 7.3 5.1 9 6 10.2 7.4 12 9c1.8-1.6 3-3 4.7-3.9 5-2.1 8.4 3.4 4.6 8.3C18.7 16.6 12 21 12 21z" />
+  </svg>
+);
+/* ================= ICONS ================= */
+
+const FilterIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <line x1="4" y1="6" x2="20" y2="6" />
+    <line x1="7" y1="12" x2="17" y2="12" />
+    <line x1="10" y1="18" x2="14" y2="18" />
+  </svg>
+);
+
+const SearchIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9fb3c8" strokeWidth="2">
+    <circle cx="11" cy="11" r="7" />
+    <line x1="21" y1="21" x2="16.65" y2="16.65" />
+  </svg>
+);
+
+const GridIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="2">
+    <rect x="3" y="3" width="7" height="7" />
+    <rect x="14" y="3" width="7" height="7" />
+    <rect x="3" y="14" width="7" height="7" />
+    <rect x="14" y="14" width="7" height="7" />
+  </svg>
+);
+
+const ListIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" strokeWidth="2">
+    <line x1="8" y1="6" x2="21" y2="6" />
+    <line x1="8" y1="12" x2="21" y2="12" />
+    <line x1="8" y1="18" x2="21" y2="18" />
+    <circle cx="4" cy="6" r="1" />
+    <circle cx="4" cy="12" r="1" />
+    <circle cx="4" cy="18" r="1" />
   </svg>
 );
