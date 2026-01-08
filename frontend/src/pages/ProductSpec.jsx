@@ -44,7 +44,7 @@ const ProductPage = () => {
               }}
             >
               <img
-                src="/images/chocolate.webp"
+                src="/images/img1.jpg"
                 alt="product"
                 style={{
                   width: "100%",
