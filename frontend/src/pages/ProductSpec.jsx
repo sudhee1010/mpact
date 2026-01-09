@@ -1,23 +1,46 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
+
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
   const [showReviewPopup, setShowReviewPopup] = useState(false);
 
-  const qtyBtn = {
-    background: "transparent",
-    color: "#fff",
-    border: "none",
-    padding: "10px 14px",
-    cursor: "pointer",
-    fontSize: 18,
-  };
+  // ✅ IMAGES ARRAY
+  const images = [
+    "/images/stawberry.png",
+    "/images/grapes.png",
+    "/images/pista.png",
+    "/images/mango.png",
+  ];
+
+  // ✅ ACTIVE IMAGE STATE
+  const [activeImage, setActiveImage] = useState(images[0]);
 
   return (
     <>
+      {/* FONT + THUMB STYLES */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+
+        .thumb-box {
+          border: 2px solid transparent;
+          border-radius: 10px;
+          overflow: hidden;
+          background: #2b2b2b;
+          cursor: pointer;
+          transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .thumb-box:hover {
+          border-color: #ffe600;
+          transform: scale(1.05);
+         
+        }
+
+        .thumb-box.active {
+          border-color: #ffe600;
+        }
       `}</style>
 
       <div style={{ background: "#2f2f2f", color: "#fff" }}>
@@ -26,9 +49,10 @@ const ProductPage = () => {
           style={{
             maxWidth: 1400,
             margin: "0 auto",
+            marginLeft: "100px",
             padding: "60px 40px",
             display: "grid",
-            gridTemplateColumns: "520px 1fr",
+            gridTemplateColumns: "1fr 1fr",
             gap: 60,
           }}
         >
@@ -37,19 +61,20 @@ const ProductPage = () => {
             <div
               style={{
                 border: "2px solid #ffe600",
-                borderRadius: 18,
+                borderRadius: 13,
                 overflow: "hidden",
-                weight: "50px",
-                background: "#ffffffff",
+                background: "#fff",
+                width: "95%",
+                height: 560,
+                marginLeft: "45px",
               }}
             >
               <img
-                src="/images/img1.jpg"
+                src={activeImage}
                 alt="product"
                 style={{
-                  width: "100%",
-                  height: 560,
-                  weight: "full",
+                  width: "90%",
+                  height: 570,
                   objectFit: "cover",
                 }}
               />
@@ -62,24 +87,27 @@ const ProductPage = () => {
                 display: "grid",
                 gridTemplateColumns: "repeat(4, 1fr)",
                 gap: 12,
+                 marginLeft: "47px",
+                 width: "95%",
+
               }}
             >
-              {[1, 2, 3, 4].map((i) => (
+              {images.map((src, i) => (
                 <div
                   key={i}
-                  style={{
-                    border: "2px solid #ffe600",
-                    borderRadius: 10,
-                    overflow: "hidden",
-                  }}
+                  className={`thumb-box ${
+                    activeImage === src ? "active" : ""
+                  }`}
+                  onClick={() => setActiveImage(src)}
                 >
                   <img
-                    src="/images/chocolate.webp"
-                    alt="thumb"
+                    src={src}
+                    alt={`thumb-${i}`}
                     style={{
                       width: "100%",
-                      height: 110,
+                      height: 130,
                       objectFit: "cover",
+                      display: "block",
                     }}
                   />
                 </div>
@@ -87,14 +115,16 @@ const ProductPage = () => {
             </div>
           </div>
 
-          {/* RIGHT DETAILS */}
-          <div>
+          {/* ================= RIGHT DETAILS ================= */}
+          <div style={{ maxWidth: 520 }}>
             <h1
               style={{
                 fontFamily: "'Jersey 25', sans-serif",
-                fontSize: 42,
+                fontSize: 44,
                 letterSpacing: 2,
-                marginBottom: 18,
+                lineHeight: "1.1",
+                marginBottom: 16,
+                textTransform: "uppercase",
               }}
             >
               PROTEIN WAFERS – VARIETY
@@ -103,7 +133,7 @@ const ProductPage = () => {
             </h1>
 
             {/* RATING */}
-            <div style={{ display: "flex", alignItems: "center", gap: 10 }}>
+            <div style={{ display: "flex", gap: 10, marginBottom: 26 }}>
               <div style={{ color: "#ffc107", fontSize: 18 }}>★★★★★</div>
               <span style={{ color: "#ccc", fontSize: 14 }}>
                 | 198 Reviews
@@ -111,24 +141,26 @@ const ProductPage = () => {
             </div>
 
             {/* PRICE */}
-            <div style={{ marginTop: 28, marginBottom: 24 }}>
-              <span style={{ fontSize: 34, fontWeight: 800 }}>RS : 2000</span>
+            <div
+              style={{
+                display: "flex",
+                gap: 14,
+                alignItems: "baseline",
+                marginBottom: 30,
+              }}
+            >
+              <span style={{ fontSize: 36, fontWeight: 800 }}>
+                RS : 2000
+              </span>
               <span
                 style={{
-                  marginLeft: 14,
                   color: "#777",
                   textDecoration: "line-through",
                 }}
               >
                 RS : 2999
               </span>
-              <span
-                style={{
-                  marginLeft: 12,
-                  color: "#00ff66",
-                  fontWeight: 700,
-                }}
-              >
+              <span style={{ color: "#00ff66", fontWeight: 700 }}>
                 25% OFF
               </span>
             </div>
@@ -139,7 +171,7 @@ const ProductPage = () => {
                 display: "grid",
                 gridTemplateColumns: "repeat(3, max-content)",
                 gap: 14,
-                marginBottom: 30,
+                marginBottom: 34,
               }}
             >
               {[
@@ -158,132 +190,215 @@ const ProductPage = () => {
                     borderRadius: 6,
                     fontSize: 12,
                     fontWeight: 600,
+                    whiteSpace: "nowrap",
                   }}
                 >
                   {tag}
                 </span>
               ))}
             </div>
-
-            {/* QTY */}
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 18,
-                marginBottom: 30,
-              }}
-            >
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  border: "2px solid #ffe600",
-                  borderRadius: 10,
-                  padding: "10px 14px",
-                  gap: 20,
-                }}
-              >
-                <button
-                  onClick={() => setQty(Math.max(1, qty - 1))}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "#fff",
-                    fontSize: 20,
-                    cursor: "pointer",
-                  }}
-                >
-                  −
-                </button>
-
-                <span style={{ fontSize: 18 }}>{qty}</span>
-
-                <button
-                  onClick={() => setQty(qty + 1)}
-                  style={{
-                    background: "transparent",
-                    border: "none",
-                    color: "#fff",
-                    fontSize: 20,
-                    cursor: "pointer",
-                  }}
-                >
-                  +
-                </button>
-              </div>
-            </div>
-
-            {/* BUY BUTTON */}
-            <div style={{ display: "flex", gap: 16 }}>
-              <Link to="/checkout" style={{ flex: 1 }}>
-                <button
-                  style={{
-                    width: "100%",
-                    background: "#ffeb00",
-                    color: "#000",
-                    padding: "18px",
-                    fontSize: 18,
-                    fontWeight: 800,
-                    borderRadius: 12,
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  BUY NOW
-                </button>
-              </Link>
-
-              <button
-                style={{
-                  width: 64,
-                  background: "#ffeb00",
-                  border: "none",
-                  borderRadius: 12,
-                  cursor: "pointer",
-                }}
-              >
-                👜
-              </button>
-            </div>
-          </div>
-        </section>
-
-       
-
-        {/* ================= RECOMMENDED PRODUCTS ================= */}
-      <section style={{ padding: "40px 0" }}>
-  <h2
+{/* QUANTITY */}
+<div style={{ marginBottom: 34 }}>
+  {/* LABEL ON TOP */}
+  <div
     style={{
-      maxWidth: 1200,
-      margin: "0 auto 24px",
-      fontWeight: 700,
+      fontSize: 14,
+      marginBottom: 10,
+      color: "#fff",
     }}
   >
-    Recommended products
-  </h2>
+    Quantity
+  </div>
 
+  {/* QUANTITY BOX */}
+<div
+  style={{
+    display: "flex",
+    alignItems: "center",
+    border: "2px solid #ffe600",
+    borderRadius: 12,
+    overflow: "hidden",
+    height: 52,
+    background: "#2f2f2f",
+    width: "fit-content",
+  }}
+>
+  {/* MINUS */}
+  <button
+    onClick={() => setQty(Math.max(1, qty - 1))}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#ffe600";
+      e.currentTarget.style.color = "#000";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "transparent";
+      e.currentTarget.style.color = "#fff";
+    }}
+    style={{
+      width: 56,
+      height: "100%",
+      background: "transparent",
+      border: "none",
+      color: "#fff",
+      fontSize: 22,
+      cursor: "pointer",
+      borderRight: "1px solid #ffe600",
+      transition: "all 0.25s ease",
+    }}
+  >
+    −
+  </button>
+
+  {/* VALUE */}
+  <div
+    style={{
+      width: 56,
+      height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 18,
+      fontWeight: 700,
+      color: "#fff",
+      borderRight: "1px solid #ffe600",
+    }}
+  >
+    {qty}
+  </div>
+
+  {/* PLUS */}
+  <button
+    onClick={() => setQty(qty + 1)}
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#ffe600";
+      e.currentTarget.style.color = "#000";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "transparent";
+      e.currentTarget.style.color = "#fff";
+    }}
+    style={{
+      width: 56,
+      height: "100%",
+      background: "transparent",
+      border: "none",
+      color: "#fff",
+      fontSize: 22,
+      cursor: "pointer",
+      transition: "all 0.25s ease",
+    }}
+  >
+    +
+  </button>
+</div>
+</div>
+
+ {/* ACTION BUTTONS */}
+{/* ACTION BUTTONS */}
+<div style={{ display: "flex", gap: 16 }}>
+  {/* ADD TO CART */}
+  <Link
+    to="/cart"
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#ffeb00";
+      e.currentTarget.style.color = "#000";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "#2f2f2f";
+      e.currentTarget.style.color = "#fff";
+    }}
+    style={{
+      flex: 1,
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      gap: 10,
+      background: "#2f2f2f",
+      color: "#fff",
+      padding: "18px 20px",
+      fontSize: 23,
+      fontWeight: 900,
+      borderRadius: 14,
+      border: "2px solid #ffeb00",
+      cursor: "pointer",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+      transition: "all 0.25s ease",
+      fontFamily: "'Jersey 25', sans-serif",
+      textDecoration: "none",
+    }}
+  >
+    <img src="/icons/bag.png" alt="cart" style={{ width: 30 }} />
+    ADD TO CART
+  </Link>
+
+  {/* BUY NOW */}
+  <button
+    style={{
+      flex: 1,
+      background: "#ffeb00",
+      color: "#000",
+      fontFamily: "'Jersey 25', sans-serif",
+      padding: "18px 20px",
+      fontSize: 23,
+      fontWeight: 900,
+      borderRadius: 14,
+      border: "none",
+      cursor: "pointer",
+      textTransform: "uppercase",
+      letterSpacing: 1,
+    }}
+  >
+    BUY NOW
+  </button>
+</div>
+
+
+  
+</div>
+          </section>
+
+        {/* ================= RECOMMENDED PRODUCTS ================= */}
+
+<section style={{ padding: "40px 0" }}>
+    <h2
+      style={{
+        marginBottom: 24,
+        fontWeight: 700,
+        textAlign: "left",
+        marginLeft: 204,
+      }}
+    >
+      Recommended products
+    </h2>
   <div
     style={{
       display: "flex",
-      gap: 28,                // EXACT GAP
+      gap: 18,
       padding: "0 40px",
-      overflowX: "hidden",    // no scroll like screenshot
-      justifyContent: "flex-start",
+      justifyContent: "center", // ✅ CENTER ALL DIVS
+      alignItems: "center",     // ✅ ALIGN DIFFERENT SIZES
     }}
   >
-    {[1, 2, 3, 4, 5].map((i) => (
+    {[212, 212, 212, 212, 212].map((size, i) => (
       <div
         key={i}
         style={{
-          width: 260,          // EXACT WIDTH
-          height: 260,         // EXACT HEIGHT
-          borderRadius: 14,    // EXACT ROUNDING
+          width: size,
+          height: size,
+          borderRadius: 8,
           border: "2px solid #ffe600",
-          overflow: "hidden",  // image clipped to border
+          overflow: "hidden",
           background: "#2b2b2b",
           flexShrink: 0,
+          transition: "transform 0.35s ease", // ✅ SMOOTH ZOOM
         }}
+        onMouseEnter={(e) =>
+          (e.currentTarget.style.transform = "scale(1.08)")
+        }
+        onMouseLeave={(e) =>
+          (e.currentTarget.style.transform = "scale(1)")
+        }
       >
         <img
           src="/images/chocolate.webp"
@@ -291,7 +406,8 @@ const ProductPage = () => {
           style={{
             width: "100%",
             height: "100%",
-            objectFit: "cover",   // IMPORTANT for poster look
+            objectFit: "cover",
+            transition: "transform 0.35s ease",
           }}
         />
       </div>
@@ -299,62 +415,91 @@ const ProductPage = () => {
   </div>
 </section>
 
+
             
 
         {/* REVIEWS */}
-        <section
+  <section
+  style={{
+    maxWidth: 1200,
+    margin: "0 auto",
+    padding: 40,
+    color: "#fff",
+  }}
+>
+  {/* ================= REVIEWS ================= */}
+  <section style={{ maxWidth: 1200, margin: "0 auto", padding: 40 }}>
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        marginBottom: 32,
+        fontFamily: "'Jersey 25', sans-serif",
+        fontSize: 24, 
+     
+      }}
+    >
+      <div>
+        <h2>Customer Reviews</h2>
+        
+        <div style={{ color: "#ffe600" }}></div>
+      </div>
+
+      <div style={{ display: "flex", gap: 12 }}>
+        {/* WRITE A REVIEW */}
+        <button
+          onClick={() => setShowReviewPopup(true)}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.06)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+          }}
           style={{
-            maxWidth: 1200,
-            margin: "0 auto",
-            padding: 40,
-            color: "#fff",
+            background: "#ffe600",
+            padding: "10px 18px",
+            fontWeight: "bold",
+            borderRadius: 6,
+            border: "none",
+            
+            cursor: "pointer",
+            transition: "transform 0.2s ease",
+            fontFamily: "'Jersey 25', sans-serif",
+            fontSize: 19,
+            
           }}
         >
-          {/* Header */}
+          WRITE A REVIEW
+        </button>
 
-          {/* ================= REVIEWS ================= */}
-          <section style={{ maxWidth: 1200, margin: "0 auto", padding: 40 }}>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-between",
-                marginBottom: 32,
-              }}
-            >
-              <div>
-                <h2>REVIEWS (111)</h2>
-                <div style={{ color: "#ffe600" }}>★★★★★</div>
-              </div>
+        {/* TOP RATED */}
+        <button
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = "scale(1.06)";
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = "scale(1)";
+          }}
+          style={{
+            background: "transparent",
+            border: "1px solid #ffe600",
+            color: "#ffffffff",
+            padding: "10px 18px",
+            borderRadius: 6,
+            cursor: "pointer",
+            transition: "transform 0.2s ease",
+            fontFamily: "'Jersey 25', sans-serif",
+            fontSize: 20,
+            
+          }}
+        >
+          TOP RATED
+        </button>
+      </div>
+    </div>
+  </section>
 
-              <div style={{ display: "flex", gap: 12 }}>
-                <button
-                  onClick={() => setShowReviewPopup(true)}
-                  style={{
-                    background: "#ffe600",
-                    padding: "10px 18px",
-                    fontWeight: "bold",
-                    borderRadius: 6,
-                    border: "none",
-                    cursor: "pointer",
-                  }}
-                >
-                  WRITE A REVIEW
-                </button>
 
-                <button
-                  style={{
-                    background: "transparent",
-                    border: "1px solid #ffe600",
-                    color: "#ffe600",
-                    padding: "10px 18px",
-                    borderRadius: 6,
-                  }}
-                >
-                  TOP RATED
-                </button>
-              </div>
-            </div>
-          </section>
 
           {/* ================= REVIEW POPUP ================= */}
           {showReviewPopup && (
@@ -616,186 +761,154 @@ const ProductPage = () => {
           </div>
 
         </section>
+<section style={{ padding: "64px 0", background: "#2f2f2f" }}>
+  {/* HOVER + ZOOM (CARD ONLY) */}
+  <style>{`
+    .range-card {
+      transition: transform 0.35s ease, box-shadow 0.35s ease;
+      will-change: transform;
+    }
+
+    .range-card:hover {
+      transform: scale(1.05);
+      box-shadow: 0 18px 36px rgba(0,0,0,0.45);
+    }
+  `}</style>
+
+  {/* TITLE */}
+<h1
+  style={{
+    fontFamily: "'Jersey 25', sans-serif",
+    fontSize: 56,
+    fontWeight: 900,
+    textTransform: "uppercase",
+    color: "#ffe600",
+
+    maxWidth: 2100,          // 🔥 controls text length
+    margin: "0 auto 56px",  // 🔥 centers between cards
+    textAlign: "center",
+
+    letterSpacing: "1px",   // 🔥 more horizontal stretch
+    lineHeight: "1.00",     // 🔥 matches Figma feel
+  }}
+>
+  Explore Our Range
+</h1>
 
 
-        <section style={{ padding: "60px 0", background: "#1c1c1c" }}>
-          <h1
+  {/* PRODUCT GRID */}
+  <div
+    style={{
+      maxWidth: 1230,
+      margin: "0 auto",
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: 28,
+      padding: "0 32px",
+    }}
+  >
+    {[1, 2, 3, 4].map((i) => (
+      <div
+        key={i}
+        className="range-card"
+        style={{
+          background: "#3a3a3a",
+          border: "2px solid #ffe600",
+          borderRadius: 14,
+          overflow: "hidden",
+          display: "flex",
+          flexDirection: "column",
+          height: 500,
+        }}
+      >
+        {/* IMAGE */}
+        <div style={{ height: 330, overflow: "hidden" }}>
+          <img
+            src="/images/chocolate.webp"
+            alt="Protein Wafer"
             style={{
-              fontFamily: "'Khand', sans-serif", // closest match to Figma
-              fontSize: "90px",
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+            }}
+          />
+        </div>
+
+        {/* CONTENT */}
+        <div style={{ padding: "18px 18px 16px" }}>
+          <div
+            style={{
               fontWeight: 900,
-              textAlign: "center",
+              fontSize: 12,
+              letterSpacing: "0.6px",
+              marginBottom: 6,
               textTransform: "uppercase",
-              color: "transparent",
-              WebkitTextStroke: "2px #ffe600",
-              textStroke: "4px #ffe600", // fallback
-              lineHeight: "400px",
-              letterSpacing: "1px",
-              margin: 0,
+              color: "#fff",
+              lineHeight: "16px",
             }}
           >
-            Explore Our Range
-          </h1>
-
-
-
-          {/* PRODUCT GRID WRAPPER */}
-          <div style={{ position: "relative", paddingBottom: 40 }}>
-            {/* PRODUCT GRID */}
-            <div
-              style={{
-                maxWidth: 1500,
-                margin: "0 auto",
-                display: "grid",
-                gridTemplateColumns: "repeat(4, 1fr)",
-                gap: 30,
-                padding: "0 30px",
-              }}
-            >
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  style={{
-                    background: "#3a3a3a",
-                    border: "2px solid #ffe600",
-                    padding: 16,
-                    borderRadius: 6,
-                    textAlign: "center",
-                  }}
-                >
-                  {/* IMAGE BOX */}
-                  <div
-                    style={{
-                      borderRadius: 6,
-                      marginBottom: 12,
-                    }}
-                  >
-                    <img
-                      src="/images/chocolate.webp"
-                      alt="Protein Bar"
-                      style={{
-                        width: "100%",
-                        height: 220,
-                        objectFit: "contain",
-                      }}
-                    />
-                  </div>
-
-                  {/* PRODUCT NAME */}
-                  <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
-                    Protein Pow
-                  </p>
-
-                  {/* TAGS */}
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "center",
-                      flexWrap: "wrap",
-                      gap: 6,
-                      marginBottom: 10,
-                    }}
-                  >
-                    {[
-                      "No Preservatives",
-                      "Jaggery Based",
-                      "No Glucose Added",
-                      "80% Peanut",
-                      "No Added Colours",
-                    ].map((tag, idx) => (
-                      <span
-                        key={idx}
-                        style={{
-                          border: "1px solid #ffe600",
-                          color: "#fff",
-                          fontSize: 11,
-                          padding: "4px 8px",
-                          borderRadius: 4,
-                        }}
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* RATING */}
-                  <div style={{ color: "#ffe600", marginBottom: 4 }}>★★★★★</div>
-
-                  {/* REVIEWS */}
-                  <div style={{ color: "#ccc", fontSize: 12, marginBottom: 8 }}>
-                    ⭐ 120 Reviews
-                  </div>
-
-                  {/* PRICE */}
-                  <div style={{ marginBottom: 6 }}>
-                    <span
-                      style={{
-                        color: "#999",
-                        textDecoration: "line-through",
-                        marginRight: 6,
-                      }}
-                    >
-                      ₹240
-                    </span>
-                    <span style={{ color: "#00ff66", fontSize: 13 }}>25% OFF</span>
-                  </div>
-
-                  <div
-                    style={{
-                      color: "#fff",
-                      fontSize: 18,
-                      fontWeight: "bold",
-                      marginBottom: 12,
-                    }}
-                  >
-                    RS : 180
-                  </div>
-                  <Link to="/checkout" style={{ flex: 1 }}>
-                    <button
-                      style={{
-                        width: "100%",
-                        background: "#ffe600",
-                        color: "#000",
-                        border: "none",
-                        padding: "12px 0",
-                        fontWeight: 700,
-                        cursor: "pointer",
-                        borderRadius: 4,
-                      }}
-                    >
-                      Buy Now
-                    </button>
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* SEE MORE BUTTON */}
-            <div
-              style={{
-                maxWidth: 1500,
-                margin: "20px auto 0",
-                padding: "0 30px",
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              <button
-                style={{
-                  background: "#ffe600",
-                  color: "#000",
-                  border: "none",
-                  padding: "10px 20px",
-                  fontWeight: 700,
-                  cursor: "pointer",
-                  borderRadius: 4,
-                }}
-              >
-                SEE MORE →
-              </button>
-            </div>
+            PROTEIN WAFERS – VARIETY PACK OF 10
           </div>
-        </section>
+
+          <div
+            style={{
+              fontSize: 12,
+              marginBottom: 10,
+              opacity: 0.85,
+              color: "#fff",
+            }}
+          >
+            10
+          </div>
+
+          {/* PRICE */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 10,
+              marginBottom: 14,
+              color: "#fff",
+            }}
+          >
+            <span style={{ fontWeight: 800, fontSize: 14 }}>
+              RS : 2000
+            </span>
+            <span
+              style={{
+                textDecoration: "line-through",
+                color: "#9a9a9a",
+                fontSize: 13,
+              }}
+            >
+              RS : 2999
+            </span>
+          </div>
+
+          {/* BUTTON */}
+          <Link to="/checkout">
+            <button
+              style={{
+                width: "100%",
+                height: 42,
+                background: "#ffe600",
+                color: "#000",
+                border: "none",
+                fontWeight: 900,
+                cursor: "pointer",
+                borderRadius: 8,
+                fontSize: 14,
+                letterSpacing: "0.5px",
+              }}
+            >
+              BUY NOW
+            </button>
+          </Link>
+        </div>
+      </div>
+    ))}
+  </div>
+</section>
 
 
         <Footer />
