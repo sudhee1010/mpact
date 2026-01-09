@@ -3,6 +3,7 @@ import { ShoppingCart, User, Search, ChevronLeft, ChevronRight, Play, Menu, X } 
 import MotivationalSection from "./MotivationalSection";
 import VideoShowcaseSection from "./VideoShowcaseSection";
 import FeaturesSection from "./FeaturesSection";
+import proteinGym from "../assets/rrs/protein-gym.jpg";
 
 const MPACTLandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -44,79 +45,96 @@ const MPACTLandingPage = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const heroSlides = [
-    {
-      id: 1,
-      image: "./src/assets/rrs/protein-gym.jpg"
-    },
-    {
-      id: 2,
-      image: "./src/assets/rrs/protein-gym.jpg"
-    },
-    {
-      id: 3,
-      image: "./src/assets/rrs/protein-gym.jpg"
-    }
-  ];
+ const heroSlides = [
+  { id: 1, image: proteinGym },
+  { id: 2, image: proteinGym },
+  { id: 3, image: proteinGym },
+];
+
 
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   
-  const [products, setProducts] = useState([
-    {
-      id: 1,
-      title: "EXTRA HUNGRY?",
-      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-      brand: "SNICKERS",
-      price: 2000,
-      oldPrice: 2999,
-      discount: "26% OFF",
-      image: "./src/assets/rrs/protein-gym.jpg",
-      rating: 5,
-      reviews: 199,
-      specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS", "NO GLUCOSE ADDED", "80 % PEANUT", "NO ADDED COLOURS"]
-    },
-    {
-      id: 2,
-      title: "EXTRA HUNGRY?",
-      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-      brand: "SNICKERS",
-      price: 2000,
-      oldPrice: 2999,
-      discount: "26% OFF",
-      image: "./src/assets/rrs/protein-gym.jpg",
-      rating: 5,
-      reviews: 199,
-      specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS", "NO GLUCOSE ADDED", "80 % PEANUT", "NO ADDED COLOURS"]
-    },
-    {
-      id: 3,
-      title: "EXTRA HUNGRY?",
-      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-      brand: "SNICKERS",
-      price: 2000,
-      oldPrice: 2999,
-      discount: "26% OFF",
-      image: "./src/assets/rrs/protein-gym.jpg",
-      rating: 5,
-      reviews: 199,
-      specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS", "NO GLUCOSE ADDED", "80 % PEANUT", "NO ADDED COLOURS"]
-    },
-    {
-      id: 4,
-      title: "EXTRA HUNGRY?",
-      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-      brand: "SNICKERS",
-      price: 2000,
-      oldPrice: 2999,
-      discount: "26% OFF",
-      image: "./src/assets/rrs/protein-gym.jpg",
-      rating: 5,
-      reviews: 199,
-      specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS", "NO GLUCOSE ADDED", "80 % PEANUT", "NO ADDED COLOURS"]
-    }
-  ]);
+  const [products] = useState([
+  {
+    id: 1,
+    title: "EXTRA HUNGRY?",
+    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+    brand: "SNICKERS",
+    price: 2000,
+    oldPrice: 2999,
+    discount: "26% OFF",
+    image: proteinGym,   // ✅ FIXED
+    rating: 5,
+    reviews: 199,
+    specs: [
+      "NO PRESERVATIVES",
+      "JAGGERY BASED",
+      "NO ADDED COLOURS",
+      "NO GLUCOSE ADDED",
+      "80 % PEANUT",
+    ],
+  },
+  {
+    id: 2,
+    title: "EXTRA HUNGRY?",
+    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+    brand: "SNICKERS",
+    price: 2000,
+    oldPrice: 2999,
+    discount: "26% OFF",
+    image: proteinGym,   // ✅ FIXED
+    rating: 5,
+    reviews: 199,
+    specs: [
+      "NO PRESERVATIVES",
+      "JAGGERY BASED",
+      "NO ADDED COLOURS",
+      "NO GLUCOSE ADDED",
+      "80 % PEANUT",
+    ],
+  },
+  {
+    id: 3,
+    title: "EXTRA HUNGRY?",
+    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+    brand: "SNICKERS",
+    price: 2000,
+    oldPrice: 2999,
+    discount: "26% OFF",
+    image: proteinGym,   // ✅ FIXED
+    rating: 5,
+    reviews: 199,
+    specs: [
+      "NO PRESERVATIVES",
+      "JAGGERY BASED",
+      "NO ADDED COLOURS",
+      "NO GLUCOSE ADDED",
+      "80 % PEANUT",
+    ],
+  },
+  {
+    id: 4,
+    title: "EXTRA HUNGRY?",
+    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+    brand: "SNICKERS",
+    price: 2000,
+    oldPrice: 2999,
+    discount: "26% OFF",
+    image: proteinGym,   // ✅ FIXED
+    rating: 5,
+    reviews: 199,
+    specs: [
+      "NO PRESERVATIVES",
+      "JAGGERY BASED",
+      "NO ADDED COLOURS",
+      "NO GLUCOSE ADDED",
+      "80 % PEANUT",
+    ],
+  },
+]);
+
 
   const handlePrevSlide = () => {
     setCurrentSlide(prev => (prev === 0 ? heroSlides.length - 1 : prev - 1));
