@@ -4,6 +4,9 @@ import MotivationalSection from "./MotivationalSection";
 import VideoShowcaseSection from "./VideoShowcaseSection";
 import FeaturesSection from "./FeaturesSection";
 import proteinGym from "../assets/rrs/protein-gym.jpg";
+import { Instagram, Youtube } from "lucide-react";
+import { SiTiktok } from "react-icons/si";
+
 
 const MPACTLandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -16,23 +19,23 @@ const MPACTLandingPage = () => {
   const productsRef = useRef(null);
   const aboutRef = useRef(null);
   const blogRef = useRef(null);
-  
+
   useEffect(() => {
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=Jersey+25&display=swap';
     link.rel = 'stylesheet';
     document.head.appendChild(link);
-    
+
     return () => {
       document.head.removeChild(link);
     };
   }, []);
-  
+
   useEffect(() => {
     const handleScroll = () => {
       setScrollY(window.scrollY);
     };
-    
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -41,99 +44,99 @@ const MPACTLandingPage = () => {
     const interval = setInterval(() => {
       setCurrentSlide(prev => (prev === heroSlides.length - 1 ? 0 : prev + 1));
     }, 5000);
-    
+
     return () => clearInterval(interval);
   }, []);
 
- const heroSlides = [
-  { id: 1, image: proteinGym },
-  { id: 2, image: proteinGym },
-  { id: 3, image: proteinGym },
-];
+  const heroSlides = [
+    { id: 1, image: proteinGym },
+    { id: 2, image: proteinGym },
+    { id: 3, image: proteinGym },
+  ];
 
 
   const scrollToSection = (ref) => {
     ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
-  
+
   const [products] = useState([
-  {
-    id: 1,
-    title: "EXTRA HUNGRY?",
-    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-    brand: "SNICKERS",
-    price: 2000,
-    oldPrice: 2999,
-    discount: "26% OFF",
-    image: proteinGym,   // ✅ FIXED
-    rating: 5,
-    reviews: 199,
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80 % PEANUT",
-    ],
-  },
-  {
-    id: 2,
-    title: "EXTRA HUNGRY?",
-    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-    brand: "SNICKERS",
-    price: 2000,
-    oldPrice: 2999,
-    discount: "26% OFF",
-    image: proteinGym,   // ✅ FIXED
-    rating: 5,
-    reviews: 199,
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80 % PEANUT",
-    ],
-  },
-  {
-    id: 3,
-    title: "EXTRA HUNGRY?",
-    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-    brand: "SNICKERS",
-    price: 2000,
-    oldPrice: 2999,
-    discount: "26% OFF",
-    image: proteinGym,   // ✅ FIXED
-    rating: 5,
-    reviews: 199,
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80 % PEANUT",
-    ],
-  },
-  {
-    id: 4,
-    title: "EXTRA HUNGRY?",
-    name: "PROTEIN WAFERS - VARIETY PACK OF 10",
-    brand: "SNICKERS",
-    price: 2000,
-    oldPrice: 2999,
-    discount: "26% OFF",
-    image: proteinGym,   // ✅ FIXED
-    rating: 5,
-    reviews: 199,
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80 % PEANUT",
-    ],
-  },
-]);
+    {
+      id: 1,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 2,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 3,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 4,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+  ]);
 
 
   const handlePrevSlide = () => {
@@ -153,10 +156,10 @@ const MPACTLandingPage = () => {
   const motivationalParallax = Math.max(0, (scrollY - 1200) * 0.4);
 
   return (
-    <div style={{ 
-      minHeight: '100vh', 
-      backgroundColor: '#171717', 
-      color: 'white', 
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#171717',
+      color: 'white',
       overflowX: 'hidden',
       fontFamily: "'Jersey 25', sans-serif"
     }}>
@@ -172,111 +175,111 @@ const MPACTLandingPage = () => {
         color: 'black',
         transition: 'all 0.3s'
       }}>
-        <div style={{ 
-          maxWidth: '1280px', 
-          margin: '0 auto', 
-          padding: '1rem', 
-          display: 'flex', 
-          alignItems: 'center', 
-          justifyContent: 'space-between' 
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
         }}>
-          <div style={{ 
-            fontSize: '1.875rem', 
-            fontWeight: 'bold', 
-            cursor: 'pointer' 
+          <div style={{
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
           }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
             MPACT
           </div>
-          
+
           {/* Desktop Navigation */}
-          <nav style={{ 
-            display: 'none', 
-            gap: '2rem', 
-            fontSize: '0.875rem', 
+          <nav style={{
+            display: 'none',
+            gap: '2rem',
+            fontSize: '0.875rem',
             fontWeight: 'bold',
             '@media (min-width: 768px)': { display: 'flex' }
           }}>
-            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               textDecoration: 'none'
             }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>HOME</button>
-            <button onClick={() => scrollToSection(productsRef)} style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button onClick={() => scrollToSection(productsRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               textDecoration: 'none'
             }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>PRODUCTS</button>
-            <button onClick={() => scrollToSection(aboutRef)} style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button onClick={() => scrollToSection(aboutRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               textDecoration: 'none'
             }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>ABOUT US</button>
-            <button onClick={() => scrollToSection(blogRef)} style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button onClick={() => scrollToSection(blogRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               textDecoration: 'none'
             }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>BLOG</button>
           </nav>
-          
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <button style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               opacity: 1,
               transition: 'opacity 0.3s'
             }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
               <Search size={20} />
             </button>
-            <button style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               opacity: 1,
               transition: 'opacity 0.3s'
             }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
               <User size={20} />
             </button>
-            <button style={{ 
-              background: 'none', 
-              border: 'none', 
-              color: 'inherit', 
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
               cursor: 'pointer',
               opacity: 1,
               transition: 'opacity 0.3s'
             }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
               <ShoppingCart size={20} />
             </button>
-            
-            <button 
-              style={{ 
-                background: 'none', 
-                border: 'none', 
-                color: 'inherit', 
+
+            <button
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
                 cursor: 'pointer',
                 display: window.innerWidth >= 768 ? 'none' : 'block',
                 opacity: 1,
                 transition: 'opacity 0.3s'
               }}
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              onMouseEnter={(e) => e.target.style.opacity = '0.7'} 
+              onMouseEnter={(e) => e.target.style.opacity = '0.7'}
               onMouseLeave={(e) => e.target.style.opacity = '1'}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
         </div>
-        
+
         {/* Mobile Navigation Menu */}
         <div style={{
           display: window.innerWidth >= 768 ? 'none' : 'block',
@@ -379,18 +382,18 @@ const MPACTLandingPage = () => {
                     transform: index === currentSlide ? `translateY(${scrollY * 0.3}px)` : 'translateY(0)',
                     transition: 'transform 0.1s linear'
                   }}>
-                    <img 
-                      src={slide.image} 
-                      alt={`Slide ${index + 1}`} 
+                    <img
+                      src={slide.image}
+                      alt={`Slide ${index + 1}`}
                       style={{ width: '100%', height: '100%', objectFit: 'contain', maxWidth: '80rem', margin: '0 auto' }}
                     />
                   </div>
                 </div>
               ))}
             </div>
-            
+
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
-              <button 
+              <button
                 onClick={handlePrevSlide}
                 style={{
                   width: '3rem',
@@ -411,7 +414,7 @@ const MPACTLandingPage = () => {
               >
                 <ChevronLeft />
               </button>
-              
+
               <div style={{ display: 'flex', gap: '0.5rem' }}>
                 {heroSlides.map((_, index) => (
                   <button
@@ -429,8 +432,8 @@ const MPACTLandingPage = () => {
                   />
                 ))}
               </div>
-              
-              <button 
+
+              <button
                 onClick={handleNextSlide}
                 style={{
                   width: '3rem',
@@ -453,7 +456,7 @@ const MPACTLandingPage = () => {
               </button>
             </div>
           </div>
-          
+
           <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
             <img src="/api/placeholder/150/60" alt="Mars logo" style={{ height: '4rem', transition: 'transform 0.3s' }} />
           </div>
@@ -470,7 +473,7 @@ const MPACTLandingPage = () => {
           backgroundSize: '50px 50px',
           transform: `translateY(${productParallax}px)`
         }} />
-        
+
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem', position: 'relative', zIndex: 10 }}>
           <h2 style={{
             fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem',
@@ -484,7 +487,7 @@ const MPACTLandingPage = () => {
           }}>
             FIND OUR PRODUCTS
           </h2>
-          
+
           <div style={{
             display: 'grid',
             gridTemplateColumns: window.innerWidth >= 1024 ? 'repeat(4, 1fr)' : window.innerWidth >= 640 ? 'repeat(2, 1fr)' : '1fr',
@@ -492,8 +495,8 @@ const MPACTLandingPage = () => {
             marginBottom: '2rem'
           }}>
             {products.map((product, index) => (
-              <div 
-                key={product.id} 
+              <div
+                key={product.id}
                 style={{
                   background: 'linear-gradient(to bottom, rgba(120, 53, 15, 0.4), #262626)',
                   border: '2px solid rgba(133, 77, 14, 0.5)',
@@ -529,9 +532,9 @@ const MPACTLandingPage = () => {
                       </div>
                     )}
                   </div>
-                  
-                  <img 
-                    src={product.image} 
+
+                  <img
+                    src={product.image}
                     alt={product.name}
                     style={{
                       width: '100%',
@@ -541,13 +544,13 @@ const MPACTLandingPage = () => {
                       transition: 'transform 0.5s'
                     }}
                   />
-                  
+
                   <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '4rem', background: 'linear-gradient(to top, #78350f, transparent)' }} />
                 </div>
-                
+
                 <div style={{ padding: '0.75rem', backgroundColor: '#171717' }}>
                   <h3 style={{ fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase', color: 'white' }}>{product.name}</h3>
-                  
+
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.375rem', marginBottom: '0.5rem' }}>
                     {product.specs.map((spec, i) => (
                       <div key={i} style={{ border: '1px solid rgba(202, 138, 4, 0.5)', borderRadius: '0.25rem', padding: '0.125rem 0.375rem', fontSize: '9px', fontWeight: 'bold', textAlign: 'center', color: '#facc15' }}>
@@ -555,7 +558,7 @@ const MPACTLandingPage = () => {
                       </div>
                     ))}
                   </div>
-                  
+
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginBottom: '0.5rem' }}>
                     <div style={{ display: 'flex' }}>
                       {"★".repeat(product.rating).split('').map((star, i) => (
@@ -567,15 +570,15 @@ const MPACTLandingPage = () => {
                     </div>
                     <span style={{ fontSize: '10px', color: '#9ca3af' }}>⭐ {product.reviews} Reviews</span>
                   </div>
-                  
+
                   <div style={{ marginBottom: '0.25rem' }}>
                     <span style={{ fontSize: '10px', color: '#6b7280', textDecoration: 'line-through' }}>₹{product.oldPrice}</span>
                     <span style={{ fontSize: '10px', color: '#4ade80', marginLeft: '0.25rem' }}>{product.discount}</span>
                   </div>
-                  
+
                   <div style={{ fontSize: '1.125rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>RS : {product.price}</div>
-                  
-                  <button 
+
+                  <button
                     onClick={() => handleBuyNow(product.id)}
                     style={{
                       width: '100%',
@@ -599,7 +602,7 @@ const MPACTLandingPage = () => {
               </div>
             ))}
           </div>
-          
+
           <div style={{ textAlign: 'center' }}>
             <button style={{
               backgroundColor: hoveredButton === 'see-more' ? '#eab308' : '#facc15',
@@ -612,8 +615,8 @@ const MPACTLandingPage = () => {
               transition: 'all 0.3s',
               transform: hoveredButton === 'see-more' ? 'scale(1.05)' : 'scale(1)'
             }}
-            onMouseEnter={() => setHoveredButton('see-more')}
-            onMouseLeave={() => setHoveredButton(null)}>
+              onMouseEnter={() => setHoveredButton('see-more')}
+              onMouseLeave={() => setHoveredButton(null)}>
               SEE MORE →
             </button>
           </div>
@@ -645,17 +648,16 @@ const MPACTLandingPage = () => {
             opacity: scrollY > 2700 ? 1 : 0,
             transition: 'all 0.7s'
           }}>
-            <img 
-              src="/api/placeholder/800/300" 
-              alt="Store locator map" 
+            <img
+              src="/api/placeholder/800/300"
+              alt="Store locator map"
               style={{ width: '100%', borderRadius: '0.5rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', transition: 'box-shadow 0.3s' }}
             />
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section ref={blogRef} style={{ padding: '5rem 0', backgroundColor: 'black', overflow: 'hidden' }}>
+      {/* <section ref={blogRef} style={{ padding: '5rem 0', backgroundColor: 'black', overflow: 'hidden' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
           <h2 style={{ fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem', fontWeight: 900, color: '#facc15', marginBottom: '2rem' }}>BLOG</h2>
           <p style={{ color: '#d1d5db', fontSize: '1.125rem', maxWidth: '48rem', margin: '0 auto 3rem' }}>
@@ -677,10 +679,10 @@ const MPACTLandingPage = () => {
             #GET IT NOW
           </h2>
         </div>
-      </section>
+      </section> */}
 
       {/* Footer */}
-      <footer style={{ backgroundColor: '#171717', borderTop: '1px solid #262626', padding: '2rem 0' }}>
+      {/* <footer style={{ backgroundColor: '#171717', borderTop: '1px solid #262626', padding: '2rem 0' }}>
         <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem' }}>
           <div style={{
             display: 'flex',
@@ -701,7 +703,287 @@ const MPACTLandingPage = () => {
             </div>
           </div>
         </div>
+      </footer> */}
+      {/* ================= EXACT FOOTER ================= */}
+      <footer className="mpact-footer">
+        <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    .mpact-footer {
+      background: #3a3a3a;
+      color: #ffffff;
+      padding-top: 100px;
+      font-family: 'Inter', sans-serif;
+    }
+      .social-icon {
+  transition: 
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.social-icon:hover {
+  transform: scale(1.08);
+  border-color: #ffeb3b;
+  color: #ffeb3b;
+  box-shadow: 0 0 18px rgba(255, 235, 59, 0.45);
+}
+
+
+    .footer-wrapper {
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 60px;
+    }
+
+    /* MAIN HEADING */
+    .footer-hash {
+      text-align: center;
+      font-size: 96px;
+      font-weight: 700;
+      color: #ffeb3b;
+      margin-bottom: 70px;
+      letter-spacing: 2px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* LEFT LINKS */
+    .footer-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 60px;   /* row gap | column gap */
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+    }
+
+   .footer-links a {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* underline animation */
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ffeb3b;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffeb3b;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+
+    /* SOCIAL ICONS */
+    .footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.social-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: transparent;
+}
+
+
+    /* SUBSCRIBE */
+    .footer-subscribe h3 {
+      color: #ffeb3b;
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-family: 'Khand', sans-serif;
+      font-weight: 600;
+    }
+
+    .footer-subscribe p {
+      font-size: 14px;
+      color: #d0d0d0;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .footer-subscribe input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #ffeb3b;
+      padding: 10px 0;
+      color: white;
+      outline: none;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .footer-subscribe button {
+      background: #ffeb3b;
+      color: black;
+      border: none;
+      padding: 12px 28px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    /* DIVIDER */
+    .footer-divider {
+      margin-top: 80px;
+      border-top: 1px solid #555;
+    }
+
+    /* BOTTOM */
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 40px;
+      font-size: 13px;
+      color: #cfcfcf;
+    }
+
+    .footer-logo {
+      font-size: 22px;
+      color: #ffeb3b;
+      font-weight: 700;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-icons {
+      display: flex;
+      gap: 14px;
+    }
+
+    .footer-icons span {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .footer-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-links {
+        align-items: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  `}</style>
+
+        <div className="footer-wrapper">
+          <div className="footer-hash"># GET IT NOW</div>
+
+          <div className="footer-main">
+            {/* LINKS */}
+            <div className="footer-links">
+              <a href="/">Home</a>
+              <a href="#">Terms & Conditions</a>
+
+              <a href="/products">Products</a>
+              <a href="#">Privacy Policy</a>
+
+              <a href="about">About us</a>
+              <a href="#">Return Policy</a>
+
+              <a href="#">Blogs</a>
+              <a href="/help">Help and Support</a>
+            </div>
+
+
+            {/* SOCIAL */}
+            <div className="footer-social">
+              <div className="social-icon">
+                <Instagram size={26} strokeWidth={1.8} />
+              </div>
+
+              <div className="social-icon">
+                <SiTiktok size={26} />
+              </div>
+
+              <div className="social-icon">
+                <Youtube size={26} strokeWidth={1.8} />
+              </div>
+            </div>
+
+
+            {/* SUBSCRIBE */}
+            <div className="footer-subscribe">
+              <h3>ENTER YOUR MAIL</h3>
+              <p>
+                Get Exclusive Early Access and Stay Informed About Product
+                Updates, Events, and More!
+              </p>
+              <input type="email" placeholder="your@email.com" />
+              <button>SUBSCRIBE</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-divider"></div>
+
+        <div className="footer-bottom">
+          <div className="footer-logo">MPACT</div>
+          <div>COPYRIGHT © MPACT 2025 – ALL RIGHTS RESERVED</div>
+          <div className="footer-icons">
+            <span>
+              <Instagram size={16} strokeWidth={1.8} />
+            </span>
+            <span><SiTiktok size={16} /></span>
+            <span>
+              <Youtube size={16} strokeWidth={1.8} />
+            </span>
+
+          </div>
+        </div>
       </footer>
+
+
+
     </div>
   );
 };

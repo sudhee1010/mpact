@@ -1,4 +1,5 @@
 import React, { useState, useMemo, useCallback, useEffect } from "react";
+import Footer from "../components/Footer";
 
 /* ================= COMPONENT ================= */
 
@@ -1072,8 +1073,12 @@ const ProductCard = ({ product }) => {
           <button className="buyBtn">BUY NOW</button>
         </div>
       </div>
+        
     </div>
+    
+    
   );
+  <Footer />
 };
 
 /* ================= MOCK DATA ================= */
