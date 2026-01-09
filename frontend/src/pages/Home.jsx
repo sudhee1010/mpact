@@ -6,6 +6,8 @@ import FeaturesSection from "./FeaturesSection";
 import proteinGym from "../assets/rrs/protein-gym.jpg";
 import { Instagram, Youtube } from "lucide-react";
 import { SiTiktok } from "react-icons/si";
+import WhatsAppFloat from "../components/WhatsAppFloat";
+
 
 
 const MPACTLandingPage = () => {
@@ -983,6 +985,7 @@ const MPACTLandingPage = () => {
       </footer>
 
 
+                  <WhatsAppFloat />
 
     </div>
   );
