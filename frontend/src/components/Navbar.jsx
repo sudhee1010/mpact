@@ -174,15 +174,21 @@ export default function Navbar() {
           <Link to="/products">PRODUCTS</Link>
           <Link to="/about">ABOUT US</Link>
           <Link to="/blog">BLOG</Link>
+          <Link to="/wishlist">WISHLIST</Link>
         </div>
 
         {/* RIGHT ICONS + HAMBURGER */}
         <div className="nav-icons">
+          <Link to="/products">
           <img src="/icons/search.png" alt="Search" />
+          </Link>
+          <Link to ="/prfle">
           <img src="/icons/avatar.png" alt="User" />
+          </Link>
           <Link to="/cart">
             <img src="/icons/bag.png" alt="Cart" />
           </Link>
+          
 
           {/* HAMBURGER */}
           <div className="hamburger" onClick={() => setOpen(!open)}>

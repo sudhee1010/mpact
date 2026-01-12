@@ -1,289 +1,287 @@
-
 import { Link } from "react-router-dom";
+import { Instagram, Youtube } from "lucide-react";
+import { SiTiktok } from "react-icons/si";
 
 export default function Footer() {
   return (
     <>
-      {/* ================= INTERNAL CSS ================= */}
-      <style>{`
-       @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+      <footer className="mpact-footer">
+        <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
 
-
-.footer {
-  background: #3a3a3a;
-  color: #ffffff;
-  padding: 80px 100px 40px;
+    .mpact-footer {
+      background: #3a3a3a;
+      color: #ffffff;
+      padding-top: 20px;
+      font-family: 'Inter', sans-serif;
+    }
+      .social-icon {
+  transition: 
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
 }
 
-.footer-top {
+.social-icon:hover {
+  transform: scale(1.08);
+  border-color: #ffeb3b;
+  color: #ffeb3b;
+  box-shadow: 0 0 18px rgba(255, 235, 59, 0.45);
+}
+
+
+    .footer-wrapper {
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 60px;
+    }
+
+    /* MAIN HEADING */
+    .footer-hash {
+      text-align: center;
+      font-size: 76px;
+      font-weight: 700;
+      color: #ffeb3b;
+      letter-spacing: 2px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* LEFT LINKS */
+    .footer-links {
   display: grid;
-  grid-template-columns: 1fr 1.5fr 1.5fr;
-  align-items: center;
-  gap: 60px;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 10px 5px;   /* row gap | column gap */
+  font-size: 15px;
+  font-weight: 500;
 }
 
-/* LEFT LINKS */
-.footer-links {
-  display: flex;
-  gap: 80px;
-  font-size: 14px;
-}
 
-.footer-links ul {
-  list-style: none;
-  padding: 0;
-}
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+    }
 
-.footer-links li {
-  margin-bottom: 12px;
-}
-
-/* 🔥 FIXED LINK STYLES */
-.footer-links a {
-  color: #d0d0d0;
+   .footer-links a {
+  position: relative;
+  color: white;
   text-decoration: none;
-  font-size: 14px;
-  font-weight: 400;
-  opacity: 0.9;
   transition: color 0.3s ease;
 }
 
+/* underline animation */
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ffeb3b;
+  transition: width 0.3s ease;
+}
+
 .footer-links a:hover {
-  color: #ffee00;
+  color: #ffeb3b;
 }
 
-.footer-links a.active {
-  color: #ffee00;
-  font-weight: 600;
+.footer-links a:hover::after {
+  width: 100%;
 }
 
-/* CENTER SECTION */
-.footer-center {
-  text-align: center;
-}
 
-.footer-center h1 {
-  font-family: 'Jersey 25', sans-serif;
-  // font-size: 150px;
-  font-weight: 400;
-  color: #ffee00;
-  margin-bottom: 30px;
-}
-
-.social-icons {
+    /* SOCIAL ICONS */
+    .footer-social {
   display: flex;
   justify-content: center;
-  gap: 24px;
+  gap: 26px;
 }
 
-.social-icons span {
-  width: 56px;
-  height: 56px;
-  border: 1px solid rgba(255,255,255,0.6);
+.social-icon {
+  width: 76px;
+  height: 76px;
   border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
-  cursor: pointer;
-  font-size: 20px;
-}
-
-/* RIGHT SECTION */
-.footer-right p {
-  font-size: 13px;
-  line-height: 1.6;
-  max-width: 300px;
-  opacity: 0.85;
-  margin-bottom: 20px;
-}
-
-.newsletter {
-  border-bottom: 2px solid #ffee00;
-  display: inline-block;
-  padding-bottom: 6px;
-  color: #ffee00;
-  font-weight: 600;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* BOTTOM BAR */
-.footer-bottom {
-  margin-top: 60px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  opacity: 0.7;
-}
-
-.footer-logo {
-  font-family: 'Jersey 25', sans-serif;
-  font-size: 24px;
-  color: #ffee00;
-}
-
-.footer-bottom-icons {
-  display: flex;
-  gap: 14px;
-}
-
-.footer-bottom-icons span {
-  width: 32px;
-  height: 32px;
-  border: 1px solid rgba(255,255,255,0.6);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  cursor: pointer;
-}
-
-/* ===== LARGE DESKTOPS / 4K ===== */
-@media (min-width: 1400px) {
-  .footer {
-    padding: 100px 140px 50px;
-  }
-
-  .footer-center h1 {
-    font-size: 72px;
-  }
-}
-
-/* ===== LAPTOPS ===== */
-@media (max-width: 1200px) {
-  .footer {
-    padding: 80px 60px 40px;
-  }
-
-  .footer-top {
-    gap: 40px;
-  }
-}
-
-/* ===== TABLETS ===== */
-@media (max-width: 900px) {
-  .footer-top {
-    grid-template-columns: 1fr;
-    text-align: center;
-    gap: 50px;
-  }
-
-  .footer-links {
-    justify-content: center;
-    gap: 60px;
-  }
-
-  .footer-right p {
-    margin: auto;
-  }
-
-  .footer-bottom {
-    flex-direction: column;
-    gap: 16px;
-    text-align: center;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .footer {
-    padding: 60px 20px 30px;
-  }
-
-  .footer-links {
-    flex-direction: column;
-    gap: 30px;
-    align-items: center;
-  }
-
-  // .footer-center h1 {
-  //   font-size: 150px;
-  // }
-
-  .social-icons span {
-    width: 44px;
-    height: 44px;
-  }
-}
-
-/* ===== SMALL MOBILE ===== */
-@media (max-width: 360px) {
-  .footer-center h1 {
-    font-size: 36px;
-  }
-
-  .footer-right p {
-    font-size: 12px;
-  }
-
-  .footer-logo {
-    font-size: 20px;
-  }
+  color: white;
+  background: transparent;
 }
 
 
-      `}</style>
+    /* SUBSCRIBE */
+    .footer-subscribe h3 {
+      color: #ffeb3b;
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-family: 'Khand', sans-serif;
+      font-weight: 600;
+    }
 
-      {/* ================= FOOTER ================= */}
-      <footer className="footer">
-        {/* TOP */}
-        <div className="footer-top">
-          {/* LEFT */}
-          <div className="footer-links">
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/products">Products</Link>
-        </li>
-        <li>
-          <Link to="/faq">FAQ</Link>
-        </li>
-      </ul>
+    .footer-subscribe p {
+      font-size: 14px;
+      color: #d0d0d0;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
 
-      <ul>
-        <li>
-          <Link to="/about">About Us</Link>
-        </li>
-        <li>
-          <Link to="/blog">Blogs</Link>
-        </li>
-      </ul>
-    </div>
-            {/* CENTER */}
-          <div className="footer-center">
-            <h1># GET IT NOW</h1>
-            <div className="social-icons">
-              <span>▶</span>
-              <span>◎</span>
-              <span>♪</span>
+    .footer-subscribe input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #ffeb3b;
+      padding: 10px 0;
+      color: white;
+      outline: none;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .footer-subscribe button {
+      background: #ffeb3b;
+      color: black;
+      border: none;
+      padding: 12px 28px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    /* DIVIDER */
+    .footer-divider {
+      margin-top: 80px;
+      border-top: 1px solid #555;
+    }
+
+    /* BOTTOM */
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 40px;
+      font-size: 13px;
+      color: #cfcfcf;
+    }
+
+    .footer-logo {
+      font-size: 22px;
+      color: #ffeb3b;
+      font-weight: 700;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-icons {
+      display: flex;
+      gap: 14px;
+    }
+
+    .footer-icons span {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .footer-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-links {
+        align-items: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  `}</style>
+
+        <div className="footer-wrapper">
+          <div className="footer-hash"># GET IT NOW</div>
+
+          <div className="footer-main">
+            {/* LINKS */}
+            <div className="footer-links">
+              <a href="/">Home</a>
+              <a href="#">Terms & Conditions</a>
+
+              <a href="/products">Products</a>
+              <a href="#">Privacy Policy</a>
+
+              <a href="about">About us</a>
+              <a href="#">Return Policy</a>
+
+              <a href="#">Blogs</a>
+              <a href="/help">Help and Support</a>
+
+              <a href="/faq">FAQ</a>
             </div>
-          </div>
 
-          {/* RIGHT */}
-          <div className="footer-right">
-            <p>
-              Get Exclusive Early Access and Stay Informed About Product
-              Updates, Events, and More!
-            </p>
-            <div className="newsletter">ENTER YOUR MAIL</div>
+
+            {/* SOCIAL */}
+            <div className="footer-social">
+              <div className="social-icon">
+                <Instagram size={26} strokeWidth={1.8} />
+              </div>
+
+              <div className="social-icon">
+                <SiTiktok size={26} />
+              </div>
+
+              <div className="social-icon">
+                <Youtube size={26} strokeWidth={1.8} />
+              </div>
+            </div>
+
+
+            {/* SUBSCRIBE */}
+            <div className="footer-subscribe">
+              <h3>ENTER YOUR MAIL</h3>
+              <p>
+                Get Exclusive Early Access and Stay Informed About Product
+                Updates, Events, and More!
+              </p>
+              <input type="email" placeholder="your@email.com" />
+              <button>SUBSCRIBE</button>
+            </div>
           </div>
         </div>
 
-        {/* BOTTOM */}
+        <div className="footer-divider"></div>
+
         <div className="footer-bottom">
           <div className="footer-logo">MPACT</div>
-          <div>Copyright @ MPACT 2025 - All Rights Reserved</div>
-          <div className="footer-bottom-icons">
-            <span>●</span>
-            <span>◯</span>
-            <span>◎</span>
+          <div>COPYRIGHT © MPACT 2025 – ALL RIGHTS RESERVED</div>
+          <div className="footer-icons">
+            <span>
+              <Instagram size={16} strokeWidth={1.8} />
+            </span>
+            <span><SiTiktok size={16} /></span>
+            <span>
+              <Youtube size={16} strokeWidth={1.8} />
+            </span>
+
           </div>
         </div>
       </footer>
-    </>
-  );
-}
+
+    </>);
+};

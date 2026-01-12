@@ -76,9 +76,8 @@
 
 
 
-import Product from "../models/Product.js";
-import Category from "../models/Category.js";
-import cloudinary from "../config/cloudinary.js";
+
+
 
 /**
  * @desc    Get all products (search + only active)
@@ -115,37 +114,10 @@ import cloudinary from "../config/cloudinary.js";
 
 
 
-// export const getProducts = async (req, res) => {
-//   try {
-//     const { keyword, category, minPrice, maxPrice, rating } = req.query;
 
-//     const filter = { isActive: true };
-
-//     if (keyword) {
-//       filter.name = { $regex: keyword, $options: "i" };
-//     }
-
-//     if (category) filter.category = category;
-
-//     if (rating) {
-//       filter.rating = { $gte: Number(rating) };
-//     }
-
-//     if (minPrice || maxPrice) {
-//       filter.price = {};
-//       if (minPrice) filter.price.$gte = Number(minPrice);
-//       if (maxPrice) filter.price.$lte = Number(maxPrice);
-//     }
-
-//     const products = await Product.find(filter).populate("category", "name");
-//     res.json(products);
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
-
-
-
+import Product from "../models/Product.js";
+import Category from "../models/Category.js";
+import cloudinary from "../config/cloudinary.js";
 
 
 export const getProducts = async (req, res) => {
@@ -241,9 +213,15 @@ export const getProductById = async (req, res) => {
  */
 export const createProduct = async (req, res) => {
   try {
-    const { category } = req.body;
+    const {
+      name,
+      description,
+      category,
+      originalPrice,
+      price,
+      images
+    } = req.body;
 
-    // ✅ Validate category
     const categoryExists = await Category.findOne({
       _id: category,
       isActive: true
@@ -253,12 +231,35 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid category" });
     }
 
-    const product = await Product.create(req.body);
+    if (price > originalPrice) {
+      return res
+        .status(400)
+        .json({ message: "Price cannot exceed original price" });
+    }
+
+    const discountPercent =
+      originalPrice > price
+        ? Math.round(
+          ((originalPrice - price) / originalPrice) * 100
+        )
+        : 0;
+
+    const product = await Product.create({
+      name,
+      description,
+      category,
+      originalPrice,
+      price,
+      discountPercent,
+      images
+    });
+
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 /**
  * @desc    Update product
@@ -286,6 +287,20 @@ export const updateProduct = async (req, res) => {
     }
 
     Object.assign(product, req.body);
+    if (
+      req.body.originalPrice !== undefined ||
+      req.body.price !== undefined
+    ) {
+      const original =
+        req.body.originalPrice ?? product.originalPrice;
+      const selling = req.body.price ?? product.price;
+
+      product.discountPercent =
+        original > selling
+          ? Math.round(((original - selling) / original) * 100)
+          : 0;
+    }
+
     const updatedProduct = await product.save();
 
     res.json(updatedProduct);
@@ -308,8 +323,13 @@ export const deleteProduct = async (req, res) => {
     }
 
     // ✅ Soft delete
-    product.isActive = false;
-    await product.save();
+    // product.isActive = false;
+    // await product.save();
+
+    await Product.findByIdAndUpdate(req.params.id, {
+      isActive: false
+    });
+
 
     res.json({ message: "Product removed successfully" });
   } catch (error) {

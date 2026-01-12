@@ -1,6 +1,8 @@
 
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
@@ -17,6 +19,9 @@ import Input from "./pages/input/Input";
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import Review from "./pages/review";
+import Pay from "./pages/Pay";
+import SuccessPopup from "./pages/SuccessPopup.jsx";
+import HelpSupport from "./pages/HelpSupport";
 
 
 import Profile from "./pages/profile/Profile";
@@ -30,6 +35,7 @@ function App() {
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      <ScrollToTop />
 
       {/* LOADER OVERLAY */}
       {loading && <Loader onFinish={() => setLoading(false)} />}
@@ -43,13 +49,16 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/prfle" element={<Prfle />}/>
+          <Route path="/help" element={<HelpSupport />} />
 
 
           <Route path="/payment" element={<Payment />} />
+          <Route path="/pay" element={<Pay />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />
           <Route path="/review" element={<Review />} />
+          <Route path="/popup" element={<SuccessPopup />} />
           
 
 
