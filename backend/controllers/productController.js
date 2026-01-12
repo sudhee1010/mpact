@@ -80,6 +80,7 @@ import Product from "../models/Product.js";
 import Category from "../models/Category.js";
 import cloudinary from "../config/cloudinary.js";
 
+
 /**
  * @desc    Get all products (search + only active)
  * @route   GET /api/products
@@ -241,9 +242,15 @@ export const getProductById = async (req, res) => {
  */
 export const createProduct = async (req, res) => {
   try {
-    const { category } = req.body;
+    const {
+      name,
+      description,
+      category,
+      originalPrice,
+      price,
+      images
+    } = req.body;
 
-    // ✅ Validate category
     const categoryExists = await Category.findOne({
       _id: category,
       isActive: true
@@ -253,12 +260,35 @@ export const createProduct = async (req, res) => {
       return res.status(400).json({ message: "Invalid category" });
     }
 
-    const product = await Product.create(req.body);
+    if (price > originalPrice) {
+      return res
+        .status(400)
+        .json({ message: "Price cannot exceed original price" });
+    }
+
+    const discountPercent =
+      originalPrice > price
+        ? Math.round(
+            ((originalPrice - price) / originalPrice) * 100
+          )
+        : 0;
+
+    const product = await Product.create({
+      name,
+      description,
+      category,
+      originalPrice,
+      price,
+      discountPercent,
+      images
+    });
+
     res.status(201).json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 /**
  * @desc    Update product
@@ -286,6 +316,20 @@ export const updateProduct = async (req, res) => {
     }
 
     Object.assign(product, req.body);
+    if (
+  req.body.originalPrice !== undefined ||
+  req.body.price !== undefined
+) {
+  const original =
+    req.body.originalPrice ?? product.originalPrice;
+  const selling = req.body.price ?? product.price;
+
+  product.discountPercent =
+    original > selling
+      ? Math.round(((original - selling) / original) * 100)
+      : 0;
+}
+
     const updatedProduct = await product.save();
 
     res.json(updatedProduct);

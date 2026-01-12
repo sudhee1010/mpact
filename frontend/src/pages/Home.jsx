@@ -1,310 +1,994 @@
-import { useEffect, useRef, useState } from "react";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Footer from "../components/Footer";
-import { useLayoutEffect } from "react";
+import React, { useState, useEffect, useRef } from 'react';
+import { ShoppingCart, User, Search, ChevronLeft, ChevronRight, Play, Menu, X } from 'lucide-react';
+import MotivationalSection from "./MotivationalSection";
+import VideoShowcaseSection from "./VideoShowcaseSection";
+import FeaturesSection from "./FeaturesSection";
+import proteinGym from "../assets/rrs/protein-gym.jpg";
+import { Instagram, Youtube } from "lucide-react";
+import { SiTiktok } from "react-icons/si";
+import WhatsAppFloat from "../components/WhatsAppFloat";
 
-gsap.registerPlugin(ScrollTrigger);
 
-/* ================= DATA ================= */
-const heroImages = [
-  "/images/img1.jpg",
-  "/images/ajmal.jpg",
-  "/images/product1.png",
-];
 
-const FALLBACK_PRODUCT_IMG = "/images/product1.png";
-
-const products = Array.from({ length: 8 }).map((_, i) => ({
-  id: i + 1,
-  title: "EXTRA HUNGRY?\nPROTEIN BAR",
-  price: "₹299",
-  img: `/images/product${(i % 4) + 1}.png`,
-}));
-
-const videos = Array.from({ length: 5 }).map(() => "/images/video1.mp4");
-
-export default function Home() {
-  /* ================= STATE ================= */
+const MPACTLandingPage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [scrollY, setScrollY] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredProduct, setHoveredProduct] = useState(null);
+  const [hoveredButton, setHoveredButton] = useState(null);
+  const heroRef = useRef(null);
+  const motivationalRef = useRef(null);
+  const productsRef = useRef(null);
+  const aboutRef = useRef(null);
+  const blogRef = useRef(null);
 
-  /* ================= REFS ================= */
-  const wordSectionRef = useRef(null);
-  const fuelRef = useRef(null);
-  const parallaxSectionRef = useRef(null);
+  useEffect(() => {
+    const link = document.createElement('link');
+    link.href = 'https://fonts.googleapis.com/css2?family=Jersey+25&display=swap';
+    link.rel = 'stylesheet';
+    document.head.appendChild(link);
 
-  const wordRefs = useRef([]);
-  const stripsRef = useRef([]);
+    return () => {
+      document.head.removeChild(link);
+    };
+  }, []);
 
-  /* ================= HERO SLIDER ================= */
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentSlide((p) => (p + 1) % heroImages.length);
-    }, 4500);
+      setCurrentSlide(prev => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+    }, 5000);
 
     return () => clearInterval(interval);
   }, []);
 
-  const slideNext = () =>
-    setCurrentSlide((p) => (p + 1) % heroImages.length);
+  const heroSlides = [
+    { id: 1, image: proteinGym },
+    { id: 2, image: proteinGym },
+    { id: 3, image: proteinGym },
+  ];
 
-  const slidePrev = () =>
-    setCurrentSlide((p) => (p === 0 ? heroImages.length - 1 : p - 1));
 
-  /* ================= GSAP ANIMATIONS ================= */
-  gsap.registerPlugin(ScrollTrigger);
+  const scrollToSection = (ref) => {
+    ref.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
 
-  useLayoutEffect(() => {
-    if (!parallaxSectionRef.current) return;
+  const [products] = useState([
+    {
+      id: 1,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 2,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 3,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+    {
+      id: 4,
+      title: "EXTRA HUNGRY?",
+      name: "PROTEIN WAFERS - VARIETY PACK OF 10",
+      brand: "SNICKERS",
+      price: 2000,
+      oldPrice: 2999,
+      discount: "26% OFF",
+      image: proteinGym,   // ✅ FIXED
+      rating: 5,
+      reviews: 199,
+      specs: [
+        "NO PRESERVATIVES",
+        "JAGGERY BASED",
+        "NO ADDED COLOURS",
+        "NO GLUCOSE ADDED",
+        "80 % PEANUT",
+      ],
+    },
+  ]);
 
-    const ctx = gsap.context(() => {
 
-      /* ================= WORDS ================= */
-      gsap.fromTo(
-        wordRefs.current.filter(Boolean),
-        { y: 20, opacity: 0.3 },
-        {
-          y: 0,
-          opacity: 1,
-          stagger: 0.08,
-          scrollTrigger: {
-            trigger: wordSectionRef.current,
-            start: "top 80%",
-            scrub: true,
-          },
-        }
-      );
+  const handlePrevSlide = () => {
+    setCurrentSlide(prev => (prev === 0 ? heroSlides.length - 1 : prev - 1));
+  };
 
-      /* ================= FUEL – CENTER OPEN PARALLAX ================= */
-      const fuelTL = gsap.timeline({
-        scrollTrigger: {
-          trigger: fuelRef.current,
-          start: "top center",
-          end: "+=100",
-          scrub: true,
-        },
-      });
+  const handleNextSlide = () => {
+    setCurrentSlide(prev => (prev === heroSlides.length - 1 ? 0 : prev + 1));
+  };
 
-      fuelTL.fromTo(
-        fuelRef.current,
-        {
-          clipPath: "inset(0 50% 0 50%)", // 🔥 closed from center
-          scale: 0.9,
-          rotate: -6,
-          y: 60,
-        },
-        {
-          clipPath: "inset(0 0% 0 0%)",   // 🔥 opens outward
-          scale: 1.05,
-          rotate: 0,
-          y: -5,
-          ease: "none",
-        }
-      );
+  const handleBuyNow = async (productId) => {
+    console.log('Buy now:', productId);
+  };
 
-    /* ================= PARALLAX STRIPS ================= */
-    /* PARALLAX (SAFE PIN) */ const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: parallaxSectionRef.current,
-          start: "top top", end: "+=800", scrub: true, pin: true,
-        },
-      });
-      stripsRef.current.forEach((el, i) => {
-        tl.fromTo(el,
-          { clipPath: "inset(0 50% 0 50%)", y: 100, rotate: i % 2 ? 6 : -6, },
-          { clipPath: "inset(0 0% 0 0%)", y: 0, rotate: i % 2 ? 2 : -2, });
-      });
-    });
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill()); ctx.revert();
-      wordRefs.current = []; stripsRef.current = [];
-    };
-  },
+  const heroParallax = scrollY * 0.5;
+  const productParallax = Math.max(0, (scrollY - 600) * 0.3);
+  const motivationalParallax = Math.max(0, (scrollY - 1200) * 0.4);
 
-    []);
   return (
-    <>
-      {/* ================= STYLES ================= */}
-      <style>{`
-*{margin:0;padding:0;box-sizing:border-box}
-body{background:#2f2f2f;color:#fff;font-family:Arial}
-
-.hero{height:100vh;position:relative;overflow:hidden;background:#000}
-.hero img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:.6s}
-.hero img.active{opacity:1}
-
-.hero-btn{
-  position:absolute;top:50%;transform:translateY(-50%);
-  background:rgba(0,0,0,.5);border:2px solid #ffeb00;
-  color:#ffeb00;font-size:48px;width:64px;height:64px;
-  cursor:pointer;z-index:5
-}
-.hero-btn:hover{background:#ffeb00;color:#000}
-.hero-btn.prev{left:30px}
-.hero-btn.next{right:30px}
-
-.section-title{
-  text-align:center;font-size:2.6rem;font-weight:900;
-  color:#ffeb00;padding:70px 0 30px
-}
-
-.product-grid{
-  display:grid;grid-template-columns:repeat(4,1fr);
-  gap:26px;padding:0 50px 80px
-}
-.product-card{
-  background:#1c1c1c;border:2px solid #ffeb00;
-}
-.product-card img{width:100%;height:280px;object-fit:cover}
-.product-body{padding:14px}
-.buy-btn{
-  width:100%;padding:10px;background:#ffeb00;
-  border:none;font-weight:900;cursor:pointer
-}
-
-.word-section{
-  padding:100px 20px;text-align:center;background:#3a3a3a
-}
-.word-line{
-  font-size:clamp(40px,7vw,90px);
-  font-weight:900;text-transform:uppercase
-}
-.word{display:inline-block}
-
-.fuel {
-  background: #ffeb00;
-  color: #000;
-
-  display: inline-block;
-  padding: 20px 26px;
-
-  font-size: clamp(38px, 4vw, 48px); /* 🔥 smaller, controlled */
-  font-weight: 900;
-  letter-spacing: 0.12em;
-
-  will-change: transform, clip-path;
-  transform-origin: center;
-}
-
-
-.video-grid{
-  display:grid;grid-template-columns:repeat(5,1fr);
-  gap:24px;padding:0 40px 80px
-}
-.video-card{border:2px solid #ffeb00}
-.video-card video{width:100%;height:320px;object-fit:cover}
-
-.parallax-section{
-  min-height:100vh;background:#201d1d;
-  display:flex;align-items:center;justify-content:center
-}
-.strip{
-  margin:16px 0;padding:18px 50px;
-  font-size:2.4rem;font-weight:900
-}
-.strip:nth-child(1){background:#ffeb00;color:#000}
-.strip:nth-child(2){background:#111}
-.strip:nth-child(3){background:#e30000}
-.strip:nth-child(4){background:#ffeb00;color:#000}
-
-@media(max-width:1024px){
-  .product-grid{grid-template-columns:repeat(2,1fr)}
-  .video-grid{grid-template-columns:repeat(2,1fr)}
-}
-@media(max-width:600px){
-  .product-grid,.video-grid{grid-template-columns:1fr;padding:0 20px}
-}
-      `}</style>
-
-      {/* ================= HERO ================= */}
-      <section className="hero">
-        {heroImages.map((img, i) => (
-          <img
-            key={i}
-            src={img}
-            className={i === currentSlide ? "active" : ""}
-            alt=""
-          />
-
-        ))}
-        <button className="hero-btn prev" onClick={slidePrev}>‹</button>
-        <button className="hero-btn next" onClick={slideNext}>›</button>
-      </section>
-
-      {/* ================= PRODUCTS ================= */}
-      <div className="section-title">FIND OUR PRODUCTS</div>
-      <section className="product-grid">
-        {products.map((p) => (
-          <div className="product-card" key={p.id}>
-            <img
-              src={p.img}
-              alt={p.title}
-              onError={(e) => (e.currentTarget.src = FALLBACK_PRODUCT_IMG)}
-            />
-
-            <div className="product-body">
-              <h4>{p.title}</h4>
-              <div>{p.price}</div>
-              <button className="buy-btn">BUY NOW</button>
-            </div>
+    <div style={{
+      minHeight: '100vh',
+      backgroundColor: '#171717',
+      color: 'white',
+      overflowX: 'hidden',
+      fontFamily: "'Jersey 25', sans-serif"
+    }}>
+      {/* Fixed Header */}
+      <header style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 50,
+        backgroundColor: scrollY > 100 ? 'rgba(250, 204, 21, 0.95)' : 'rgb(250, 204, 21)',
+        backdropFilter: scrollY > 100 ? 'blur(10px)' : 'none',
+        color: 'black',
+        transition: 'all 0.3s'
+      }}>
+        <div style={{
+          maxWidth: '1280px',
+          margin: '0 auto',
+          padding: '1rem',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between'
+        }}>
+          <div style={{
+            fontSize: '1.875rem',
+            fontWeight: 'bold',
+            cursor: 'pointer'
+          }} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
+            MPACT
           </div>
-        ))}
-      </section>
 
-      {/* ================= WORD SECTION ================= */}
-      <section className="word-section" ref={wordSectionRef}>
-        <div className="word-line">
-          {"STIR UP YOUR FEARLESS PAST AND".split(" ").map((w, i) => (
-            <span key={i} className="word" ref={(el) => (wordRefs.current[i] = el)}>
-              {w}&nbsp;
-            </span>
-          ))}
+          {/* Desktop Navigation */}
+          <nav style={{
+            display: 'none',
+            gap: '2rem',
+            fontSize: '0.875rem',
+            fontWeight: 'bold',
+            '@media (min-width: 768px)': { display: 'flex' }
+          }}>
+            <button onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'none'
+            }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>HOME</button>
+            <button onClick={() => scrollToSection(productsRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'none'
+            }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>PRODUCTS</button>
+            <button onClick={() => scrollToSection(aboutRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'none'
+            }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>ABOUT US</button>
+            <button onClick={() => scrollToSection(blogRef)} style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              textDecoration: 'none'
+            }} onMouseEnter={(e) => e.target.style.textDecoration = 'underline'} onMouseLeave={(e) => e.target.style.textDecoration = 'none'}>BLOG</button>
+          </nav>
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              opacity: 1,
+              transition: 'opacity 0.3s'
+            }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
+              <Search size={20} />
+            </button>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              opacity: 1,
+              transition: 'opacity 0.3s'
+            }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
+              <User size={20} />
+            </button>
+            <button style={{
+              background: 'none',
+              border: 'none',
+              color: 'inherit',
+              cursor: 'pointer',
+              opacity: 1,
+              transition: 'opacity 0.3s'
+            }} onMouseEnter={(e) => e.target.style.opacity = '0.7'} onMouseLeave={(e) => e.target.style.opacity = '1'}>
+              <ShoppingCart size={20} />
+            </button>
+
+            <button
+              style={{
+                background: 'none',
+                border: 'none',
+                color: 'inherit',
+                cursor: 'pointer',
+                display: window.innerWidth >= 768 ? 'none' : 'block',
+                opacity: 1,
+                transition: 'opacity 0.3s'
+              }}
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              onMouseEnter={(e) => e.target.style.opacity = '0.7'}
+              onMouseLeave={(e) => e.target.style.opacity = '1'}
+            >
+              {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
-        <div className="fuel" ref={fuelRef}>FUEL UP</div>
+        {/* Mobile Navigation Menu */}
+        <div style={{
+          display: window.innerWidth >= 768 ? 'none' : 'block',
+          overflow: 'hidden',
+          maxHeight: mobileMenuOpen ? '384px' : '0',
+          opacity: mobileMenuOpen ? 1 : 0,
+          transition: 'all 0.3s'
+        }}>
+          <nav style={{ display: 'flex', flexDirection: 'column', borderTop: '1px solid rgba(0,0,0,0.1)' }}>
+            <button onClick={() => {
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+              setMobileMenuOpen(false);
+            }} style={{
+              padding: '0.75rem 1rem',
+              textAlign: 'left',
+              fontWeight: 'bold',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '1px solid rgba(0,0,0,0.05)',
+              cursor: 'pointer',
+              color: 'inherit',
+              transition: 'background-color 0.3s'
+            }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.05)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+              HOME
+            </button>
+            <button onClick={() => {
+              scrollToSection(productsRef);
+              setMobileMenuOpen(false);
+            }} style={{
+              padding: '0.75rem 1rem',
+              textAlign: 'left',
+              fontWeight: 'bold',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '1px solid rgba(0,0,0,0.05)',
+              cursor: 'pointer',
+              color: 'inherit',
+              transition: 'background-color 0.3s'
+            }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.05)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+              PRODUCTS
+            </button>
+            <button onClick={() => {
+              scrollToSection(aboutRef);
+              setMobileMenuOpen(false);
+            }} style={{
+              padding: '0.75rem 1rem',
+              textAlign: 'left',
+              fontWeight: 'bold',
+              background: 'transparent',
+              border: 'none',
+              borderBottom: '1px solid rgba(0,0,0,0.05)',
+              cursor: 'pointer',
+              color: 'inherit',
+              transition: 'background-color 0.3s'
+            }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.05)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+              ABOUT US
+            </button>
+            <button onClick={() => {
+              scrollToSection(blogRef);
+              setMobileMenuOpen(false);
+            }} style={{
+              padding: '0.75rem 1rem',
+              textAlign: 'left',
+              fontWeight: 'bold',
+              background: 'transparent',
+              border: 'none',
+              cursor: 'pointer',
+              color: 'inherit',
+              transition: 'background-color 0.3s'
+            }} onMouseEnter={(e) => e.target.style.backgroundColor = 'rgba(0,0,0,0.05)'} onMouseLeave={(e) => e.target.style.backgroundColor = 'transparent'}>
+              BLOG
+            </button>
+          </nav>
+        </div>
+      </header>
 
-        <div className="word-line">
-          {"YOUR FUTURE WITH EVERY GULP OF PERFECT PROTEIN"
-            .split(" ")
-            .map((w, i) => (
-              <span
-                key={i}
-                className="word"
-                ref={(el) => (wordRefs.current[20 + i] = el)}
+      {/* Hero Slider */}
+      <section ref={heroRef} style={{ position: 'relative', backgroundColor: 'black', paddingTop: '5rem', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '3rem 1rem' }}>
+          <div style={{ position: 'relative' }}>
+            <div style={{ position: 'relative', minHeight: '500px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {heroSlides.map((slide, index) => (
+                <div
+                  key={slide.id}
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    opacity: index === currentSlide ? 1 : 0,
+                    transform: index === currentSlide ? 'scale(1)' : 'scale(0.95)',
+                    pointerEvents: index === currentSlide ? 'auto' : 'none',
+                    transition: 'all 0.7s'
+                  }}
+                >
+                  <div style={{
+                    width: '100%',
+                    height: '100%',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    transform: index === currentSlide ? `translateY(${scrollY * 0.3}px)` : 'translateY(0)',
+                    transition: 'transform 0.1s linear'
+                  }}>
+                    <img
+                      src={slide.image}
+                      alt={`Slide ${index + 1}`}
+                      style={{ width: '100%', height: '100%', objectFit: 'contain', maxWidth: '80rem', margin: '0 auto' }}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '1rem', marginTop: '2rem' }}>
+              <button
+                onClick={handlePrevSlide}
+                style={{
+                  width: '3rem',
+                  height: '3rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  color: 'white',
+                  transform: hoveredButton === 'prev' ? 'scale(1.1)' : 'scale(1)'
+                }}
+                onMouseEnter={() => setHoveredButton('prev')}
+                onMouseLeave={() => setHoveredButton(null)}
               >
-                {w}&nbsp;
-              </span>
-            ))}
-        </div>
-      </section>
+                <ChevronLeft />
+              </button>
 
-      {/* ================= VIDEOS ================= */}
-      <div className="section-title">WATCH IMPACT TAKE OVER</div>
-      <section className="video-grid">
-        {videos.map((src, i) => (
-          <div className="video-card" key={i}>
-            <video src={src} muted playsInline controls />
-          </div>
-        ))}
-      </section>
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                {heroSlides.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentSlide(index)}
+                    style={{
+                      width: index === currentSlide ? '2rem' : '0.75rem',
+                      height: '0.75rem',
+                      borderRadius: '9999px',
+                      backgroundColor: index === currentSlide ? '#facc15' : 'rgba(255,255,255,0.3)',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s'
+                    }}
+                  />
+                ))}
+              </div>
 
-      {/* ================= PARALLAX ================= */}
-      <section className="parallax-section" ref={parallaxSectionRef}>
-        <div>
-          {[
-            "SHELF STABLE",
-            "PROTEIN + CAFFEINE",
-            "INFINITELY RECYCLABLE",
-            "LACTOSE FREE",
-          ].map((t, i) => (
-            <div key={i} className="strip" ref={(el) => (stripsRef.current[i] = el)}>
-              {t}
+              <button
+                onClick={handleNextSlide}
+                style={{
+                  width: '3rem',
+                  height: '3rem',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: 'rgba(255,255,255,0.1)',
+                  border: 'none',
+                  borderRadius: '50%',
+                  cursor: 'pointer',
+                  transition: 'all 0.3s',
+                  color: 'white',
+                  transform: hoveredButton === 'next' ? 'scale(1.1)' : 'scale(1)'
+                }}
+                onMouseEnter={() => setHoveredButton('next')}
+                onMouseLeave={() => setHoveredButton(null)}
+              >
+                <ChevronRight />
+              </button>
             </div>
-          ))}
+          </div>
+
+          <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '2rem' }}>
+            <img src="/api/placeholder/150/60" alt="Mars logo" style={{ height: '4rem', transition: 'transform 0.3s' }} />
+          </div>
         </div>
       </section>
 
-      <Footer />
-    </>
-  );
+      {/* Products Grid */}
+      <section ref={productsRef} id="products" style={{ padding: '4rem 0', backgroundColor: '#262626', position: 'relative', overflow: 'hidden' }}>
+        <div style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.1,
+          backgroundImage: 'radial-gradient(circle at 50% 50%, #fbbf24 1px, transparent 1px)',
+          backgroundSize: '50px 50px',
+          transform: `translateY(${productParallax}px)`
+        }} />
+
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem', position: 'relative', zIndex: 10 }}>
+          <h2 style={{
+            fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem',
+            fontWeight: 900,
+            color: '#facc15',
+            textAlign: 'center',
+            marginBottom: '3rem',
+            transform: scrollY > 400 ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.9)',
+            opacity: scrollY > 400 ? 1 : 0,
+            transition: 'all 0.7s'
+          }}>
+            FIND OUR PRODUCTS
+          </h2>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: window.innerWidth >= 1024 ? 'repeat(4, 1fr)' : window.innerWidth >= 640 ? 'repeat(2, 1fr)' : '1fr',
+            gap: '1rem',
+            marginBottom: '2rem'
+          }}>
+            {products.map((product, index) => (
+              <div
+                key={product.id}
+                style={{
+                  background: 'linear-gradient(to bottom, rgba(120, 53, 15, 0.4), #262626)',
+                  border: '2px solid rgba(133, 77, 14, 0.5)',
+                  borderRadius: '0.5rem',
+                  overflow: 'hidden',
+                  transform: scrollY > 500 + (index * 50) && hoveredProduct !== product.id ? 'translateY(0) scale(1)' : hoveredProduct === product.id ? 'scale(1.05)' : 'translateY(100px) scale(1)',
+                  opacity: scrollY > 500 + (index * 50) ? 1 : 0,
+                  transition: 'all 0.5s',
+                  transitionDelay: `${index * 100}ms`,
+                  boxShadow: hoveredProduct === product.id ? '0 25px 50px -12px rgba(0, 0, 0, 0.25)' : 'none',
+                  borderColor: hoveredProduct === product.id ? '#ca8a04' : 'rgba(133, 77, 14, 0.5)'
+                }}
+                onMouseEnter={() => setHoveredProduct(product.id)}
+                onMouseLeave={() => setHoveredProduct(null)}
+              >
+                <div style={{ position: 'relative', aspectRatio: '3/4', background: 'linear-gradient(to bottom, #92400e, #a16207, #92400e)', overflow: 'hidden' }}>
+                  <div style={{ position: 'absolute', top: '0.5rem', left: 0, right: 0, zIndex: 10, textAlign: 'center' }}>
+                    {product.title && (
+                      <>
+                        <h3 style={{ fontSize: window.innerWidth >= 768 ? '1.5rem' : '1.25rem', fontWeight: 900, color: 'white', marginBottom: '0.25rem', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                          {product.title.split(' ')[0]}
+                        </h3>
+                        <h3 style={{ fontSize: window.innerWidth >= 768 ? '1.5rem' : '1.25rem', fontWeight: 900, color: 'white', textShadow: '2px 2px 4px rgba(0,0,0,0.5)' }}>
+                          {product.title.split(' ').slice(1).join(' ')}
+                        </h3>
+                      </>
+                    )}
+                    {product.brand && (
+                      <div style={{ marginTop: '0.25rem' }}>
+                        <span style={{ backgroundColor: '#1d4ed8', color: 'white', padding: '0.125rem 0.5rem', fontSize: '0.75rem', fontWeight: 900, fontStyle: 'italic', display: 'inline-block', transform: 'skewX(-12deg)' }}>
+                          {product.brand}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <img
+                    src={product.image}
+                    alt={product.name}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover',
+                      transform: hoveredProduct === product.id ? 'scale(1.1)' : 'scale(1)',
+                      transition: 'transform 0.5s'
+                    }}
+                  />
+
+                  <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '4rem', background: 'linear-gradient(to top, #78350f, transparent)' }} />
+                </div>
+
+                <div style={{ padding: '0.75rem', backgroundColor: '#171717' }}>
+                  <h3 style={{ fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase', color: 'white' }}>{product.name}</h3>
+
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.375rem', marginBottom: '0.5rem' }}>
+                    {product.specs.map((spec, i) => (
+                      <div key={i} style={{ border: '1px solid rgba(202, 138, 4, 0.5)', borderRadius: '0.25rem', padding: '0.125rem 0.375rem', fontSize: '9px', fontWeight: 'bold', textAlign: 'center', color: '#facc15' }}>
+                        {spec}
+                      </div>
+                    ))}
+                  </div>
+
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginBottom: '0.5rem' }}>
+                    <div style={{ display: 'flex' }}>
+                      {"★".repeat(product.rating).split('').map((star, i) => (
+                        <span key={i} style={{ color: '#facc15', fontSize: '0.75rem' }}>{star}</span>
+                      ))}
+                      {"☆".repeat(5 - product.rating).split('').map((star, i) => (
+                        <span key={i} style={{ color: '#4b5563', fontSize: '0.75rem' }}>{star}</span>
+                      ))}
+                    </div>
+                    <span style={{ fontSize: '10px', color: '#9ca3af' }}>⭐ {product.reviews} Reviews</span>
+                  </div>
+
+                  <div style={{ marginBottom: '0.25rem' }}>
+                    <span style={{ fontSize: '10px', color: '#6b7280', textDecoration: 'line-through' }}>₹{product.oldPrice}</span>
+                    <span style={{ fontSize: '10px', color: '#4ade80', marginLeft: '0.25rem' }}>{product.discount}</span>
+                  </div>
+
+                  <div style={{ fontSize: '1.125rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>RS : {product.price}</div>
+
+                  <button
+                    onClick={() => handleBuyNow(product.id)}
+                    style={{
+                      width: '100%',
+                      backgroundColor: hoveredButton === `buy-${product.id}` ? '#eab308' : '#facc15',
+                      color: 'black',
+                      fontWeight: 900,
+                      padding: '0.5rem',
+                      borderRadius: '0.25rem',
+                      border: 'none',
+                      cursor: 'pointer',
+                      transition: 'all 0.3s',
+                      fontSize: '0.75rem',
+                      transform: hoveredButton === `buy-${product.id}` ? 'scale(1.05)' : 'scale(1)'
+                    }}
+                    onMouseEnter={() => setHoveredButton(`buy-${product.id}`)}
+                    onMouseLeave={() => setHoveredButton(null)}
+                  >
+                    PLACE ORDER
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div style={{ textAlign: 'center' }}>
+            <button style={{
+              backgroundColor: hoveredButton === 'see-more' ? '#eab308' : '#facc15',
+              color: 'black',
+              fontWeight: 'bold',
+              padding: '0.75rem 2rem',
+              borderRadius: '0.25rem',
+              border: 'none',
+              cursor: 'pointer',
+              transition: 'all 0.3s',
+              transform: hoveredButton === 'see-more' ? 'scale(1.05)' : 'scale(1)'
+            }}
+              onMouseEnter={() => setHoveredButton('see-more')}
+              onMouseLeave={() => setHoveredButton(null)}>
+              SEE MORE →
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <MotivationalSection />
+      <FeaturesSection />
+      <VideoShowcaseSection />
+
+      {/* Store Locator */}
+      <section style={{ padding: '4rem 0', backgroundColor: '#facc15', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
+          <h2 style={{
+            fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem',
+            fontWeight: 900,
+            color: 'black',
+            marginBottom: '2rem',
+            transform: scrollY > 2600 ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.9)',
+            opacity: scrollY > 2600 ? 1 : 0,
+            transition: 'all 0.7s'
+          }}>
+            FIND OUR NEAREST STORE
+          </h2>
+          <div style={{
+            maxWidth: '48rem',
+            margin: '0 auto',
+            transform: scrollY > 2700 ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.95)',
+            opacity: scrollY > 2700 ? 1 : 0,
+            transition: 'all 0.7s'
+          }}>
+            <img
+              src="/api/placeholder/800/300"
+              alt="Store locator map"
+              style={{ width: '100%', borderRadius: '0.5rem', boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.25)', transition: 'box-shadow 0.3s' }}
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* <section ref={blogRef} style={{ padding: '5rem 0', backgroundColor: 'black', overflow: 'hidden' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem', textAlign: 'center' }}>
+          <h2 style={{ fontSize: window.innerWidth >= 768 ? '3.75rem' : '3rem', fontWeight: 900, color: '#facc15', marginBottom: '2rem' }}>BLOG</h2>
+          <p style={{ color: '#d1d5db', fontSize: '1.125rem', maxWidth: '48rem', margin: '0 auto 3rem' }}>
+            Stay updated with the latest news, recipes, and fitness tips from the MPACT community.
+          </p>
+          
+          <h2 style={{
+            fontSize: window.innerWidth >= 768 ? '6rem' : '3.75rem',
+            fontWeight: 900,
+            color: '#facc15',
+            marginBottom: '2rem',
+            transform: scrollY > 3000 ? 'translateY(0) scale(1)' : 'translateY(50px) scale(0.8)',
+            opacity: scrollY > 3000 ? 1 : 0,
+            transition: 'all 0.7s',
+            cursor: 'default'
+          }}
+          onMouseEnter={(e) => e.target.style.transform = scrollY > 3000 ? 'translateY(0) scale(1.1)' : ''}
+          onMouseLeave={(e) => e.target.style.transform = scrollY > 3000 ? 'translateY(0) scale(1)' : ''}>
+            #GET IT NOW
+          </h2>
+        </div>
+      </section> */}
+
+      {/* Footer */}
+      {/* <footer style={{ backgroundColor: '#171717', borderTop: '1px solid #262626', padding: '2rem 0' }}>
+        <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '0 1rem' }}>
+          <div style={{
+            display: 'flex',
+            flexDirection: window.innerWidth >= 768 ? 'row' : 'column',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            gap: '1rem'
+          }}>
+            <div style={{ fontSize: '1.5rem', fontWeight: 'bold' }}>MPACT</div>
+            <div style={{ display: 'flex', gap: '1.5rem', fontSize: '0.875rem' }}>
+              <a href="#" style={{ color: 'white', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={(e) => e.target.style.color = '#facc15'} onMouseLeave={(e) => e.target.style.color = 'white'}>PRIVACY POLICY</a>
+              <a href="#" style={{ color: 'white', textDecoration: 'none', transition: 'color 0.3s' }} onMouseEnter={(e) => e.target.style.color = '#facc15'} onMouseLeave={(e) => e.target.style.color = 'white'}>TERMS OF USE</a>
+            </div>
+            <div style={{ display: 'flex', gap: '1rem' }}>
+              <a href="#" style={{ color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.target.style.color = '#facc15'; e.target.style.transform = 'scale(1.1)'; }} onMouseLeave={(e) => { e.target.style.color = 'white'; e.target.style.transform = 'scale(1)'; }}>FB</a>
+              <a href="#" style={{ color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.target.style.color = '#facc15'; e.target.style.transform = 'scale(1.1)'; }} onMouseLeave={(e) => { e.target.style.color = 'white'; e.target.style.transform = 'scale(1)'; }}>TW</a>
+              <a href="#" style={{ color: 'white', textDecoration: 'none', transition: 'all 0.3s' }} onMouseEnter={(e) => { e.target.style.color = '#facc15'; e.target.style.transform = 'scale(1.1)'; }} onMouseLeave={(e) => { e.target.style.color = 'white'; e.target.style.transform = 'scale(1)'; }}>IG</a>
+            </div>
+          </div>
+        </div>
+      </footer> */}
+      {/* ================= EXACT FOOTER ================= */}
+      <footer className="mpact-footer">
+        <style>{`
+    @import url('https://fonts.googleapis.com/css2?family=Khand:wght@500;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+
+    .mpact-footer {
+      background: #3a3a3a;
+      color: #ffffff;
+      padding-top: 100px;
+      font-family: 'Inter', sans-serif;
+    }
+      .social-icon {
+  transition: 
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    color 0.25s ease,
+    box-shadow 0.25s ease;
 }
+
+.social-icon:hover {
+  transform: scale(1.08);
+  border-color: #ffeb3b;
+  color: #ffeb3b;
+  box-shadow: 0 0 18px rgba(255, 235, 59, 0.45);
+}
+
+
+    .footer-wrapper {
+      max-width: 1400px;
+      margin: auto;
+      padding: 0 60px;
+    }
+
+    /* MAIN HEADING */
+    .footer-hash {
+      text-align: center;
+      font-size: 96px;
+      font-weight: 700;
+      color: #ffeb3b;
+      margin-bottom: 70px;
+      letter-spacing: 2px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-main {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1.2fr;
+      align-items: center;
+      gap: 40px;
+    }
+
+    /* LEFT LINKS */
+    .footer-links {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 14px 60px;   /* row gap | column gap */
+  font-size: 18px;
+  font-weight: 500;
+}
+
+
+    .footer-links a {
+      color: white;
+      text-decoration: none;
+    }
+
+   .footer-links a {
+  position: relative;
+  color: white;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+/* underline animation */
+.footer-links a::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -4px;
+  width: 0%;
+  height: 2px;
+  background: #ffeb3b;
+  transition: width 0.3s ease;
+}
+
+.footer-links a:hover {
+  color: #ffeb3b;
+}
+
+.footer-links a:hover::after {
+  width: 100%;
+}
+
+
+    /* SOCIAL ICONS */
+    .footer-social {
+  display: flex;
+  justify-content: center;
+  gap: 26px;
+}
+
+.social-icon {
+  width: 76px;
+  height: 76px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 255, 255, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  background: transparent;
+}
+
+
+    /* SUBSCRIBE */
+    .footer-subscribe h3 {
+      color: #ffeb3b;
+      font-size: 28px;
+      margin-bottom: 10px;
+      font-family: 'Khand', sans-serif;
+      font-weight: 600;
+    }
+
+    .footer-subscribe p {
+      font-size: 14px;
+      color: #d0d0d0;
+      line-height: 1.6;
+      margin-bottom: 18px;
+    }
+
+    .footer-subscribe input {
+      width: 100%;
+      background: transparent;
+      border: none;
+      border-bottom: 1px solid #ffeb3b;
+      padding: 10px 0;
+      color: white;
+      outline: none;
+      font-size: 14px;
+      margin-bottom: 22px;
+    }
+
+    .footer-subscribe button {
+      background: #ffeb3b;
+      color: black;
+      border: none;
+      padding: 12px 28px;
+      font-weight: 600;
+      cursor: pointer;
+      font-size: 14px;
+      font-family: 'Khand', sans-serif;
+    }
+
+    /* DIVIDER */
+    .footer-divider {
+      margin-top: 80px;
+      border-top: 1px solid #555;
+    }
+
+    /* BOTTOM */
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 25px 40px;
+      font-size: 13px;
+      color: #cfcfcf;
+    }
+
+    .footer-logo {
+      font-size: 22px;
+      color: #ffeb3b;
+      font-weight: 700;
+      font-family: 'Khand', sans-serif;
+    }
+
+    .footer-icons {
+      display: flex;
+      gap: 14px;
+    }
+
+    .footer-icons span {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      border: 1px solid #777;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+      .footer-main {
+        grid-template-columns: 1fr;
+        text-align: center;
+      }
+
+      .footer-links {
+        align-items: center;
+      }
+
+      .footer-bottom {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  `}</style>
+
+        <div className="footer-wrapper">
+          <div className="footer-hash"># GET IT NOW</div>
+
+          <div className="footer-main">
+            {/* LINKS */}
+            <div className="footer-links">
+              <a href="/">Home</a>
+              <a href="#">Terms & Conditions</a>
+
+              <a href="/products">Products</a>
+              <a href="#">Privacy Policy</a>
+
+              <a href="about">About us</a>
+              <a href="#">Return Policy</a>
+
+              <a href="#">Blogs</a>
+              <a href="/help">Help and Support</a>
+            </div>
+
+
+            {/* SOCIAL */}
+            <div className="footer-social">
+              <div className="social-icon">
+                <Instagram size={26} strokeWidth={1.8} />
+              </div>
+
+              <div className="social-icon">
+                <SiTiktok size={26} />
+              </div>
+
+              <div className="social-icon">
+                <Youtube size={26} strokeWidth={1.8} />
+              </div>
+            </div>
+
+
+            {/* SUBSCRIBE */}
+            <div className="footer-subscribe">
+              <h3>ENTER YOUR MAIL</h3>
+              <p>
+                Get Exclusive Early Access and Stay Informed About Product
+                Updates, Events, and More!
+              </p>
+              <input type="email" placeholder="your@email.com" />
+              <button>SUBSCRIBE</button>
+            </div>
+          </div>
+        </div>
+
+        <div className="footer-divider"></div>
+
+        <div className="footer-bottom">
+          <div className="footer-logo">MPACT</div>
+          <div>COPYRIGHT © MPACT 2025 – ALL RIGHTS RESERVED</div>
+          <div className="footer-icons">
+            <span>
+              <Instagram size={16} strokeWidth={1.8} />
+            </span>
+            <span><SiTiktok size={16} /></span>
+            <span>
+              <Youtube size={16} strokeWidth={1.8} />
+            </span>
+
+          </div>
+        </div>
+      </footer>
+
+
+                  <WhatsAppFloat />
+
+    </div>
+  );
+};
+
+export default MPACTLandingPage;

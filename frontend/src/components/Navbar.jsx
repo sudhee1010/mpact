@@ -1,6 +1,9 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
 
 export default function Navbar() {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       {/* ================= INTERNAL CSS ================= */}
@@ -8,27 +11,26 @@ export default function Navbar() {
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
         * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-  /* Hide scrollbar but allow scroll */
-html, body {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE & Edge */
-}
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari */
-}
+        html, body {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
 
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+          display: none;
+        }
 
-body {
-  background-color: rgba(24, 23, 23, 1);
-  color: #ffffff;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
+        body {
+          background-color: rgba(24, 23, 23, 1);
+          color: #ffffff;
+          font-family: "Segoe UI", Arial, sans-serif;
+        }
 
         .navbar {
           position: fixed;
@@ -54,7 +56,7 @@ body {
           text-decoration: none;
         }
 
-        /* CENTER LINKS */
+        /* CENTER LINKS (DESKTOP) */
         .nav-links {
           position: absolute;
           left: 50%;
@@ -66,7 +68,6 @@ body {
         .nav-links a {
           font-family: 'Jersey 25', sans-serif;
           font-size: 20px;
-          font-weight: 400;
           color: #000;
           text-decoration: none;
         }
@@ -88,96 +89,86 @@ body {
           cursor: pointer;
         }
 
-        /* PAGE OFFSET FIX */
+        /* HAMBURGER */
+        .hamburger {
+          display: none;
+          font-size: 28px;
+          cursor: pointer;
+          color: #000;
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+          position: fixed;
+          top: 92px;
+          left: 0;
+          width: 100%;
+          background: #ffd400;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 28px;
+          padding: 40px 0;
+          transform: translateY(-120%);
+          transition: transform 0.3s ease;
+          z-index: 999;
+        }
+
+        .mobile-menu.open {
+          transform: translateY(0);
+        }
+
+        .mobile-menu a {
+          font-family: 'Jersey 25', sans-serif;
+          font-size: 26px;
+          color: #000;
+          text-decoration: none;
+        }
+
         .page-wrapper {
           padding-top: 92px;
         }
 
-        /* ===== LARGE DESKTOPS / 4K ===== */
-@media (min-width: 1400px) {
-  .navbar {
-    padding: 0 100px;
-  }
+        /* ===== TABLET & BELOW ===== */
+        @media (max-width: 900px) {
+          .nav-links {
+            display: none;
+          }
 
-  .nav-logo {
-    font-size: 56px;
-  }
+          .hamburger {
+            display: block;
+          }
+        }
 
-  .nav-links a {
-    font-size: 22px;
-  }
-}
+        /* ===== MOBILE ===== */
+        @media (max-width: 600px) {
+          .navbar {
+            height: 72px;
+            padding: 0 20px;
+          }
 
-/* ===== LAPTOPS ===== */
-@media (max-width: 1200px) {
-  .navbar {
-    padding: 0 40px;
-  }
+          .nav-logo {
+            font-size: 34px;
+          }
 
-  .nav-links {
-    gap: 32px;
-  }
-}
+          .mobile-menu {
+            top: 72px;
+          }
 
-/* ===== TABLETS ===== */
-@media (max-width: 900px) {
-  .nav-links {
-    display: none; /* hide center menu */
-  }
-
-  .navbar {
-    padding: 0 30px;
-  }
-
-  .nav-logo {
-    font-size: 42px;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .navbar {
-    height: 72px;
-    padding: 0 20px;
-  }
-
-  .nav-logo {
-    font-size: 34px;
-  }
-
-  .nav-icons img {
-    width: 18px;
-    height: 18px;
-  }
-
-  .page-wrapper {
-    padding-top: 72px;
-  }
-}
-
-/* ===== SMALL MOBILE ===== */
-@media (max-width: 360px) {
-  .nav-logo {
-    font-size: 30px;
-  }
-
-  .nav-icons {
-    gap: 16px;
-  }
-}
-
-
+          .page-wrapper {
+            padding-top: 72px;
+          }
+        }
       `}</style>
 
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
+        <Link to="/" className="nav-logo">
           MPACT
         </Link>
 
-
-        {/* CENTER MENU */}
+        {/* DESKTOP LINKS */}
         <div className="nav-links">
           <Link to="/">HOME</Link>
           <Link to="/products">PRODUCTS</Link>
@@ -185,15 +176,28 @@ body {
           <Link to="/blog">BLOG</Link>
         </div>
 
-        {/* RIGHT ICONS */}
+        {/* RIGHT ICONS + HAMBURGER */}
         <div className="nav-icons">
           <img src="/icons/search.png" alt="Search" />
           <img src="/icons/avatar.png" alt="User" />
           <Link to="/cart">
-  <img src="/icons/bag.png" alt="Cart" />
-</Link>
+            <img src="/icons/bag.png" alt="Cart" />
+          </Link>
+
+          {/* HAMBURGER */}
+          <div className="hamburger" onClick={() => setOpen(!open)}>
+            ☰
+          </div>
         </div>
       </nav>
+
+      {/* MOBILE MENU */}
+      <div className={`mobile-menu ${open ? "open" : ""}`}>
+        <Link to="/" onClick={() => setOpen(false)}>HOME</Link>
+        <Link to="/products" onClick={() => setOpen(false)}>PRODUCTS</Link>
+        <Link to="/about" onClick={() => setOpen(false)}>ABOUT US</Link>
+        <Link to="/blog" onClick={() => setOpen(false)}>BLOG</Link>
+      </div>
     </>
   );
 }
