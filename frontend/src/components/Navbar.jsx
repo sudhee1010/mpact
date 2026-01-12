@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import SideCart from "./SideCart"; // adjust path if needed
 
 export default function Navbar() {
-  const [open, setOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
 
   return (
     <>
@@ -50,13 +52,12 @@ export default function Navbar() {
         .nav-logo {
           font-family: 'Jersey 25', sans-serif;
           font-size: 48px;
-          font-weight: 400;
           letter-spacing: -0.04em;
           color: #000;
           text-decoration: none;
         }
 
-        /* CENTER LINKS (DESKTOP) */
+        /* CENTER LINKS */
         .nav-links {
           position: absolute;
           left: 50%;
@@ -87,6 +88,10 @@ export default function Navbar() {
           width: 21px;
           height: 21px;
           cursor: pointer;
+        }
+        .cart img{
+          width: 24px;
+          height: 29px;
         }
 
         /* HAMBURGER */
@@ -129,7 +134,6 @@ export default function Navbar() {
           padding-top: 92px;
         }
 
-        /* ===== TABLET & BELOW ===== */
         @media (max-width: 900px) {
           .nav-links {
             display: none;
@@ -140,7 +144,6 @@ export default function Navbar() {
           }
         }
 
-        /* ===== MOBILE ===== */
         @media (max-width: 600px) {
           .navbar {
             height: 72px;
@@ -177,33 +180,40 @@ export default function Navbar() {
           <Link to="/wishlist">WISHLIST</Link>
         </div>
 
-        {/* RIGHT ICONS + HAMBURGER */}
+        {/* RIGHT ICONS */}
         <div className="nav-icons">
-          <Link to="/products">
-          <img src="/icons/search.png" alt="Search" />
+          <Link to="/seeMore">
+            <img src="/icons/search.png" alt="Search" />
           </Link>
-          <Link to ="/prfle">
-          <img src="/icons/avatar.png" alt="User" />
+
+          <Link to="/profile">
+            <img src="/icons/avatar.png" alt="User" />
           </Link>
-          <Link to="/cart">
-            <img src="/icons/bag.png" alt="Cart" />
-          </Link>
-          
+
+          {/* CART ICON → SIDE CART */}
+          <img
+            src="/icons/bag.png"
+            alt="Cart" className="cart"
+            onClick={() => setCartOpen(true)}
+          />
 
           {/* HAMBURGER */}
-          <div className="hamburger" onClick={() => setOpen(!open)}>
+          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
             ☰
           </div>
         </div>
       </nav>
 
-      {/* MOBILE MENU */}
-      <div className={`mobile-menu ${open ? "open" : ""}`}>
-        <Link to="/" onClick={() => setOpen(false)}>HOME</Link>
-        <Link to="/products" onClick={() => setOpen(false)}>PRODUCTS</Link>
-        <Link to="/about" onClick={() => setOpen(false)}>ABOUT US</Link>
-        <Link to="/blog" onClick={() => setOpen(false)}>BLOG</Link>
+      {/* ================= MOBILE MENU ================= */}
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+        <Link to="/" onClick={() => setMenuOpen(false)}>HOME</Link>
+        <Link to="/products" onClick={() => setMenuOpen(false)}>PRODUCTS</Link>
+        <Link to="/about" onClick={() => setMenuOpen(false)}>ABOUT US</Link>
+        <Link to="/blog" onClick={() => setMenuOpen(false)}>BLOG</Link>
       </div>
+
+      {/* ================= SIDE CART ================= */}
+      <SideCart open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
