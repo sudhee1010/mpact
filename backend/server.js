@@ -16,6 +16,8 @@ import adminUserRoutes from "./routes/adminUserRoutes.js";
 import paymentRoutes from "./routes/paymentRoutes.js";
 import couponRoutes from "./routes/couponRoutes.js";
 import bannerRoutes from "./routes/bannerRoutes.js";
+import heroBannerRoutes from "./routes/heroBannerRoutes.js";
+import videoRoutes from "./routes/videoRoutes.js";
 
 dotenv.config();
 const app = express();
@@ -45,6 +47,8 @@ app.use("/api/admin/users", adminUserRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/coupons", couponRoutes);
 app.use("/api/banners", bannerRoutes);
+app.use("/api/hero-banners", heroBannerRoutes);
+app.use("/api/videos", videoRoutes);
 
 const PORT = process.env.PORT || 5000;
 
