@@ -1,8 +1,7 @@
 // import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
-
+import { BrowserRouter, Routes,Route } from "react-router-dom";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 // import Footer from "./components/Footer";
@@ -15,7 +14,8 @@ import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
-import Input from "./pages/input/Input";
+import Blog from "./pages/blog/Blog";
+import Nutrition from "./pages/blog/Nutrition";
 // import Cart from "./pages/Cart";
 
 import Cart from "./pages/Cart";
@@ -47,9 +47,11 @@ function App() {
           
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq/>} />
-          <Route path="/input" element={<Input/>} />
+          <Route path="/blog" element={<Blog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/Nutrition" element={<Nutrition />} />
+
         </Routes>
       </div>   
 
