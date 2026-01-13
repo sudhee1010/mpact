@@ -1,10 +1,14 @@
-import Navbar from "../components/Navbar";
+import { useState } from "react";
 import { Link } from "react-router-dom";
+import { Heart } from "lucide-react";
 import Footer from "../components/Footer";
+
+// Mock components - replace with your actual imports
+const Navbar = () => <div style={{height: '60px', background: '#111', borderBottom: '2px solid #ffeb00'}}></div>;
 
 /* ================= PRODUCT DATA ================= */
 const PRODUCT_DATA = {
-  "PROTIEN BARS": [
+  "PROTEIN BARS": [
     {
       id: 1,
       title: "Protein Bar – Chocolate",
@@ -147,6 +151,23 @@ const PRODUCT_DATA = {
 };
 
 export default function Products() {
+  const [quantities, setQuantities] = useState({});
+  const [favorites, setFavorites] = useState({});
+
+  const handleQuantityChange = (productId, delta) => {
+    setQuantities(prev => ({
+      ...prev,
+      [productId]: Math.max(1, (prev[productId] || 1) + delta)
+    }));
+  };
+
+  const toggleFavorite = (productId) => {
+    setFavorites(prev => ({
+      ...prev,
+      [productId]: !prev[productId]
+    }));
+  };
+
   return (
     <>
       <Navbar />
@@ -181,117 +202,278 @@ export default function Products() {
     color: #ffffff;
     font-size: clamp(18px, 2.2vw, 24px);
     margin-bottom: 20px;
+    padding-left: 180px;
+    max-width: 1401px;
   }
 
-  /* ✅ GRID FIX */
-  .product-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: clamp(14px, 2vw, 28px);
-  }
+  /* ================= PRODUCT GRID ================= */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 291.51px);
+  gap: 18px;
+  justify-content: center;
+  max-width: 1380px;
+  margin: 30px auto;
+  padding: 0 8px;
+}
 
+/* ================= PRODUCT CARD ================= */
+.product-card {
+  width: 291.51px;
+  height: 635.17px;
+  background: #151515;
+  border: 1.34px solid #ffeb00;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  position: relative;
+}
+
+.product-card:hover {
+  // transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+}
+
+/* ================= DISCOUNT BADGE ================= */
+.discount-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  background: #ff0000;
+  color: white;
+  padding: 6px 12px;
+  font-size: 14px;
+  font-weight: 800;
+  border-radius: 4px;
+  z-index: 10;
+}
+
+/* ================= FAVORITE BUTTON ================= */
+.favorite-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 40px;
+  height: 40px;
+  background: rgba(0, 0, 0, 0.7);
+  border: 1px solid #ffeb00;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+}
+
+.favorite-btn:hover {
+  background: rgba(255, 235, 0, 0.2);
+  transform: scale(1.1);
+}
+
+.favorite-btn.active {
+  background: #ffeb00;
+}
+
+.favorite-btn svg {
+  width: 20px;
+  height: 20px;
+}
+
+.favorite-btn.active svg {
+  fill: #ff0000;
+  stroke: #ff0000;
+}
+
+.favorite-btn:not(.active) svg {
+  stroke: #ffeb00;
+  fill: none;
+}
+
+/* ================= IMAGE ================= */
+.product-image-container {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  overflow: hidden;
+}
+
+.product-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover img {
+  transform: scale(1.06);
+}
+
+/* ================= TITLE ================= */
+.product-title {
+  font-size: 14px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: #ffffff;
+  padding: 12px 12px 0;
+}
+
+/* ================= SPECS ================= */
+.specs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 6px 12px;
+}
+
+.spec {
+  font-size: 10px;
+  border: 1px solid #ffeb00;
+  padding: 3px 6px;
+  border-radius: 4px;
+  color: #ffeb00;
+  white-space: nowrap;
+}
+
+/* ================= RATING ================= */
+.rating {
+  color: #ffeb00;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 12px;
+}
+
+.reviews {
+  color: #aaa;
+  font-size: 12px;
+  padding: 0 12px;
+}
+
+/* ================= PRICE ================= */
+.price-box {
+  padding: 6px 12px 0;
+}
+
+.old-price {
+  font-size: 12px;
+  color: #888;
+  text-decoration: line-through;
+}
+
+.price {
+  padding: 0 12px;
+  font-size: 20px;
+  color: #4caf50;
+  font-weight: 800;
+  line-height: 1.2;
+}
+
+.discount-text {
+  display: inline-block;
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #4caf50;
+}
+
+/* ================= QUANTITY SELECTOR ================= */
+.quantity-selector {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 12px;
+}
+
+.quantity-btn {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+  border: 2px solid #ffeb00;
+  color: #ffeb00;
+  font-size: 18px;
+  font-weight: 800;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  border-radius: 4px;
+}
+
+.quantity-btn:hover {
+  background: #ffeb00;
+  color: #000;
+}
+
+.quantity-display {
+  min-width: 30px;
+  text-align: center;
+  color: #ffeb00;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ================= ACTION BUTTONS ================= */
+.action-buttons {
+  display: flex;
+  gap: 8px;
+  padding: 0 12px 12px;
+  margin-top: auto;
+}
+
+.add-to-cart-btn,
+.buy-btn {
+  flex: 1;
+  padding: 10px;
+  border-radius: 6px;
+  font-family: "Jersey 25", cursive;
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  border: 1px solid #ffeb00;
+}
+
+.add-to-cart-btn {
+  background: transparent;
+  color: #ffeb00;
+}
+
+.add-to-cart-btn:hover {
+  background: rgba(255, 235, 0, 0.1);
+}
+
+.buy-btn {
+  background: #ffeb00;
+  color: #000;
+}
+
+.buy-btn:hover {
+  background: #fff;
+  border-color: #fff;
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 480px) {
   .product-card {
-    background-color: #353434ff;
-    border: 2px solid #ffeb00;
-    padding: 14px;
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-  }
-
-  /* ✅ IMAGE FIX */
-  .product-card img {
     width: 100%;
-    aspect-ratio: 1 / 1;
-    object-fit: contain;
-    margin-bottom: 10px;
   }
 
-  .product-title {
-    font-size: 14px;
-    color: #ffffff;
-    margin-bottom: 6px;
-    line-height: 1.3;
+  .product-image-container {
+    height: 300px;
   }
 
-  /* ✅ SPECS FIX */
   .specs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    justify-content: center;
-    margin-bottom: 8px;
+    max-height: 34px;
+    overflow: hidden;
   }
-
-  .spec {
-    border: 1px solid #ffeb00;
-    color: #ffeb00;
-    font-size: 10px;
-    padding: 4px 6px;
-    border-radius: 3px;
-  }
-
-  /* Limit specs visually on small screens */
-  @media (max-width: 480px) {
-    .specs {
-      max-height: 34px;
-      overflow: hidden;
-    }
-  }
-
-  .rating {
-    color: #ffeb00;
-    font-size: 13px;
-    margin-bottom: 2px;
-  }
-
-  .reviews {
-    color: #cccccc;
-    font-size: 12px;
-    margin-bottom: 6px;
-  }
-
-  .price-box {
-    display: flex;
-    justify-content: center;
-    gap: 8px;
-    margin-bottom: 4px;
-  }
-
-  .old-price {
-    color: #999;
-    font-size: 12px;
-    text-decoration: line-through;
-  }
-
-  .discount {
-    color: #00ff7f;
-    font-size: 12px;
-    font-weight: bold;
-  }
-
-  .price {
-    color: #ffffff;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-
-  /* ✅ BUTTON ALWAYS AT BOTTOM */
-  .buy-btn {
-    margin-top: auto;
-    width: 100%;
-    padding: 10px;
-    background-color: #ffeb00;
-    border: none;
-    font-family: 'Jersey 25', cursive;
-    font-weight: bold;
-    cursor: pointer;
-  }
+}
 
   .see-more {
     display: flex;
     justify-content: flex-end;
     margin-top: 16px;
+    max-width: 1401px;
   }
 
   .see-more button {
@@ -301,8 +483,32 @@ export default function Products() {
     font-weight: bold;
     cursor: pointer;
   }
-`}</style>
 
+  /* ================= MOBILE & TABLET FIXS ================= */
+@media (max-width: 1024px) {
+  .section-title {
+    padding-left: 0;
+    text-align: center;
+  }
+
+  .see-more {
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .section-title {
+    font-size: 18px;
+    margin-bottom: 16px;
+  }
+
+  .see-more button {
+    width: auto;
+    padding: 10px 24px;
+  }
+}
+
+`}</style>
 
       <div className="page-wrapper">
         <div className="products-page">
@@ -315,12 +521,26 @@ export default function Products() {
               <div className="product-grid">
                 {PRODUCT_DATA[section].map((product) => (
                   <div className="product-card" key={product.id}>
-                    <img src={product.image} alt={product.title} />
+                    <div className="discount-badge">{product.discount}</div>
+                    
+                    <button 
+                      className={`favorite-btn ${favorites[product.id] ? 'active' : ''}`}
+                      onClick={() => toggleFavorite(product.id)}
+                    >
+                      <Heart />
+                    </button>
+
+                    <div className="product-image-container">
+                      <img src={product.image} alt={product.title} />
+                    </div>
+
                     <div className="product-title">{product.title}</div>
 
                     <div className="specs">
                       {product.specs.map((spec, i) => (
-                        <span className="spec" key={i}>{spec}</span>
+                        <span className="spec" key={i}>
+                          {spec}
+                        </span>
                       ))}
                     </div>
 
@@ -329,25 +549,45 @@ export default function Products() {
                       {"☆".repeat(5 - product.rating)}
                     </div>
 
-                    <div className="reviews">⭐ {product.reviews} Reviews</div>
+                    <div className="reviews">({product.reviews})</div>
 
                     <div className="price-box">
                       <span className="old-price">₹{product.oldPrice}</span>
-                      <span className="discount">{product.discount}</span>
                     </div>
 
-                    <div className="price">RS : {product.price}</div>
+                    <div className="price">₹{product.price}</div>
 
-                    <Link to="/productspec">
-                      <button className="buy-btn">BUY NOW</button>
-                    </Link>
+                    <div className="quantity-selector">
+                      <button 
+                        className="quantity-btn"
+                        onClick={() => handleQuantityChange(product.id, -1)}
+                      >
+                        −
+                      </button>
+                      <span className="quantity-display">
+                        {quantities[product.id] || 1}
+                      </span>
+                      <button 
+                        className="quantity-btn"
+                        onClick={() => handleQuantityChange(product.id, 1)}
+                      >
+                        +
+                      </button>
+                    </div>
+
+                    <div className="action-buttons">
+                      <button className="add-to-cart-btn">Add to Cart</button>
+                      <Link to="/productspec">
+                        <button className="buy-btn">BUY NOW</button>
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>
 
               <div className="see-more">
                 <Link to="/seeMore">
-                <button>SEE MORE →</button>
+                  <button>SEE MORE →</button>
                 </Link>
               </div>
             </div>
@@ -356,8 +596,5 @@ export default function Products() {
       </div>
       <Footer />
     </>
-
-    
   );
-  
-};
+}
