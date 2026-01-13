@@ -23,6 +23,7 @@ import Payment from "./pages/Payment";
 
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
+import Newprofile from "./pages/profile/Newprofile";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -43,6 +44,7 @@ function App() {
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/prfle" element={<Prfle />}/>
+          <Route path="/newprofile" element={<Newprofile/>}/>
 
 
           <Route path="/payment" element={<Payment />} />

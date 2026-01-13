@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Navbar from '../../components/NavbarTwo';
-import styles from "./Faq.module.css"
+// import styles from "./Faq.module.css"
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);
