@@ -1,13 +1,9 @@
 
 import { useState } from "react";
-<<<<<<< HEAD
-import { BrowserRouter, Routes,Route } from "react-router-dom";
-=======
 import { Routes, Route } from "react-router-dom";
 import ScrollToTop from "./components/ScrollToTop";
 
 
->>>>>>> 0091a9e9240848496bfe7fa9b0a79cb715e79292
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
    
@@ -19,22 +15,14 @@ import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
-<<<<<<< HEAD
-import Blog from "./pages/blog/Blog";
-import Nutrition from "./pages/blog/Nutrition";
-// import Cart from "./pages/Cart";
-
-=======
-import Input from "./pages/input/Input";
->>>>>>> 0091a9e9240848496bfe7fa9b0a79cb715e79292
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import Review from "./pages/review";
 import Pay from "./pages/Pay";
 import SuccessPopup from "./pages/SuccessPopup.jsx";
 import HelpSupport from "./pages/HelpSupport";
-
-
+import Nutrition from "./pages/blog/Nutrition.jsx"
+import Blog  from "./pages/blog/Blog.jsx"
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
