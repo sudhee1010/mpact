@@ -9,6 +9,7 @@ import proteinGym from "../assets/rrs/protein-gym.jpg";
 import { addToCart } from "../services/cartService";
 import { Instagram, Youtube } from 'lucide-react';
 import { SiTiktok } from "react-icons/si";
+import WhatsAppFloat from '../components/WhatsAppFloat';
 
 
 
@@ -1278,6 +1279,7 @@ useEffect(() => {
         </div>
       )}
 
+      <WhatsAppFloat />
 
     </div>
   );

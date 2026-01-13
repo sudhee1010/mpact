@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import Navbar from '../../components/NavbarTwo';
+// import Navbar from '../../components/NavbarTwo';
+import Navbar from '../../components/Navbar';
+import Footer from "../../components/Footer";
+// import Navbar from '../../components/NavbarTwo';
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);
@@ -8,61 +11,61 @@ const Faq = () => {
     {
       category: "PRODUCT INFORMATION",
       questions: [
-        { q: "What makes your product unique?", a: "Our product is designed with premium materials and modern technology that set it apart from competitors." },
-        { q: "What are the key features?", a: "Key features include durability, innovative design, and user-friendly interface." },
-        { q: "Is the product eco-friendly?", a: "Yes, we use sustainable materials and environmentally conscious manufacturing processes." },
-        { q: "What warranty do you offer?", a: "We offer a comprehensive 2-year warranty on all our products." },
-        { q: "Are there different models available?", a: "Yes, we offer multiple models to suit different needs and preferences." }
+        { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     },
     {
-      category: "SHIPPING & DELIVERY",
+      category: "PRODUCT INFORMATION",
       questions: [
-        { q: "What are the shipping options?", a: "We offer standard, express, and overnight shipping options." },
-        { q: "Do you ship internationally?", a: "Yes, we ship to over 50 countries worldwide." },
-        { q: "How long does delivery take?", a: "Standard delivery takes 5-7 business days, express takes 2-3 days." },
-        { q: "Can I track my order?", a: "Yes, you'll receive a tracking number once your order ships." },
-        { q: "What if my item arrives damaged?", a: "Contact us immediately and we'll arrange a replacement or refund." }
+        { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     },
     {
-      category: "RETURNS & EXCHANGES",
+      category: "PRODUCT INFORMATION",
       questions: [
-        { q: "What is your return policy?", a: "We accept returns within 30 days of purchase for a full refund." },
-        { q: "How do I initiate a return?", a: "Contact our customer service team to start the return process." },
-        { q: "Are return shipping costs covered?", a: "Yes, we cover return shipping for defective or incorrect items." },
-        { q: "Can I exchange for a different product?", a: "Yes, exchanges are available subject to product availability." },
-        { q: "How long do refunds take?", a: "Refunds are processed within 5-10 business days after we receive the return." }
+         { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     },
     {
-      category: "PAYMENT & PRICING",
+      category: "PRODUCT INFORMATION",
       questions: [
-        { q: "What payment methods do you accept?", a: "We accept all major credit cards, PayPal, and digital wallets." },
-        { q: "Is my payment information secure?", a: "Yes, we use industry-standard encryption to protect your data." },
-        { q: "Do you offer payment plans?", a: "Yes, we offer flexible payment plans for purchases over $500." },
-        { q: "Are there any hidden fees?", a: "No, all costs are transparently displayed during checkout." },
-        { q: "Do you price match?", a: "Yes, we'll match verified competitor prices on identical products." }
+        { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     },
     {
-      category: "CUSTOMER SUPPORT",
+      category: "PRODUCT INFORMATION",
       questions: [
-        { q: "How can I contact customer support?", a: "You can reach us via email, phone, or live chat on our website." },
-        { q: "What are your support hours?", a: "Our support team is available Monday-Friday, 9 AM - 6 PM EST." },
-        { q: "Do you offer technical assistance?", a: "Yes, our technical support team can help with setup and troubleshooting." },
-        { q: "Can I schedule a consultation?", a: "Yes, schedule a free consultation with our product specialists." },
-        { q: "Do you have a FAQ database?", a: "Yes, visit our help center for detailed articles and guides." }
+         { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     },
     {
-      category: "MAINTENANCE & CARE",
+      category: "PRODUCT INFORMATION",
       questions: [
-        { q: "How do I maintain my product?", a: "Follow the care instructions included with your product for best results." },
-        { q: "What cleaning products are safe to use?", a: "Use mild soap and water; avoid harsh chemicals that may damage materials." },
-        { q: "How often should I service the product?", a: "Annual servicing is recommended for optimal performance." },
-        { q: "Where can I get replacement parts?", a: "Replacement parts are available through our website or authorized dealers." },
-        { q: "Is professional maintenance required?", a: "Basic maintenance can be done at home; professional service is optional." }
+         { q: "What makes your product unique?", a: "Our products are crafted with premium ingredients, high protein content, and designed to fuel your active lifestyle. Each product undergoes rigorous quality testing to ensure the best taste and nutrition." },
+        { q: "What makes your product unique?", a: "We use only natural, high-quality ingredients without any artificial preservatives, ensuring you get the best nutrition in every serving." },
+        { q: "What makes your product unique?", a: "Our protein formulations are scientifically designed to provide optimal absorption and sustained energy throughout your day." },
+        { q: "What makes your product unique?", a: "All our products are shelf-stable, lactose-free, and recyclable, making them convenient and environmentally friendly." },
+        { q: "What makes your product unique?", a: "We combine protein with caffeine for an extra energy boost, perfect for workouts or busy days." }
       ]
     }
   ];
@@ -90,7 +93,7 @@ const Faq = () => {
         }
 
         .navbar {
-          background-color: #2f2f2f;
+          background-color: #ffee00;
           padding: 20px 40px;
           color: #ffee00;
           font-size: 24px;
@@ -104,45 +107,54 @@ const Faq = () => {
         }
 
         .heading h1 {
-          color: #2f2f2f;
+          color: #ffee00;
           font-family: 'Khand', sans-serif;
           font-weight: bold;
           font-size: 60px;
-          text-transform: uppercase;
-          text-shadow: 2px 2px 0 #ffee00,
-            -2px -2px 0 #ffee00,
-            2px -2px 0 #ffee00,
-            -2px 2px 0 #ffee00,
-            2px 2px 0 #ffee00,
-            -3px 0px 0 #ffee00,
-            3px 0px 0 #ffee00,
-            0px -3px 0 #ffee00,
-            0px 3px 0 #ffee00;
+          // text-transform: uppercase;
+          // text-shadow: 2px 2px 0 #ffee00,
+          //   -2px -2px 0 #ffee00,
+          //   2px -2px 0 #ffee00,
+          //   -2px 2px 0 #ffee00,
+          //   2px 2px 0 #ffee00,
+          //   -3px 0px 0 #ffee00,
+          //   3px 0px 0 #ffee00,
+          //   0px -3px 0 #ffee00,
+          //   0px 3px 0 #ffee00;
           letter-spacing: 0;
           margin-bottom: 40px;
         }
 
         .category-title {
-          color: #2f2f2f;
+          color: #ffee00;
           font-family: 'Khand', sans-serif;
           text-transform: uppercase;
-          text-shadow: 2px 2px 0 #ffee00,
-            -2px -2px 0 #ffee00,
-            2px -2px 0 #ffee00,
-            -2px 2px 0 #ffee00,
-            2px 2px 0 #ffee00,
-            -3px 0px 0 #ffee00,
-            3px 0px 0 #ffee00,
-            0px -3px 0 #ffee00,
-            0px 3px 0 #ffee00;
+          // text-shadow: 2px 2px 0 #ffee00,
+          //   -2px -2px 0 #ffee00,
+          //   2px -2px 0 #ffee00,
+          //   -2px 2px 0 #ffee00,
+          //   2px 2px 0 #ffee00,
+          //   -3px 0px 0 #ffee00,
+          //   3px 0px 0 #ffee00,
+          //   0px -3px 0 #ffee00,
+          //   0px 3px 0 #ffee00;
           text-align: center;
           font-size: 28px;
-          padding: 60px 20px 30px;
+          // padding: 60px 20px 30px;
           font-weight: bold;
         }
 
         .category-title:first-of-type {
-          padding-top: 40px;
+          padding-top: 20px;
+        }
+
+        .box{
+        width: 25%;
+        height: 10vh;
+        margin-left: 38%;
+        margin-right: 30%;
+        margin-top: 4%;
+        background-color: #333333
         }
 
         .faq-section {
@@ -167,7 +179,7 @@ const Faq = () => {
           border-radius: 7px;
           position: relative;
           cursor: pointer;
-          text-align: center;
+          text-align: left;
           transition: all 0.3s ease;
         }
 
@@ -194,7 +206,7 @@ const Faq = () => {
           max-height: 0;
           overflow: hidden;
           transition: max-height 0.3s ease, padding 0.3s ease;
-          background-color: rgba(255, 238, 0, 0.1);
+          background-color: rgb(255, 255, 255);
           border-radius: 0 0 7px 7px;
         }
 
@@ -206,7 +218,7 @@ const Faq = () => {
         }
 
         .faq-answer p {
-          color: #ffffff;
+          color: #0a0a0a;
           font-family: 'Khand', sans-serif;
           font-size: 18px;
           line-height: 1.6;
@@ -291,6 +303,7 @@ const Faq = () => {
           .category-title {
             font-size: 20px;
             padding: 30px 10px 15px;
+            
           }
 
           .faq-button {
@@ -325,12 +338,13 @@ const Faq = () => {
       {/* <div className="navbar">LOGO</div> */}
 
       <div className="heading">
-        <h1>Frequently Asked Questions</h1>
+        <h1>FREQUENTLY ASKED QUESTIONS</h1>
       </div>
 
       {faqData.map((category, catIndex) => (
         <div key={catIndex}>
-          <h2 className="category-title">{category.category}</h2>
+          <div className="box">
+          <h2 className="category-title">{category.category}</h2></div><br></br>
           <div className="faq-section">
             {category.questions.map((item, qIndex) => {
               const currentIndex = questionIndex++;
@@ -354,10 +368,12 @@ const Faq = () => {
           </div>
         </div>
       ))}
+      
 
       <div className="cta-section">
         {/* <h2 className="cta-title">#GET IT NOW</h2> */}
         {/* <button className="cta-button">Shop Now</button> */}
+        <Footer/>
       </div>
     </div>
   );

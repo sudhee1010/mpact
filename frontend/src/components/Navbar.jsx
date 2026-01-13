@@ -78,28 +78,29 @@ export default function Navbar() {
         }
 
         /* RIGHT ICONS */
-        .nav-icons {
+       .nav-icons {
           display: flex;
+          align-items: center;          
           gap: 24px;
-          align-items: center;
         }
 
+        /* ALL ICONS (image-based) */
         .nav-icons img {
           width: 21px;
           height: 21px;
+          display: block;               
           cursor: pointer;
-        }
-        .cart img{
-          width: 24px;
-          height: 29px;
         }
 
-        /* HAMBURGER */
+        /* HAMBURGER ICON */
         .hamburger {
-          display: none;
-          font-size: 28px;
-          cursor: pointer;
           color: #000;
+          font-size: 22px;
+          line-height: 1;               
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
         }
 
         /* MOBILE MENU */
@@ -134,6 +135,10 @@ export default function Navbar() {
           padding-top: 92px;
         }
 
+        .hamburger {
+          display: none;
+        }
+          
         @media (max-width: 900px) {
           .nav-links {
             display: none;
@@ -193,7 +198,7 @@ export default function Navbar() {
           {/* CART ICON → SIDE CART */}
           <img
             src="/icons/bag.png"
-            alt="Cart" className="cart"
+            alt="Cart"
             onClick={() => setCartOpen(true)}
           />
 
