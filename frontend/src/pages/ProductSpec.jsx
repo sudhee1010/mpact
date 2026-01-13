@@ -4,747 +4,969 @@ import Footer from "../components/Footer";
 
 const ProductPage = () => {
   const [qty, setQty] = useState(1);
+  const [showReviewPopup, setShowReviewPopup] = useState(false);
+  
 
-  const qtyBtn = {
-    background: "transparent",
-    color: "#fff",
+  const images = [
+    "/images/stawberry.png",
+    "/images/grapes.png",
+    "/images/pista.png",
+    "/images/mango.png",
+  ];
+
+  const [activeImage, setActiveImage] = useState(images[0]);
+
+  const styles = {
+    container: {
+      background: "#2f2f2f",
+      color: "#fff"
+    },
+    productSection: {
+      maxWidth: 1400,
+      margin: "0 auto",
+      marginLeft: "100px",
+      padding: "60px 40px",
+      display: "grid",
+      gridTemplateColumns: "1fr 1fr",
+      gap: 60
+    },
+    mainImageContainer: {
+      border: "2px solid #ffe600",
+      borderRadius: 13,
+      overflow: "hidden",
+      background: "#fff",
+      width: "95%",
+      height: 560,
+      marginLeft: "45px"
+    },
+    mainImage: {
+      width: "90%",
+      height: 570,
+      objectFit: "cover"
+    },
+    thumbnailsContainer: {
+      marginTop: 16,
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: 12,
+      marginLeft: "47px",
+      width: "95%"
+    },
+    thumbnailBox: {
+      border: "2px solid transparent",
+      borderRadius: 10,
+      overflow: "hidden",
+      background: "#2b2b2b",
+      cursor: "pointer",
+      transition: "transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease"
+    },
+    thumbnailBoxActive: {
+      borderColor: "#ffe600"
+    },
+    thumbnailImage: {
+      width: "100%",
+      height: 130,
+      objectFit: "cover",
+      display: "block"
+    },
+    detailsContainer: {
+      maxWidth: 520
+    },
+    title: {
+      fontFamily: "'Jersey 25', sans-serif",
+      fontSize: 44,
+      letterSpacing: 2,
+      lineHeight: "1.1",
+      marginBottom: 16,
+      textTransform: "uppercase"
+    },
+    ratingContainer: {
+      display: "flex",
+      gap: 10,
+      marginBottom: 26
+    },
+    stars: {
+      color: "#ffc107",
+      fontSize: 18
+    },
+    reviewCount: {
+      color: "#ccc",
+      fontSize: 14
+    },
+    priceContainer: {
+      display: "flex",
+      gap: 14,
+      alignItems: "baseline",
+      marginBottom: 30
+    },
+    price: {
+      fontSize: 36,
+      fontWeight: 800
+    },
+    oldPrice: {
+      color: "#777",
+      textDecoration: "line-through"
+    },
+    discount: {
+      color: "#00ff66",
+      fontWeight: 700
+    },
+    tagsContainer: {
+      display: "grid",
+      gridTemplateColumns: "repeat(3, max-content)",
+      gap: 14,
+      marginBottom: 34
+    },
+    tag: {
+      border: "1.5px solid #ffe600",
+      padding: "10px 16px",
+      borderRadius: 6,
+      fontSize: 12,
+      fontWeight: 600,
+      whiteSpace: "nowrap"
+    },
+    quantityContainer: {
+      marginBottom: 34
+    },
+    quantityLabel: {
+      fontSize: 14,
+      marginBottom: 10,
+      color: "#fff"
+    },
+    quantityBox: {
+      display: "flex",
+      alignItems: "center",
+      border: "2px solid #ffe600",
+      borderRadius: 12,
+      overflow: "hidden",
+      height: 52,
+      background: "#2f2f2f",
+      width: "fit-content"
+    },
+    quantityButton: {
+      width: 56,
+      height: "100%",
+      background: "transparent",
+      border: "none",
+      color: "#fff",
+      fontSize: 22,
+      cursor: "pointer",
+      transition: "all 0.25s ease"
+    },
+    quantityButtonLeft: {
+      borderRight: "1px solid #ffe600"
+    },
+    quantityValue: {
+      width: 56,
+      height: "100%",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 18,
+      fontWeight: 700,
+      color: "#fff",
+      borderRight: "1px solid #ffe600"
+    },
+    actionButtons: {
+      display: "flex",
+      gap: 16
+    },
+
+addToCartButton: {
+  flex: 1,
+  height: 67,                 
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  gap: 10,
+
+  background: "#2f2f2f",
+  color: "#fff",
+
+  padding: "0 20px",         
+  fontSize: 23,
+  fontWeight: 900,
+
+  borderRadius: 11,
+  border: "2px solid #ffeb00",
+
+  cursor: "pointer",
+  textTransform: "uppercase",
+  letterSpacing: 1,
+  transition: "all 0.25s ease",
+
+  fontFamily: "'Jersey 25', sans-serif",
+  textDecoration: "none",
+  boxSizing: "border-box"
+},
+
+buyNowButton: {
+  flex: 1,
+  height: 67,                 // 🔑 SAME height
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+
+  background: "#ffeb00",
+  color: "#000",
+
+  padding: "0 20px",          // 🔑 SAME padding
+  fontSize: 23,
+  fontWeight: 900,
+
+  borderRadius: 11,
+  border: "2px solid #ffeb00",
+
+  cursor: "pointer",
+  textTransform: "uppercase",
+  letterSpacing: 1,
+  transition: "all 0.25s ease",
+
+  fontFamily: "'Jersey 25', sans-serif",
+  textDecoration: "none",
+  boxSizing: "border-box"
+},
+
+cartIcon: {
+  width: 26,
+  height: 26
+}
+,
+
+  recommendedSection: {
+    padding: "20px 0" // ⬅️ reduced gap (was 40px)
+  },
+
+  recommendedTitle: {
+    marginBottom: 12, // ⬅️ reduced (was 24)
+    fontWeight: 700,
+    textAlign: "left",
+    marginLeft: 185
+  },
+
+  recommendedGrid: {
+    display: "flex",
+    gap: 24,
+    padding: "0 40px",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+
+  recommendedItem: {
+    width: 212,
+    height: 212,
+    borderRadius: 8,
+    border: "2px solid #ffe600",
+    overflow: "hidden",
+    background: "#2b2b2b",
+    flexShrink: 0,
+    transition: "transform 0.35s ease"
+  },
+
+  recommendedImage: {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+    transition: "transform 0.35s ease"
+  },
+
+  /* ================= REVIEWS SECTION ================= */
+
+  reviewsSection: {
+    maxWidth: 1200,
+    margin: "0 auto",
+    padding: "20px 40px", // ⬅️ reduced top/bottom (was 40)
+    color: "#fff"
+  },
+
+  reviewsHeader: {
+    marginBottom: 12, // ⬅️ reduced (was 24)
+    fontWeight: 700,
+    textAlign: "left",
+    marginLeft: -55
+  },
+
+  reviewsButtons: {
+    display: "flex",
+    gap: 16,
+    marginTop: 10,
+    marginLeft: "auto", // ⬅️ keeps buttons on right
+    alignItems: "center"
+  },
+
+  writeReviewButton: {
+    background: "#ffe600",
+    width: 190,
+    height: 52,
+    fontWeight: "bold",
+    borderRadius: 8,
     border: "none",
-    padding: "10px 14px",
     cursor: "pointer",
+    transition: "transform 0.2s ease",
+    fontFamily: "'Jersey 25', sans-serif",
     fontSize: 18,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+
+  topRatedButton: {
+    background: "transparent",
+    border: "2px solid #ffe600",
+    color: "#ffffff",
+    width: 170,
+    height: 52,
+    borderRadius: 8,
+    cursor: "pointer",
+    transition: "transform 0.2s ease",
+    fontFamily: "'Jersey 25', sans-serif",
+    fontSize: 18,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+    popupOverlay: {
+      position: "fixed",
+      inset: 0,
+      background: "rgba(0,0,0,0.75)",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      zIndex: 9999,
+      padding: "16px"
+    },
+    popupContent: {
+      width: "100%",
+      maxWidth: 1200,
+      background: "#3a3a3a",
+      borderRadius: 26,
+      border: "2px solid #ffe600",
+      padding: "clamp(20px, 4vw, 50px)",
+      color: "#fff"
+    },
+    popupTitle: {
+      fontFamily: "'Jersey 25', sans-serif",
+      textAlign: "center",
+      letterSpacing: 2,
+      marginBottom: "clamp(20px, 4vw, 40px)",
+      fontSize: "clamp(20px, 3vw, 28px)"
+    },
+    popupUser: {
+      display: "flex",
+      gap: 16,
+      alignItems: "center",
+      marginBottom: "clamp(20px, 4vw, 40px)"
+    },
+    popupAvatar: {
+      width: 46,
+      height: 46,
+      borderRadius: "50%",
+      background: "#1db954",
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "center",
+      fontSize: 22,
+      fontWeight: "bold",
+      flexShrink: 0
+    },
+    popupUserName: {
+      fontSize: 18
+    },
+    popupUserSubtext: {
+      fontSize: 14,
+      opacity: 0.8
+    },
+    popupStars: {
+      display: "flex",
+      justifyContent: "center",
+      gap: "clamp(12px, 3vw, 30px)",
+      marginBottom: "clamp(20px, 4vw, 40px)",
+      flexWrap: "wrap"
+    },
+    popupStar: {
+      fontSize: "clamp(30px, 6vw, 46px)",
+      color: "#ffc107"
+    },
+    popupTextareaContainer: {
+      border: "2px solid #ffe600",
+      borderRadius: 20,
+      padding: "clamp(16px, 3vw, 24px)",
+      marginBottom: "clamp(20px, 4vw, 30px)"
+    },
+    popupTextarea: {
+      width: "100%",
+      minHeight: 120,
+      maxHeight: 220,
+      background: "transparent",
+      border: "none",
+      outline: "none",
+      resize: "vertical",
+      color: "#ddd",
+      fontSize: "clamp(14px, 2.5vw, 15px)",
+      lineHeight: 1.7
+    },
+    popupAddPhoto: {
+      textAlign: "center",
+      marginBottom: 30
+    },
+    popupAddPhotoButton: {
+      background: "#4a4a2f",
+      color: "#fff",
+      border: "none",
+      padding: "12px 26px",
+      borderRadius: 30,
+      cursor: "pointer",
+      fontSize: "clamp(14px, 2.5vw, 15px)"
+    },
+    popupActions: {
+      display: "flex",
+      justifyContent: "flex-end",
+      gap: 16,
+      flexWrap: "wrap"
+    },
+    popupButton: {
+      background: "#ffe600",
+      color: "#000",
+      border: "none",
+      padding: "12px 26px",
+      fontWeight: 700,
+      borderRadius: 8,
+      cursor: "pointer",
+      minWidth: 120
+    },
+    popupPostButton: {
+      background: "#ffe600",
+      color: "#000",
+      border: "none",
+      padding: "12px 30px",
+      fontWeight: 700,
+      borderRadius: 8,
+      cursor: "pointer",
+      minWidth: 120 
+    },
+    reviewsGrid: {
+      display: "grid",
+      gridTemplateColumns: "1.3fr 1fr",
+      gap: 10
+    },
+    reviewsLeftColumn: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10,
+      marginLeft: -15
+    },
+    reviewCardWithImage: {
+      border: "1px solid #ffe600",
+      borderRadius: 10,
+      padding: 16,
+      height: "50%"
+    },
+    reviewImage: {
+      width: "100%",
+      borderRadius: 10,
+      marginBottom: 12
+    },
+    reviewStars: {
+      color: "#ffe600",
+      margin: "6px 0"
+    },
+    reviewText: {
+      fontSize: 13,
+      lineHeight: 1.6
+    },
+    reviewsRightColumn: {
+      display: "flex",
+      flexDirection: "column",
+      gap: 10
+    },
+    reviewCardText: {
+      border: "1px solid #ffe600",
+      borderRadius: 12,
+      padding: 20,
+      height: "30%",
+      width: "120%"
+    },
+    rangeSection: {
+      padding: "64px 0",
+      background: "#2f2f2f"
+    },
+    rangeTitle: {
+      fontFamily: "'Jersey 25', sans-serif",
+      fontSize: 56,
+      fontWeight: 900,
+      textTransform: "uppercase",
+      color: "#ffe600",
+      maxWidth: 2100,
+      margin: "0 auto 56px",
+      textAlign: "center",
+      letterSpacing: "1px",
+      lineHeight: "1.00"
+    },
+    rangeGrid: {
+      maxWidth: 1230,
+      margin: "0 auto",
+      display: "grid",
+      gridTemplateColumns: "repeat(4, 1fr)",
+      gap: 28,
+      padding: "0 32px"
+    },
+    rangeCard: {
+      background: "#3a3a3a",
+      border: "2px solid #ffe600",
+      borderRadius: 14,
+      overflow: "hidden",
+      display: "flex",
+      flexDirection: "column",
+      height: 500,
+      transition: "transform 0.35s ease, box-shadow 0.35s ease",
+      willChange: "transform"
+    },
+    rangeCardImage: {
+      height: 330,
+      overflow: "hidden"
+    },
+    rangeCardImg: {
+      width: "100%",
+      height: "100%",
+      objectFit: "cover"
+    },
+    rangeCardContent: {
+      padding: "18px 18px 16px"
+    },
+    rangeCardTitle: {
+      fontWeight: 900,
+      fontSize: 12,
+      letterSpacing: "0.6px",
+      marginBottom: 6,
+      textTransform: "uppercase",
+      color: "#fff",
+      lineHeight: "16px"
+    },
+    rangeCardSubtitle: {
+      fontSize: 12,
+      marginBottom: 10,
+      opacity: 0.85,
+      color: "#fff"
+    },
+    rangeCardPrice: {
+      display: "flex",
+      alignItems: "center",
+      gap: 10,
+      marginBottom: 14,
+      color: "#fff"
+    },
+    rangeCardPriceMain: {
+      fontWeight: 800,
+      fontSize: 14
+    },
+    rangeCardPriceOld: {
+      textDecoration: "line-through",
+      color: "#9a9a9a",
+      fontSize: 13
+    },
+    rangeCardButton: {
+      width: "100%",
+      height: 42,
+      background: "#ffe600",
+      color: "#000",
+      border: "none",
+      fontWeight: 900,
+      cursor: "pointer",
+      borderRadius: 8,
+      fontSize: 14,
+      letterSpacing: "0.5px"
+    }
   };
 
   return (
-    <div style={{ color: "#fff", fontFamily: "Arial", background: "#1c1c1c" }}>
-      {/* PRODUCT SECTION */}
-      <section
-        style={{
-          maxWidth: 1200,
-          margin: "0 auto",
-          padding: 40,
-          display: "grid",
-          gridTemplateColumns: "1fr 1fr",
-          gap: 40,
-        }}
-      >
-        {/* LEFT SIDE */}
-        <div>
-          {/* MAIN IMAGE */}
-          <div
-            style={{
-              background: "#242323ff",
-              padding: 0,
-              borderRadius: 12,
-              marginBottom: 17,
-            }}
-          >
-            <img
-              src="/images/proteins.avif"
-              alt="product"
-              style={{ width: "100%", borderRadius: 12 }}
-            />
+    <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
+      `}</style>
+
+      <div style={styles.container}>
+        <section style={styles.productSection}>
+          <div>
+            <div style={styles.mainImageContainer}>
+              <img
+                src={activeImage}
+                alt="product"
+                style={styles.mainImage}
+              />
+            </div>
+
+            <div style={styles.thumbnailsContainer}>
+              {images.map((src, i) => (
+                <div
+                  key={i}
+                  style={{
+                    ...styles.thumbnailBox,
+                    ...(activeImage === src ? styles.thumbnailBoxActive : {}),
+                    borderColor: activeImage === src ? "#ffe600" : "transparent"
+                  }}
+                  onClick={() => setActiveImage(src)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.borderColor = "#ffe600";
+                    e.currentTarget.style.transform = "scale(1.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    if (activeImage !== src) {
+                      e.currentTarget.style.borderColor = "transparent";
+                    }
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                >
+                  <img
+                    src={src}
+                    alt={`thumb-${i}`}
+                    style={styles.thumbnailImage}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
 
-          {/* THUMBNAILS */}
-          <div
-            style={{
-              height: "200px",
-              width: "100%",
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 12,
-              
-            }}
-          >
+          <div style={styles.detailsContainer}>
+            <h1 style={styles.title}>
+              PROTEIN WAFERS – VARIETY
+              <br />
+              PACK OF 10
+            </h1>
+
+            <div style={styles.ratingContainer}>
+              <div style={styles.stars}>★★★★★</div>
+              <span style={styles.reviewCount}>
+                | 198 Reviews
+              </span>
+            </div>
+
+            <div style={styles.priceContainer}>
+              <span style={styles.price}>
+                RS : 2000
+              </span>
+              <span style={styles.oldPrice}>
+                RS : 2999
+              </span>
+              <span style={styles.discount}>
+                25% OFF
+              </span>
+            </div>
+
+            <div style={styles.tagsContainer}>
+              {[
+                "NO PRESERVATIVES",
+                "JAGGERY BASED",
+                "NO ADDED COLOURS",
+                "80 % PEANUT",
+                "NO GLUCOSE ADDED",
+                "NO PRESERVATIVES",
+              ].map((tag, i) => (
+                <span key={i} style={styles.tag}>
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div style={styles.quantityContainer}>
+              <div style={styles.quantityLabel}>
+                Quantity
+              </div>
+
+              <div style={styles.quantityBox}>
+                <button
+                  onClick={() => setQty(Math.max(1, qty - 1))}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#ffe600";
+                    e.currentTarget.style.color = "#000";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#fff";
+                  }}
+                  style={{
+                    ...styles.quantityButton,
+                    ...styles.quantityButtonLeft
+                  }}
+                >
+                  −
+                </button>
+
+                <div style={styles.quantityValue}>
+                  {qty}
+                </div>
+
+                <button
+                  onClick={() => setQty(qty + 1)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.background = "#ffe600";
+                    e.currentTarget.style.color = "#000";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.background = "transparent";
+                    e.currentTarget.style.color = "#fff";
+                  }}
+                  style={styles.quantityButton}
+                >
+                  +
+                </button>
+              </div>
+            </div>
+<div style={styles.actionButtons}>
+  {/* ADD TO CART */}
+  <Link
+    to="/cart"
+    onMouseEnter={(e) => {
+      e.currentTarget.style.background = "#ffeb00";
+      e.currentTarget.style.color = "#000";
+    }}
+    onMouseLeave={(e) => {
+      e.currentTarget.style.background = "#2f2f2f";
+      e.currentTarget.style.color = "#fff";
+    }}
+    style={styles.addToCartButton}
+  >
+    <img src="/icons/bag.png" alt="cart" style={styles.cartIcon} />
+    ADD TO CART
+  </Link>
+
+  {/* BUY NOW — FIXED */}
+  <Link
+    to="/checkout"
+    style={styles.buyNowButton}
+  >
+    BUY NOW
+  </Link>
+</div>
+
+          </div>
+        </section>
+
+        <section style={styles.recommendedSection}>
+          <h2 style={styles.recommendedTitle}>
+            Recommended products
+          </h2>
+          <div style={styles.recommendedGrid}>
+            {[212, 212, 212, 212, 212].map((size, i) => (
+              <div
+                key={i}
+                style={styles.recommendedItem}
+                onMouseEnter={(e) =>
+                  (e.currentTarget.style.transform = "scale(1.08)")
+                }
+                onMouseLeave={(e) =>
+                  (e.currentTarget.style.transform = "scale(1)")
+                }
+              >
+                <img
+                  src="/images/chocolate.webp"
+                  alt="product"
+                  style={styles.recommendedImage}
+                />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <section style={styles.reviewsSection}>
+          <section style={{ maxWidth: 1200, margin: "0 auto", padding: 40 }}>
+            <div style={styles.reviewsHeader}>
+              <div>
+                <h2>Customer Reviews</h2>
+                <div style={{ color: "#ffe600" }}></div>
+              </div>
+
+              <div style={styles.reviewsButtons}>
+                <button
+                  onClick={() => setShowReviewPopup(true)}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                  style={styles.writeReviewButton}
+                >
+                  WRITE A REVIEW
+                </button>
+
+                <button
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = "scale(1.06)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = "scale(1)";
+                  }}
+                  style={styles.topRatedButton}
+                >
+                  TOP RATED
+                </button>
+              </div>
+            </div>
+          </section>
+
+          {showReviewPopup && (
+            <div
+              onClick={() => setShowReviewPopup(false)}
+              style={styles.popupOverlay}
+            >
+              <div
+                onClick={(e) => e.stopPropagation()}
+                style={styles.popupContent}
+              >
+                <h2 style={styles.popupTitle}>
+                  PROTEIN WAFERS – VARIETY PACK OF 10
+                </h2>
+
+                <div style={styles.popupUser}>
+                  <div style={styles.popupAvatar}>
+                    J
+                  </div>
+                  <div>
+                    <div style={styles.popupUserName}>John</div>
+                    <div style={styles.popupUserSubtext}>
+                      Posting publicaly along this site
+                    </div>
+                  </div>
+                </div>
+
+                <div style={styles.popupStars}>
+                  {[1, 2, 3, 4, 5].map((i) => (
+                    <span key={i} style={styles.popupStar}>
+                      ★
+                    </span>
+                  ))}
+                </div>
+
+                <div style={styles.popupTextareaContainer}>
+                  <textarea
+                    placeholder="Write your review here..."
+                    style={styles.popupTextarea}
+                  />
+                </div>
+
+                <div style={styles.popupAddPhoto}>
+                  <button style={styles.popupAddPhotoButton}>
+                    📷 Add Photos & images
+                  </button>
+                </div>
+
+                <div style={styles.popupActions}>
+                  <button
+                    onClick={() => setShowReviewPopup(false)}
+                    style={styles.popupButton}
+                  >
+                    Cancel
+                  </button>
+
+                  <button
+                    onClick={() => setShowReviewPopup(false)}
+                    style={styles.popupPostButton}
+                  >
+                    Post
+                  </button>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div style={styles.reviewsGrid}>
+            <div style={styles.reviewsLeftColumn}>
+              {[1, 2].map((i) => (
+                <div key={i} style={styles.reviewCardWithImage}>
+                  <img
+                    src="/images/image2.jpg"
+                    alt="review"
+                    style={styles.reviewImage}
+                  />
+
+                  <strong>Sanju</strong>
+                  <div style={styles.reviewStars}>★★★★★</div>
+
+                  <p style={styles.reviewText}>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text
+                    ever since the 1500s.
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <div style={styles.reviewsRightColumn}>
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} style={styles.reviewCardText}>
+                  <strong>Sanju</strong>
+                  <div style={styles.reviewStars}>★★★★★</div>
+
+                  <p style={styles.reviewText}>
+                    Lorem Ipsum is simply dummy text of the printing and typesetting
+                    industry. Lorem Ipsum has been the industry's standard dummy text
+                    ever since the 1500s.
+                  </p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section style={styles.rangeSection}>
+          <h1 style={styles.rangeTitle}>
+            Explore Our Range
+          </h1>
+
+          <div style={styles.rangeGrid}>
             {[1, 2, 3, 4].map((i) => (
               <div
                 key={i}
-                style={{
-                  backgroundImage: `url('/images/chocolate.webp')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: 120,
-                  padding: 1,
-                  borderRadius: 8,
-                  border: "1px solid #ffffffff",
-                  cursor: "pointer",
-                  
+                style={styles.rangeCard}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = "scale(1.05)";
+                  e.currentTarget.style.boxShadow = "0 18px 36px rgba(0,0,0,0.45)";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = "scale(1)";
+                  e.currentTarget.style.boxShadow = "none";
                 }}
               >
-               
+                <div style={styles.rangeCardImage}>
+                  <img
+                    src="/images/chocolate.webp"
+                    alt="Protein Wafer"
+                    style={styles.rangeCardImg}
+                  />
+                </div>
+
+                <div style={styles.rangeCardContent}>
+                  <div style={styles.rangeCardTitle}>
+                    PROTEIN WAFERS – VARIETY PACK OF 10
+                  </div>
+
+                  <div style={styles.rangeCardSubtitle}>
+                    10
+                  </div>
+
+                  <div style={styles.rangeCardPrice}>
+                    <span style={styles.rangeCardPriceMain}>
+                      RS : 2000
+                    </span>
+                    <span style={styles.rangeCardPriceOld}>
+                      RS : 2999
+                    </span>
+                  </div>
+
+                  <Link to="/checkout">
+                    <button style={styles.rangeCardButton}>
+                      BUY NOW
+                    </button>
+                  </Link>
+                </div>
               </div>
             ))}
           </div>
-        </div>
+        </section>
 
-        {/* RIGHT SIDE */}
-        <div>
-          <h1 style={{ fontSize: 36, fontWeight: 800, marginBottom: 10 }}>
-            PROTEIN WAFERS – <br /> VARIETY PACK OF 10
-          </h1>
-
-          <p style={{ color: "#ffe600", marginBottom: 4 }}>
-            ★★★★★ (198 Reviews)
-          </p>
-
-          <p style={{ color: "#4ade80", fontWeight: "bold" }}>25% OFF</p>
-
-          <h2 style={{ marginBottom: 16 }}>RS : 2000</h2>
-
-          {/* TAGS */}
-          <div style={{ display: "flex", flexWrap: "wrap", gap: 10 }}>
-            {[
-              "NO PRESERVATIVES",
-              "JAGGERY BASED",
-              "NO GLUCOSE ADDED",
-               "80% PEANUT",
-              "NO ADDED COLOURS" 
-
-            ].map((tag) => (
-              <span
-                key={tag}
-                style={{
-                  border: "1px solid #ffe600",
-                  padding: "6px 12px",
-                  borderRadius: 6,
-                  fontSize: 15,
-                  color: "#ffffffff",
-                }}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-
-          {/* DESCRIPTION */}
-          <p
-            style={{
-              color: "#ccc",
-              fontSize: 14,
-              lineHeight: 1.6,
-              margin: "20px 0",
-            }}
-          >
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s.
-          </p>
-
-     {/* QTY + BUY + CART */}
-<div
-  style={{
-    display: "flex",
-    gap: 16,
-    alignItems: "center",
-    marginBottom: 24,
-  }}
->
-  {/* QUANTITY */}
-  <div
-    style={{
-      display: "flex",
-      border: "1px solid #555",
-      borderRadius: 6,
-      alignItems: "center",
-    }}
-  >
-    <button
-      style={qtyBtn}
-      onClick={() => setQty((prev) => Math.max(1, prev - 1))}
-    >
-      -
-    </button>
-
-    <div
-      style={{
-        padding: "10px 16px",
-        minWidth: 40,
-        textAlign: "center",
-      }}
-    >
-      {qty}
-    </div>
-
-    <button
-      style={qtyBtn}
-      onClick={() => setQty((prev) => prev + 1)}
-    >
-      +
-    </button>
-  </div>
-
-  {/* BUY NOW */}
-  <Link to="/checkout" style={{ flex: 1 }}>
-    <button
-      style={{
-        width: "100%",
-        background: "#ffe600",
-        border: "none",
-        padding: "14px",
-        fontWeight: "bold",
-        borderRadius: 8,
-        cursor: "pointer",
-        fontSize: 16,
-      }}
-    >
-      BUY NOW
-    </button>
-  </Link>
-
-  {/* CART BUTTON */}
-<button
-  title="Add to cart"
-  onClick={() => {
-    console.log("Added to cart", { qty });
-  }}
-  style={{
-    width: 52,
-    height: 47,
-    background: "#ffe600",
-    border: "none",
-    borderRadius: 8,
-    cursor: "pointer",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-  }}
->
-  <img
-    src="/icons/bag.png"
-    alt="cart"
-    style={{
-      width: 24,
-      height: 24,
-      objectFit: "contain",
-    }}
-  />
-</button>
-</div>
-
-
-          {/* RECOMMENDED PRODUCTS */}
-          <h3 style={{ marginBottom: 12 }}>Recommended products</h3>
-
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "repeat(4, 1fr)",
-              gap: 12,
-            }}
-          >
-            {[1, 2, 3, 4].map((i) => (
-              // <div
-              //   key={i}
-              //   style={{
-              //     background: "#2a2a2a",
-              //     padding: 10,
-              //     borderRadius: 8,
-              //     border: "1px solid #ffffffff",
-              //   }}
-              // >
-              //   <img
-              //     src={`/images/chocolate.webp`}
-              //     alt="recommended"
-              //     style={{
-              //       width: "100%",
-              //       height: 90,
-              //       objectFit: "contain",
-              //     }}
-              //   />
-              // </div>
-                     <div
-                key={i}
-                style={{
-                  backgroundImage: `url('/images/goku.jpeg')`,
-                  backgroundSize: "cover",
-                  backgroundPosition: "center",
-                  height: 120,
-                  padding: 1,
-                  borderRadius: 8,
-                  border: "1px solid #ffffffff",
-                  cursor: "pointer",
-                  
-                }}
-              >
-               
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-    
-{/* EXPLORE */}
-<section style={{ padding: "60px 0", background: "#1c1c1c" }}>
-  {/* PRODUCT GRID */}
-  <div
-    style={{
-      maxWidth: 1300,
-      margin: "0 auto",
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: 30,
-      padding: "0 30px",
-    }}
-  >
-    {[1, 2, 3, 4].map((i) => (
-      <div
-        key={i}
-        style={{
-          background: "#353434ff",
-          border: "1px solid #ffe600",
-          padding: 16,
-          borderRadius: 6,
-          textAlign: "center",
-        }}
-      >
-        {/* IMAGE BOX */}
-        <div
-          style={{
-            borderRadius: 6,
-            marginBottom: 12,
-          }}
-        >
-          <img
-            src="/images/chocolate.webp"
-            alt="Protein Bar"
-            style={{
-              width: "100%",
-              height: 220,
-              objectFit: "contain",
-            }}
-          />
-        </div>
-
-        {/* PRODUCT NAME */}
-        <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
-          Protein Bar – Chocolate
-        </p>
-
-        {/* TAGS */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: 6,
-            marginBottom: 10,
-          }}
-        >
-          {[
-            "No Preservatives",
-            "Jaggery Based",
-            "No Glucose Added",
-            "80% Peanut",
-            "No Added Colours",
-          ].map((tag, idx) => (
-            <span
-              key={idx}
-              style={{
-                border: "1px solid #ffe600",
-                color: "#fff",
-                fontSize: 11,
-                padding: "4px 8px",
-                borderRadius: 4,
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* RATING */}
-        <div style={{ color: "#ffe600", marginBottom: 4 }}>
-          ★★★★★
-        </div>
-
-        {/* REVIEWS */}
-        <div style={{ color: "#ccc", fontSize: 12, marginBottom: 8 }}>
-          ⭐ 120 Reviews
-        </div>
-
-        {/* PRICE */}
-        <div style={{ marginBottom: 6 }}>
-          <span
-            style={{
-              color: "#999",
-              textDecoration: "line-through",
-              marginRight: 6,
-            }}
-          >
-            ₹240
-          </span>
-          <span style={{ color: "#00ff66", fontSize: 13 }}>
-            25% OFF
-          </span>
-        </div>
-
-        <div
-          style={{
-            color: "#fff",
-            fontSize: 18,
-            fontWeight: "bold",
-            marginBottom: 12,
-          }}
-        >
-          RS : 180
-        </div>
-
-        {/* BUTTON */}
-        <button
-          style={{
-            width: "100%",
-            background: "#ffe600",
-            color: "#000",
-            border: "none",
-            padding: "12px 0",
-            fontWeight: 700,
-            cursor: "pointer",
-            borderRadius: 4,
-          }}
-        >
-          Buy Now
-        </button>
+        <Footer />
       </div>
-    ))}
-  </div>
-
-  {/* SEE MORE BUTTON */}
-  <div
-    style={{
-      maxWidth: 1300,
-      margin: "30px auto 0",
-      padding: "0 30px",
-      display: "flex",
-      justifyContent: "flex-end",
-    }}
-  >
-    <button
-      style={{
-        background: "#ffe600",
-        color: "#000",
-        border: "none",
-        padding: "10px 20px",
-        fontWeight: 700,
-        cursor: "pointer",
-        borderRadius: 4,
-      }}
-    >
-      SEE MORE →
-    </button>
-  </div>
-</section>
-
-
-    {/* REVIEWS */}
-<section
-  style={{
-    maxWidth: 1200,
-    margin: "0 auto",
-    padding: 40,
-    color: "#fff",
-  }}
->
-  {/* Header */}
-  <div
-    style={{
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      marginBottom: 32,
-    }}
-  >
-    <div>
-      <h2 style={{ margin: 0 }}>REVIEWS (111)</h2>
-      <div style={{ color: "#ffe600", marginTop: 6 }}>★★★★★</div>
-    </div>
-
-    <div style={{ display: "flex", gap: 12 }}>
-      <button
-        style={{
-          background: "#ffe600",
-          border: "none",
-          padding: "10px 18px",
-          fontWeight: "bold",
-          borderRadius: 6,
-          cursor: "pointer",
-        }}
-      >
-        WRITE A REVIEW
-      </button>
-
-      <button
-        style={{
-          background: "transparent",
-          border: "1px solid #ffe600",
-          color: "#ffe600",
-          padding: "10px 18px",
-          fontWeight: "bold",
-          borderRadius: 6,
-          cursor: "pointer",
-        }}
-      >
-        TOP RATED
-      </button>
-    </div>
-  </div>
-
-  {/* Reviews Grid */}
-  <div
-    style={{
-      display: "grid",
-      gridTemplateColumns: "1.3fr 1fr",
-      gap: 30,
-    }}
-  >
-    {/* Left – Image Reviews */}
-    <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
-      {[1, 2].map((i) => (
-        <div
-          key={i}
-          style={{
-            // background: "#171717ff",
-            border: "1px solid #ffe600",
-            borderRadius: 10,
-            padding: 16,
-            height: "50%",
-          }}
-        >
-          <img
-            src="/images/mpact.png"
-            alt="review"
-            style={{
-              width: "100%",
-              borderRadius: 10,
-              marginBottom: 12,
-            }}
-          />
-
-          <strong>Sanju</strong>
-          <div style={{ color: "#ffe600", margin: "6px 0" }}>★★★★★</div>
-
-          <p style={{ fontSize: 13, lineHeight: 1.6 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry’s standard dummy text
-            ever since the 1500s.
-          </p>
-        </div>
-      ))}
-    </div>
-
-    {/* Right – Text Reviews */}
-    <div style={{ display: "flex", flexDirection: "column", gap: 10 }}>
-      {[1, 2, 3, 4].map((i) => (
-        <div
-          key={i}
-          style={{
-            // background: "#171717ff",
-            border: "1px solid #ffe600",
-            borderRadius: 12,
-            padding: 20,
-            height: "30%",
-            width: "120%",
-          
-          }}
-        >
-          <strong>Sanju</strong>
-          <div style={{ color: "#ffe600", margin: "6px 0" }}>★★★★★</div>
-
-          <p style={{ fontSize: 13, lineHeight: 1.6 }}>
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. Lorem Ipsum has been the industry’s standard dummy text
-            ever since the 1500s.
-          </p>
-        </div>
-        
-      ))}
-    </div>
-  </div>
-  
-</section>
-
-
-<section style={{ padding: "60px 0", background: "#1c1c1c" }}>
-  <h1
-    style={{
-      fontFamily: "'Khand', sans-serif", // closest match to Figma
-      fontSize: "90px",
-      fontWeight: 900,
-      textAlign: "center",
-      textTransform: "uppercase",
-      color: "transparent",
-      WebkitTextStroke: "2px #ffe600",
-      textStroke: "4px #ffe600", // fallback
-      lineHeight: "400px",
-      letterSpacing: "1px",
-      margin: 0,
-    }}
-  >
-    Explore Our Range
-  </h1>
-
-
-
-{/* PRODUCT GRID WRAPPER */}
-<div style={{ position: "relative", paddingBottom: 40 }}>
-  {/* PRODUCT GRID */}
-  <div
-    style={{
-      maxWidth: 1500,
-      margin: "0 auto",
-      display: "grid",
-      gridTemplateColumns: "repeat(4, 1fr)",
-      gap: 30,
-      padding: "0 30px",
-    }}
-  >
-    {[1, 2, 3, 4].map((i) => (
-      <div
-        key={i}
-        style={{
-          background: "#3a3a3a",
-          border: "2px solid #ffe600",
-          padding: 16,
-          borderRadius: 6,
-          textAlign: "center",
-        }}
-      >
-        {/* IMAGE BOX */}
-        <div
-          style={{
-            borderRadius: 6,
-            marginBottom: 12,
-          }}
-        >
-          <img
-            src="/images/chocolate.webp"
-            alt="Protein Bar"
-            style={{
-              width: "100%",
-              height: 220,
-              objectFit: "contain",
-            }}
-          />
-        </div>
-
-        {/* PRODUCT NAME */}
-        <p style={{ color: "#fff", fontSize: 16, marginBottom: 10 }}>
-          Protein Bar – Chocolate
-        </p>
-
-        {/* TAGS */}
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexWrap: "wrap",
-            gap: 6,
-            marginBottom: 10,
-          }}
-        >
-          {[
-            "No Preservatives",
-            "Jaggery Based",
-            "No Glucose Added",
-            "80% Peanut",
-            "No Added Colours",
-          ].map((tag, idx) => (
-            <span
-              key={idx}
-              style={{
-                border: "1px solid #ffe600",
-                color: "#fff",
-                fontSize: 11,
-                padding: "4px 8px",
-                borderRadius: 4,
-              }}
-            >
-              {tag}
-            </span>
-          ))}
-        </div>
-
-        {/* RATING */}
-        <div style={{ color: "#ffe600", marginBottom: 4 }}>★★★★★</div>
-
-        {/* REVIEWS */}
-        <div style={{ color: "#ccc", fontSize: 12, marginBottom: 8 }}>
-          ⭐ 120 Reviews
-        </div>
-
-        {/* PRICE */}
-        <div style={{ marginBottom: 6 }}>
-          <span
-            style={{
-              color: "#999",
-              textDecoration: "line-through",
-              marginRight: 6,
-            }}
-          >
-            ₹240
-          </span>
-          <span style={{ color: "#00ff66", fontSize: 13 }}>25% OFF</span>
-        </div>
-
-        <div
-          style={{
-            color: "#fff",
-            fontSize: 18,
-            fontWeight: "bold",
-            marginBottom: 12,
-          }}
-        >
-          RS : 180
-        </div>
-
-        {/* BUTTON */}
-        <button
-          style={{
-            width: "100%",
-            background: "#ffe600",
-            color: "#000",
-            border: "none",
-            padding: "12px 0",
-            fontWeight: 700,
-            cursor: "pointer",
-            borderRadius: 4,
-          }}
-        >
-          Buy Now
-        </button>
-      </div>
-    ))}
-  </div>
-
-  {/* SEE MORE BUTTON */}
-  <div
-    style={{
-      maxWidth: 1500,
-      margin: "20px auto 0",
-      padding: "0 30px",
-      display: "flex",
-      justifyContent: "flex-end",
-    }}
-  >
-    <button
-      style={{
-        background: "#ffe600",
-        color: "#000",
-        border: "none",
-        padding: "10px 20px",
-        fontWeight: 700,
-        cursor: "pointer",
-        borderRadius: 4,
-      }}
-    >
-      SEE MORE →
-    </button>
-  </div>
-  </div>
-</section>
-
-
-     <Footer />
-    </div>
+    </>
   );
 };
 

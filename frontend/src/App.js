@@ -1,11 +1,11 @@
-// import Navbar from "./components/Navbar";
-import Footer from "./components/Footer";
+
 import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
+
 
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
-// import Footer from "./components/Footer";
    
 import About from "./pages/About/About";
 import Home from "./pages/Home";
@@ -15,16 +15,18 @@ import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
-import Input from "./pages/input/Input";
-// import Cart from "./pages/Cart";
-
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
-
+import Review from "./pages/review";
+import Pay from "./pages/Pay";
+import SuccessPopup from "./pages/SuccessPopup.jsx";
+import HelpSupport from "./pages/HelpSupport";
+import Nutrition from "./pages/blog/Nutrition.jsx"
+import Blog  from "./pages/blog/Blog.jsx"
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
-import Newprofile from "./pages/profile/Newprofile";
-
+import SeeMore from "./pages/SeeMore";
+import NewProfile from "./pages/profile/Newprofile.jsx"
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -32,6 +34,7 @@ function App() {
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      <ScrollToTop />
 
       {/* LOADER OVERLAY */}
       {loading && <Loader onFinish={() => setLoading(false)} />}
@@ -40,30 +43,35 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/seeMore" element={<SeeMore />} />
           <Route path="/productspec" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/prfle" element={<Prfle />}/>
-          <Route path="/newprofile" element={<Newprofile/>}/>
+          <Route path="/profile" element={<NewProfile />} />
+          <Route path="/help" element={<HelpSupport />} />
 
 
           <Route path="/payment" element={<Payment />} />
+          <Route path="/pay" element={<Pay />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/popup" element={<SuccessPopup />} />
+          
 
 
           
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq/>} />
-          <Route path="/input" element={<Input/>} />
+          <Route path="/blog" element={<Blog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/Nutrition" element={<Nutrition />} />
+
         </Routes>
       </div>   
 
 
-      {/* <Footer /> */}
     </>
   );
 }
