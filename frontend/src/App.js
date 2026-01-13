@@ -26,7 +26,7 @@ import Blog  from "./pages/blog/Blog.jsx"
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
-
+import NewProfile from "./pages/profile/Newprofile.jsx"
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -46,8 +46,7 @@ function App() {
           <Route path="/seeMore" element={<SeeMore />} />
           <Route path="/productspec" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/prfle" element={<Prfle />}/>
+          <Route path="/profile" element={<NewProfile />} />
           <Route path="/help" element={<HelpSupport />} />
 
 
