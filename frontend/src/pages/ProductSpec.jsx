@@ -197,8 +197,17 @@ addToCartButton: {
 
   fontFamily: "'Jersey 25', sans-serif",
   textDecoration: "none",
-  boxSizing: "border-box"
+  boxSizing: "border-box",
+  
 },
+cartIcon: {
+  width: 22,
+  height: 22,
+  filter: "brightness(0) invert(1)", // ✅ WHITE by default
+  transition: "filter 0.25s ease"
+},
+
+
 
 buyNowButton: {
   flex: 1,
@@ -224,14 +233,10 @@ buyNowButton: {
 
   fontFamily: "'Jersey 25', sans-serif",
   textDecoration: "none",
-  boxSizing: "border-box"
+  boxSizing: "border-box",
+  backgroundColor: "#ffeb00"
 },
 
-cartIcon: {
-  width: 26,
-  height: 26
-}
-,
 
   recommendedSection: {
     padding: "20px 0" // ⬅️ reduced gap (was 40px)
@@ -453,7 +458,8 @@ cartIcon: {
       display: "flex",
       flexDirection: "column",
       gap: 10,
-      marginLeft: -15
+      marginLeft: -15,
+     
     },
     reviewCardWithImage: {
       border: "1px solid #ffe600",
@@ -477,7 +483,8 @@ cartIcon: {
     reviewsRightColumn: {
       display: "flex",
       flexDirection: "column",
-      gap: 10
+      gap: 10,
+        
     },
     reviewCardText: {
       border: "1px solid #ffe600",
@@ -713,21 +720,36 @@ cartIcon: {
             </div>
 <div style={styles.actionButtons}>
   {/* ADD TO CART */}
-  <Link
-    to="/cart"
-    onMouseEnter={(e) => {
-      e.currentTarget.style.background = "#ffeb00";
-      e.currentTarget.style.color = "#000";
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.background = "#2f2f2f";
-      e.currentTarget.style.color = "#fff";
-    }}
-    style={styles.addToCartButton}
-  >
-    <img src="/icons/bag.png" alt="cart" style={styles.cartIcon} />
-    ADD TO CART
-  </Link>
+<Link
+  to="/cart"
+  style={styles.addToCartButton}
+  onMouseEnter={(e) => {
+    // button hover
+    e.currentTarget.style.background = "#ffeb00";
+    e.currentTarget.style.color = "#000";
+
+    // icon hover → BLACK
+    const img = e.currentTarget.querySelector("img");
+    if (img) {
+      img.style.filter = "brightness(0)";
+    }
+  }}
+  onMouseLeave={(e) => {
+    // button normal
+    e.currentTarget.style.background = "#2f2f2f";
+    e.currentTarget.style.color = "#fff";
+
+    // icon normal → WHITE
+    const img = e.currentTarget.querySelector("img");
+    if (img) {
+      img.style.filter = "brightness(0) invert(1)";
+    }
+  }}
+>
+  <img src="/icons/bag.png" alt="cart" style={styles.cartIcon} />
+  ADD TO CART
+</Link>
+
 
   {/* BUY NOW — FIXED */}
   <Link
