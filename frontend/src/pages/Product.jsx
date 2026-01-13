@@ -576,7 +576,9 @@ export default function Products() {
                     </div>
 
                     <div className="action-buttons">
+                      <Link to="/cart">
                       <button className="add-to-cart-btn">Add to Cart</button>
+                      </Link>
                       <Link to="/productspec">
                         <button className="buy-btn">BUY NOW</button>
                       </Link>
