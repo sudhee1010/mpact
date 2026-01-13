@@ -52,7 +52,11 @@ export const createCategory = async (req, res) => {
   try {
     const { name } = req.body;
 
-    const exists = await Category.findOne({ name });
+    // const exists = await Category.findOne({ name });
+    const exists = await Category.findOne({
+  name: { $regex: `^${name}$`, $options: "i" }
+});
+
     if (exists) {
       return res.status(400).json({ message: "Category already exists" });
     }
@@ -91,6 +95,17 @@ export const updateCategory = async (req, res) => {
     console.error("Update Category Error:", error);
     res.status(500).json({ message: "Failed to update category" });
   }
+
+  const duplicate = await Category.findOne({
+  _id: { $ne: req.params.id },
+  name: { $regex: `^${req.body.name}$`, $options: "i" }
+});
+
+if (duplicate) {
+  return res.status(400).json({ message: "Category name already exists" });
+}
+
+
 };
 
 export const deleteCategory = async (req, res) => {

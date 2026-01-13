@@ -1,159 +1,65 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import { Heart } from "lucide-react";
 import Footer from "../components/Footer";
 
 // Mock components - replace with your actual imports
-const Navbar = () => <div style={{height: '60px', background: '#111', borderBottom: '2px solid #ffeb00'}}></div>;
+const Navbar = () => <div style={{ height: '60px', background: '#111', borderBottom: '2px solid #ffeb00' }}></div>;
 
-/* ================= PRODUCT DATA ================= */
-const PRODUCT_DATA = {
-  "PROTEIN BARS": [
-    {
-      id: 1,
-      title: "Protein Bar – Chocolate",
-      oldPrice: 299,
-      price: 180,
-      discount: "40% OFF",
-      rating: 5,
-      reviews: 199,
-      image: "/images/Product1.png",
-      specs: ["NO PRESERVATIVES", "HIGH PROTEIN", "NO ADDED SUGAR"],
-    },
-    {
-      id: 2,
-      title: "Protein Bar – Peanut",
-      oldPrice: 260,
-      price: 200,
-      discount: "23% OFF",
-      rating: 4,
-      reviews: 142,
-      image: "/images/Product1.png",
-      specs: ["JAGGERY BASED", "NO GLUCOSE", "RICH PEANUT"],
-    },
-    {
-      id: 3,
-      title: "Protein Bar – Almond",
-      oldPrice: 280,
-      price: 220,
-      discount: "21% OFF",
-      rating: 5,
-      reviews: 175,
-      image: "/images/Product1.png",
-      specs: ["ALMOND RICH", "NO PRESERVATIVES", "HIGH ENERGY"],
-    },
-    {
-      id: 4,
-      title: "Protein Bar – Caramel",
-      oldPrice: 240,
-      price: 190,
-      discount: "20% OFF",
-      rating: 4,
-      reviews: 98,
-      image: "/images/Product1.png",
-      specs: ["SOFT CARAMEL", "NO ADDED COLOURS", "HIGH PROTEIN"],
-    },
-  ],
-
-  "PEANUT BUTTER": [
-    {
-      id: 5,
-      title: "Peanut Butter – Crunchy",
-      oldPrice: 499,
-      price: 350,
-      discount: "30% OFF",
-      rating: 5,
-      reviews: 221,
-      image: "/images/Product1.png",
-      specs: ["100% PEANUTS", "NO PALM OIL", "NO ADDED SUGAR"],
-    },
-    {
-      id: 6,
-      title: "Peanut Butter – Smooth",
-      oldPrice: 420,
-      price: 320,
-      discount: "24% OFF",
-      rating: 4,
-      reviews: 167,
-      image: "/images/Product1.png",
-      specs: ["SMOOTH TEXTURE", "HIGH PROTEIN", "NO PRESERVATIVES"],
-    },
-    {
-      id: 7,
-      title: "Peanut Butter – Honey",
-      oldPrice: 520,
-      price: 380,
-      discount: "27% OFF",
-      rating: 5,
-      reviews: 190,
-      image: "/images/Product1.png",
-      specs: ["HONEY INFUSED", "NATURAL SWEET", "NO PALM OIL"],
-    },
-    {
-      id: 8,
-      title: "Peanut Butter – Dark Roast",
-      oldPrice: 480,
-      price: 360,
-      discount: "25% OFF",
-      rating: 4,
-      reviews: 134,
-      image: "/images/Product1.png",
-      specs: ["DARK ROASTED", "RICH FLAVOUR", "NO ADDED SUGAR"],
-    },
-  ],
-
-  "WAFERS": [
-    {
-      id: 9,
-      title: "Protein Wafer – Chocolate",
-      oldPrice: 199,
-      price: 150,
-      discount: "25% OFF",
-      rating: 4,
-      reviews: 112,
-      image: "/images/Product1.png",
-      specs: ["CRISPY WAFER", "LOW SUGAR", "HIGH PROTEIN"],
-    },
-    {
-      id: 10,
-      title: "Protein Wafer – Vanilla",
-      oldPrice: 180,
-      price: 140,
-      discount: "22% OFF",
-      rating: 3,
-      reviews: 76,
-      image: "/images/Product1.png",
-      specs: ["VANILLA FLAVOUR", "LIGHT SNACK", "LOW FAT"],
-    },
-    {
-      id: 11,
-      title: "Protein Wafer – Strawberry",
-      oldPrice: 210,
-      price: 160,
-      discount: "24% OFF",
-      rating: 5,
-      reviews: 148,
-      image: "/images/Product1.png",
-      specs: ["FRUIT FLAVOUR", "HIGH PROTEIN", "NO PRESERVATIVES"],
-    },
-    {
-      id: 12,
-      title: "Protein Wafer – Hazelnut",
-      oldPrice: 230,
-      price: 170,
-      discount: "26% OFF",
-      rating: 4,
-      reviews: 101,
-      image: "/images/Product1.png",
-      specs: ["HAZELNUT RICH", "CRUNCHY", "ENERGY BOOST"],
-    },
-  ],
-};
 
 export default function Products() {
+  const [categories, setCategories] = useState([]);
+  const [productsByCategory, setProductsByCategory] = useState({});
   const [quantities, setQuantities] = useState({});
   const [favorites, setFavorites] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
+  /* ================= FETCH CATEGORIES ================= */
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const { data } = await axios.get("http://localhost:5000/api/categories");
+        setCategories(data);
+      } catch (err) {
+        setError("Failed to load categories");
+      }
+    };
+    fetchCategories();
+  }, []);
+
+  /* ================= FETCH PRODUCTS PER CATEGORY ================= */
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+
+        const results = await Promise.all(
+          categories.map(cat =>
+            axios.get("http://localhost:5000/api/products", {
+              params: { category: cat._id }
+            })
+          )
+        );
+
+        const grouped = {};
+        categories.forEach((cat, index) => {
+          grouped[cat.name] = results[index].data.products || [];
+        });
+
+        setProductsByCategory(grouped);
+      } catch (err) {
+        setError("Failed to load products");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (categories.length) fetchProducts();
+  }, [categories]);
+
+  /* ================= HANDLERS ================= */
   const handleQuantityChange = (productId, delta) => {
     setQuantities(prev => ({
       ...prev,
@@ -161,12 +67,35 @@ export default function Products() {
     }));
   };
 
-  const toggleFavorite = (productId) => {
+  const toggleFavorite = productId => {
     setFavorites(prev => ({
       ...prev,
       [productId]: !prev[productId]
     }));
   };
+
+  /* ================= UI ================= */
+  if (loading) {
+    return (
+      <>
+        <Navbar />
+        <p style={{ textAlign: "center", marginTop: 100, color: "#ffeb00" }}>
+          Loading products...
+        </p>
+      </>
+    );
+  }
+
+  if (error) {
+    return (
+      <>
+        <Navbar />
+        <p style={{ textAlign: "center", marginTop: 100, color: "red" }}>
+          {error}
+        </p>
+      </>
+    );
+  }
 
   return (
     <>
@@ -514,62 +443,67 @@ export default function Products() {
         <div className="products-page">
           <h1 className="page-title">FIND OUR PRODUCTS</h1>
 
-          {Object.keys(PRODUCT_DATA).map((section) => (
-            <div className="section" key={section}>
-              <h2 className="section-title">{section}</h2>
+          {Object.keys(productsByCategory).map(categoryName => (
+            <div className="section" key={categoryName}>
+              <h2 className="section-title">{categoryName}</h2>
 
               <div className="product-grid">
-                {PRODUCT_DATA[section].map((product) => (
-                  <div className="product-card" key={product.id}>
-                    <div className="discount-badge">{product.discount}</div>
-                    
-                    <button 
-                      className={`favorite-btn ${favorites[product.id] ? 'active' : ''}`}
-                      onClick={() => toggleFavorite(product.id)}
+                {productsByCategory[categoryName].map(product => (
+                  <div className="product-card" key={product._id}>
+                    {product.discountPercent && (
+                      <div className="discount-badge">{product.discountPercent}</div>
+                    )}
+
+                    <button
+                      className={`favorite-btn ${favorites[product._id] ? "active" : ""}`}
+                      onClick={() => toggleFavorite(product._id)}
                     >
                       <Heart />
                     </button>
 
                     <div className="product-image-container">
-                      <img src={product.image} alt={product.title} />
+                      <img
+                        src={product.images?.[0]?.url || "/images/Product1.png"}
+                        alt={product.name}
+                      />
                     </div>
 
-                    <div className="product-title">{product.title}</div>
+                    <div className="product-title">{product.name}</div>
 
                     <div className="specs">
-                      {product.specs.map((spec, i) => (
-                        <span className="spec" key={i}>
-                          {spec}
-                        </span>
+                      {product.highlights?.map((spec, i) => (
+                        <span className="spec" key={i}>{spec}</span>
                       ))}
                     </div>
 
                     <div className="rating">
-                      {"★".repeat(product.rating)}
-                      {"☆".repeat(5 - product.rating)}
+                      {"★".repeat(Math.round(product.rating || 0))}
+                      {"☆".repeat(5 - Math.round(product.rating || 0))}
                     </div>
 
-                    <div className="reviews">({product.reviews})</div>
+                    <div className="reviews">({product.numReviews || 0})</div>
 
-                    <div className="price-box">
-                      <span className="old-price">₹{product.oldPrice}</span>
-                    </div>
+                    {product.originalPrice && (
+                      <div className="price-box">
+                        <span className="old-price">₹{product.originalPrice}</span>
+                      </div>
+                    )}
 
                     <div className="price">₹{product.price}</div>
 
                     <div className="quantity-selector">
-                      <button 
+                      <button
                         className="quantity-btn"
-                        onClick={() => handleQuantityChange(product.id, -1)}
+                        onClick={() => handleQuantityChange(product._id, -1)}
                       >
                         −
                       </button>
                       <span className="quantity-display">
-                        {quantities[product.id] || 1}
+                        {quantities[product._id] || 1}
                       </span>
-                      <button 
+                      <button
                         className="quantity-btn"
-                        onClick={() => handleQuantityChange(product.id, 1)}
+                        onClick={() => handleQuantityChange(product._id, 1)}
                       >
                         +
                       </button>
@@ -577,9 +511,9 @@ export default function Products() {
 
                     <div className="action-buttons">
                       <Link to="/cart">
-                      <button className="add-to-cart-btn">Add to Cart</button>
+                        <button className="add-to-cart-btn">Add to Cart</button>
                       </Link>
-                      <Link to="/productspec">
+                      <Link to={`/productspec/${product._id}`}>
                         <button className="buy-btn">BUY NOW</button>
                       </Link>
                     </div>
@@ -588,7 +522,8 @@ export default function Products() {
               </div>
 
               <div className="see-more">
-                <Link to="/seeMore">
+                {/* <Link to={`/products?category=${categoryName}`}> */}
+                <Link to={`/seemore`}>
                   <button>SEE MORE →</button>
                 </Link>
               </div>
@@ -596,6 +531,7 @@ export default function Products() {
           ))}
         </div>
       </div>
+
       <Footer />
     </>
   );
