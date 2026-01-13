@@ -15,19 +15,18 @@ import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
-import Input from "./pages/input/Input";
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
 import Review from "./pages/review";
 import Pay from "./pages/Pay";
 import SuccessPopup from "./pages/SuccessPopup.jsx";
 import HelpSupport from "./pages/HelpSupport";
-
-
+import Nutrition from "./pages/blog/Nutrition.jsx"
+import Blog  from "./pages/blog/Blog.jsx"
 import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
-
+import NewProfile from "./pages/profile/Newprofile.jsx"
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -45,10 +44,9 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
           <Route path="/seeMore" element={<SeeMore />} />
-          <Route path="/productspec" element={<ProductPage />} />
+          <Route path="/productspec/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route path="/prfle" element={<Prfle />}/>
+          <Route path="/profile" element={<NewProfile />} />
           <Route path="/help" element={<HelpSupport />} />
 
 
@@ -65,9 +63,11 @@ function App() {
           
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq/>} />
-          <Route path="/input" element={<Input/>} />
+          <Route path="/blog" element={<Blog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/Nutrition" element={<Nutrition />} />
+
         </Routes>
       </div>   
 
