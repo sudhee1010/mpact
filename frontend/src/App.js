@@ -1,10 +1,16 @@
-import { useState } from "react";
-import { Routes, Route } from "react-router-dom";
 
+import { useState } from "react";
+<<<<<<< HEAD
+import { BrowserRouter, Routes,Route } from "react-router-dom";
+=======
+import { Routes, Route } from "react-router-dom";
+import ScrollToTop from "./components/ScrollToTop";
+
+
+>>>>>>> 0091a9e9240848496bfe7fa9b0a79cb715e79292
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
-// import Footer from "./components/Footer";
-
+   
 import About from "./pages/About/About";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
@@ -13,8 +19,25 @@ import Faq from "./pages/faq/Faq";
 import OrderSuccess from "./pages/Ordersuccess";
 import Trackpage from "./pages/Trackpage";
 import ProductPage from "./pages/ProductSpec";
+<<<<<<< HEAD
+import Blog from "./pages/blog/Blog";
+import Nutrition from "./pages/blog/Nutrition";
+// import Cart from "./pages/Cart";
+
+=======
+import Input from "./pages/input/Input";
+>>>>>>> 0091a9e9240848496bfe7fa9b0a79cb715e79292
 import Cart from "./pages/Cart";
 import Payment from "./pages/Payment";
+import Review from "./pages/review";
+import Pay from "./pages/Pay";
+import SuccessPopup from "./pages/SuccessPopup.jsx";
+import HelpSupport from "./pages/HelpSupport";
+
+
+import Profile from "./pages/profile/Profile";
+import Prfle from "./pages/profile/Prfle";
+import SeeMore from "./pages/SeeMore";
 
 function App() {
   const [loading, setLoading] = useState(true);
@@ -23,6 +46,7 @@ function App() {
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      <ScrollToTop />
 
       {/* LOADER OVERLAY */}
       {loading && <Loader onFinish={() => setLoading(false)} />}
@@ -31,18 +55,36 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
+          <Route path="/seeMore" element={<SeeMore />} />
           <Route path="/productspec" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/prfle" element={<Prfle />}/>
+          <Route path="/help" element={<HelpSupport />} />
+
+
           <Route path="/payment" element={<Payment />} />
+          <Route path="/pay" element={<Pay />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/success" element={<OrderSuccess />} />
           <Route path="/trackorder" element={<Trackpage />} />
+          <Route path="/review" element={<Review />} />
+          <Route path="/popup" element={<SuccessPopup />} />
+          
+
+
+          
+          <Route path="/about" element={<About />} />
+          <Route path="/faq" element={<Faq/>} />
+          <Route path="/blog" element={<Blog/>} />
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
+          <Route path="/Nutrition" element={<Nutrition />} />
+
         </Routes>
       </div>   
 
-      {/* <Footer /> */}
+
     </>
   );
 }
