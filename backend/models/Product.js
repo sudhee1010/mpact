@@ -76,7 +76,7 @@ const productSchema = new mongoose.Schema(
 
     description: {
       type: String,
-      required: true
+      required: false
     },
 
     category: {
@@ -97,7 +97,7 @@ const productSchema = new mongoose.Schema(
     // 🔹 PRICING (IMPORTANT)
     originalPrice: {
       type: Number,
-      required: false
+      required: true
     },
 
     price: {
@@ -113,7 +113,9 @@ const productSchema = new mongoose.Schema(
     // 🔹 RATING & REVIEWS
     rating: {
       type: Number,
-      default: 0
+      default: 0,
+      min: 0,
+      max: 5
     },
 
     numReviews: {

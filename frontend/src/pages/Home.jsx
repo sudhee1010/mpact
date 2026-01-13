@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { ShoppingCart, User, Search, ChevronLeft, ChevronRight, Play, Menu, X } from 'lucide-react';
 import MotivationalSection from "./MotivationalSection";
@@ -6,8 +7,9 @@ import VideoShowcaseSection from "./VideoShowcaseSection";
 import FeaturesSection from "./FeaturesSection";
 import proteinGym from "../assets/rrs/protein-gym.jpg";
 import { addToCart } from "../services/cartService";
-import { Instagram,Youtube } from 'lucide-react';
+import { Instagram, Youtube } from 'lucide-react';
 import { SiTiktok } from "react-icons/si";
+import WhatsAppFloat from '../components/WhatsAppFloat';
 
 
 
@@ -22,12 +24,14 @@ const MPACTLandingPage = () => {
   const [products, setProducts] = useState([]);
   const [loadingProducts, setLoadingProducts] = useState(false);
   const [productError, setProductError] = useState(null);
-  const [nextCursor, setNextCursor] = useState(null);
-  const [hasNextPage, setHasNextPage] = useState(true);
+  // const [nextCursor, setNextCursor] = useState(null);
+  // const [hasNextPage, setHasNextPage] = useState(true);
   const [showLoginModal, setShowLoginModal] = useState(false);
   const [cartMessage, setCartMessage] = useState("");
   const [heroSlides, setHeroSlides] = useState([]);
   const [loadingBanners, setLoadingBanners] = useState(true);
+  const navigate = useNavigate();
+
 
 
 
@@ -70,38 +74,62 @@ const MPACTLandingPage = () => {
 
   // 🔥 FETCH PRODUCTS FROM BACKEND (ONLY LOGIC ADDITION)
 
-  const fetchProducts = async (cursor = null) => {
-    try {
-      setLoadingProducts(true);
+  // const fetchProducts = async (cursor = null) => {
+  //   try {
+  //     setLoadingProducts(true);
 
-      const res = await axios.get("http://localhost:5000/api/products", {
-        params: {
-          limit: 8,
-          cursor
-        }
-      });
+  //     const res = await axios.get("http://localhost:5000/api/products", {
+  //       params: {
+  //         limit: 8,
+  //         cursor
+  //       }
+  //     });
 
-      const data = res.data.products;
-      const pageInfo = res.data.pageInfo;
+  //     const data = res.data.products;
+  //     const pageInfo = res.data.pageInfo;
 
-      setProducts(prev =>
-        cursor ? [...prev, ...data] : data
-      );
-      setNextCursor(pageInfo?.nextCursor ?? null);
-      setHasNextPage(
-        typeof pageInfo?.hasNextPage === "boolean"
-          ? pageInfo.hasNextPage
-          : true
-      );
-    } catch (error) {
-      setProductError("Failed to load products");
-    } finally {
-      setLoadingProducts(false);
-    }
-  };
-  useEffect(() => {
-    fetchProducts();
-  }, []);
+  //     setProducts(prev =>
+  //       cursor ? [...prev, ...data] : data
+  //     );
+  //     setNextCursor(pageInfo?.nextCursor ?? null);
+  //     setHasNextPage(
+  //       typeof pageInfo?.hasNextPage === "boolean"
+  //         ? pageInfo.hasNextPage
+  //         : true
+  //     );
+  //   } catch (error) {
+  //     setProductError("Failed to load products");
+  //   } finally {
+  //     setLoadingProducts(false);
+  //   }
+  // };
+  // useEffect(() => {
+  //   fetchProducts();
+  // }, []);
+
+
+
+  // 🔥 FETCH LIMITED PRODUCTS FOR HOME PAGE
+const fetchProducts = async () => {
+  try {
+    setLoadingProducts(true);
+
+    const res = await axios.get("http://localhost:5000/api/products", {
+      params: { limit: 8 }
+    });
+
+    setProducts(res.data.products);
+  } catch (error) {
+    setProductError("Failed to load products");
+  } finally {
+    setLoadingProducts(false);
+  }
+};
+
+useEffect(() => {
+  fetchProducts();
+}, []);
+
 
 
 
@@ -653,6 +681,17 @@ const MPACTLandingPage = () => {
                 <div style={{ padding: '0.75rem', backgroundColor: '#171717' }}>
                   <h3 style={{ fontSize: '0.75rem', fontWeight: 'bold', marginBottom: '0.5rem', textTransform: 'uppercase', color: 'white' }}>{product.name}</h3>
 
+                  <p
+                    style={{
+                      fontSize: "10px",
+                      color: "#9ca3af",
+                      marginBottom: "0.5rem"
+                    }}
+                  >
+                    {product.description}
+                  </p>
+
+                  {/* 
                   <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '0.375rem', marginBottom: '0.5rem' }}>
                     {Array.isArray(product.specs) &&
                       product.specs.map((spec, i) => (
@@ -661,7 +700,35 @@ const MPACTLandingPage = () => {
                         </div>
                       ))}
 
+                  </div> */}
+
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(2, 1fr)",
+                      gap: "0.375rem",
+                      marginBottom: "0.5rem"
+                    }}
+                  >
+                    {Array.isArray(product.highlights) &&
+                      product.highlights.map((spec, i) => (
+                        <div
+                          key={i}
+                          style={{
+                            border: "1px solid rgba(202, 138, 4, 0.5)",
+                            borderRadius: "0.25rem",
+                            padding: "0.125rem 0.375rem",
+                            fontSize: "9px",
+                            fontWeight: "bold",
+                            textAlign: "center",
+                            color: "#facc15"
+                          }}
+                        >
+                          {spec}
+                        </div>
+                      ))}
                   </div>
+
 
                   <div style={{ display: 'flex', alignItems: 'center', gap: '0.25rem', marginBottom: '0.5rem' }}>
                     <div style={{ display: 'flex' }}>
@@ -675,10 +742,39 @@ const MPACTLandingPage = () => {
                     <span style={{ fontSize: '10px', color: '#9ca3af' }}>⭐ {product.numReviews || 0} Reviews</span>
                   </div>
 
-                  <div style={{ marginBottom: '0.25rem' }}>
-                    <span style={{ fontSize: '10px', color: '#6b7280', textDecoration: 'line-through' }}>₹{product.oldPrice}</span>
-                    <span style={{ fontSize: '10px', color: '#4ade80', marginLeft: '0.25rem' }}>{product.discount}</span>
-                  </div>
+                  {/* <div style={{ marginBottom: '0.25rem' }}>
+                    <span style={{ fontSize: '10px', color: '#6b7280', textDecoration: 'line-through' }}>₹{product.originalPrice}</span>
+                    <span style={{ fontSize: '10px', color: '#4ade80', marginLeft: '0.25rem' }}>{product.discountPercent > 0 && (
+                      <span>{product.discountPercent}% OFF</span>
+                    )}</span>
+                  </div> */}
+
+                  {product.originalPrice > product.price && (
+                    <div style={{ marginBottom: "0.25rem" }}>
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "#6b7280",
+                          textDecoration: "line-through"
+                        }}
+                      >
+                        ₹{product.originalPrice}
+                      </span>
+
+                      <span
+                        style={{
+                          fontSize: "10px",
+                          color: "#4ade80",
+                          marginLeft: "0.25rem",
+                          fontWeight: "bold"
+                        }}
+                      >
+                        {product.discountPercent}% OFF
+                      </span>
+                    </div>
+                  )}
+
+
 
                   <div style={{ fontSize: '1.125rem', fontWeight: 900, marginBottom: '0.75rem', color: 'white' }}>RS : {product.price}</div>
 
@@ -707,7 +803,7 @@ const MPACTLandingPage = () => {
             ))}
           </div>
 
-          <div style={{ textAlign: 'center' }}>
+          {/* <div style={{ textAlign: 'center' }}>
             <button
               disabled={!hasNextPage || loadingProducts}
               onClick={() => fetchProducts(nextCursor)}
@@ -732,7 +828,30 @@ const MPACTLandingPage = () => {
                   ? "SEE MORE →"
                   : "NO MORE PRODUCTS"}
             </button>
-          </div>
+          </div> */}
+
+<div style={{ textAlign: "center" }}>
+  <button
+    onClick={() => navigate("/products")}
+    style={{
+      backgroundColor: hoveredButton === "see-more" ? "#eab308" : "#facc15",
+      color: "black",
+      fontWeight: "bold",
+      padding: "0.75rem 2rem",
+      borderRadius: "0.25rem",
+      border: "none",
+      cursor: "pointer",
+      transition: "all 0.3s",
+      transform: hoveredButton === "see-more" ? "scale(1.05)" : "scale(1)"
+    }}
+    onMouseEnter={() => setHoveredButton("see-more")}
+    onMouseLeave={() => setHoveredButton(null)}
+  >
+    SEE MORE →
+  </button>
+</div>
+
+
         </div>
       </section>
 
@@ -1160,6 +1279,7 @@ const MPACTLandingPage = () => {
         </div>
       )}
 
+      <WhatsAppFloat />
 
     </div>
   );

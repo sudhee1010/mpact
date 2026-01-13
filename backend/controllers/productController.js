@@ -216,6 +216,7 @@ export const createProduct = async (req, res) => {
     const {
       name,
       description,
+      highlights,
       category,
       originalPrice,
       price,
@@ -247,6 +248,7 @@ export const createProduct = async (req, res) => {
     const product = await Product.create({
       name,
       description,
+      highlights,
       category,
       originalPrice,
       price,
