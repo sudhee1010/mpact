@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 // import Navbar from '../../components/NavbarTwo';
 import Navbar from '../../components/Navbar';
-// import styles from "./Faq.module.css"
 import Footer from "../../components/Footer";
+// import Navbar from '../../components/NavbarTwo';
 
 const Faq = () => {
   const [openIndex, setOpenIndex] = useState(null);

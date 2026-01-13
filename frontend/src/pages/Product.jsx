@@ -283,6 +283,7 @@ export default function Products() {
     padding: 10px;
     background-color: #ffeb00;
     border: none;
+    font-family: 'Jersey 25', cursive;
     font-weight: bold;
     cursor: pointer;
   }
@@ -338,14 +339,16 @@ export default function Products() {
                     <div className="price">RS : {product.price}</div>
 
                     <Link to="/productspec">
-                      <button className="buy-btn">Place Order</button>
+                      <button className="buy-btn">BUY NOW</button>
                     </Link>
                   </div>
                 ))}
               </div>
 
               <div className="see-more">
+                <Link to="/seeMore">
                 <button>SEE MORE →</button>
+                </Link>
               </div>
             </div>
           ))}
@@ -358,4 +361,3 @@ export default function Products() {
   );
   
 };
-

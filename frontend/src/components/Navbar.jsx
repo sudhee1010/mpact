@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
+import { useState } from "react";
+import SideCart from "./SideCart"; // adjust path if needed
 
 export default function Navbar() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [cartOpen, setCartOpen] = useState(false);
+
   return (
     <>
       {/* ================= INTERNAL CSS ================= */}
@@ -8,27 +13,26 @@ export default function Navbar() {
         @import url('https://fonts.googleapis.com/css2?family=Jersey+25&display=swap');
 
         * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-  /* Hide scrollbar but allow scroll */
-html, body {
-  scrollbar-width: none;        /* Firefox */
-  -ms-overflow-style: none;     /* IE & Edge */
-}
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
 
-html::-webkit-scrollbar,
-body::-webkit-scrollbar {
-  display: none;                /* Chrome, Safari */
-}
+        html, body {
+          scrollbar-width: none;
+          -ms-overflow-style: none;
+        }
 
+        html::-webkit-scrollbar,
+        body::-webkit-scrollbar {
+          display: none;
+        }
 
-body {
-  background-color: rgba(24, 23, 23, 1);
-  color: #ffffff;
-  font-family: "Segoe UI", Arial, sans-serif;
-}
+        body {
+          background-color: rgba(24, 23, 23, 1);
+          color: #ffffff;
+          font-family: "Segoe UI", Arial, sans-serif;
+        }
 
         .navbar {
           position: fixed;
@@ -48,7 +52,6 @@ body {
         .nav-logo {
           font-family: 'Jersey 25', sans-serif;
           font-size: 48px;
-          font-weight: 400;
           letter-spacing: -0.04em;
           color: #000;
           text-decoration: none;
@@ -66,7 +69,6 @@ body {
         .nav-links a {
           font-family: 'Jersey 25', sans-serif;
           font-size: 20px;
-          font-weight: 400;
           color: #000;
           text-decoration: none;
         }
@@ -76,124 +78,147 @@ body {
         }
 
         /* RIGHT ICONS */
-        .nav-icons {
+       .nav-icons {
           display: flex;
+          align-items: center;          
           gap: 24px;
-          align-items: center;
         }
 
+        /* ALL ICONS (image-based) */
         .nav-icons img {
           width: 21px;
           height: 21px;
+          display: block;               
           cursor: pointer;
         }
 
-        /* PAGE OFFSET FIX */
+        /* HAMBURGER ICON */
+        .hamburger {
+          color: #000;
+          font-size: 22px;
+          line-height: 1;               
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+          position: fixed;
+          top: 92px;
+          left: 0;
+          width: 100%;
+          background: #ffd400;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          gap: 28px;
+          padding: 40px 0;
+          transform: translateY(-120%);
+          transition: transform 0.3s ease;
+          z-index: 999;
+        }
+
+        .mobile-menu.open {
+          transform: translateY(0);
+        }
+
+        .mobile-menu a {
+          font-family: 'Jersey 25', sans-serif;
+          font-size: 26px;
+          color: #000;
+          text-decoration: none;
+        }
+
         .page-wrapper {
           padding-top: 92px;
         }
 
-        /* ===== LARGE DESKTOPS / 4K ===== */
-@media (min-width: 1400px) {
-  .navbar {
-    padding: 0 100px;
-  }
+        .hamburger {
+          display: none;
+        }
+          
+        @media (max-width: 900px) {
+          .nav-links {
+            display: none;
+          }
 
-  .nav-logo {
-    font-size: 56px;
-  }
+          .hamburger {
+            display: block;
+          }
+        }
 
-  .nav-links a {
-    font-size: 22px;
-  }
-}
+        @media (max-width: 600px) {
+          .navbar {
+            height: 72px;
+            padding: 0 20px;
+          }
 
-/* ===== LAPTOPS ===== */
-@media (max-width: 1200px) {
-  .navbar {
-    padding: 0 40px;
-  }
+          .nav-logo {
+            font-size: 34px;
+          }
 
-  .nav-links {
-    gap: 32px;
-  }
-}
+          .mobile-menu {
+            top: 72px;
+          }
 
-/* ===== TABLETS ===== */
-@media (max-width: 900px) {
-  .nav-links {
-    display: none; /* hide center menu */
-  }
-
-  .navbar {
-    padding: 0 30px;
-  }
-
-  .nav-logo {
-    font-size: 42px;
-  }
-}
-
-/* ===== MOBILE ===== */
-@media (max-width: 600px) {
-  .navbar {
-    height: 72px;
-    padding: 0 20px;
-  }
-
-  .nav-logo {
-    font-size: 34px;
-  }
-
-  .nav-icons img {
-    width: 18px;
-    height: 18px;
-  }
-
-  .page-wrapper {
-    padding-top: 72px;
-  }
-}
-
-/* ===== SMALL MOBILE ===== */
-@media (max-width: 360px) {
-  .nav-logo {
-    font-size: 30px;
-  }
-
-  .nav-icons {
-    gap: 16px;
-  }
-}
-
-
+          .page-wrapper {
+            padding-top: 72px;
+          }
+        }
       `}</style>
 
       {/* ================= NAVBAR ================= */}
       <nav className="navbar">
         {/* LOGO */}
-        <Link to="/" className="nav-logo mpact-logo-target" data-mpact-logo>
+        <Link to="/" className="nav-logo">
           MPACT
         </Link>
 
-
-        {/* CENTER MENU */}
+        {/* DESKTOP LINKS */}
         <div className="nav-links">
           <Link to="/">HOME</Link>
           <Link to="/products">PRODUCTS</Link>
           <Link to="/about">ABOUT US</Link>
           <Link to="/blog">BLOG</Link>
+          <Link to="/wishlist">WISHLIST</Link>
         </div>
 
         {/* RIGHT ICONS */}
         <div className="nav-icons">
-          <img src="/icons/search.png" alt="Search" />
-          <img src="/icons/avatar.png" alt="User" />
-          <Link to="/cart">
-  <img src="/icons/bag.png" alt="Cart" />
-</Link>
+          <Link to="/seeMore">
+            <img src="/icons/search.png" alt="Search" />
+          </Link>
+
+          <Link to="/profile">
+            <img src="/icons/avatar.png" alt="User" />
+          </Link>
+
+          {/* CART ICON → SIDE CART */}
+          <img
+            src="/icons/bag.png"
+            alt="Cart"
+            onClick={() => setCartOpen(true)}
+          />
+
+          {/* HAMBURGER */}
+          <div className="hamburger" onClick={() => setMenuOpen(!menuOpen)}>
+            ☰
+          </div>
         </div>
       </nav>
+
+      {/* ================= MOBILE MENU ================= */}
+      <div className={`mobile-menu ${menuOpen ? "open" : ""}`}>
+        <Link to="/" onClick={() => setMenuOpen(false)}>HOME</Link>
+        <Link to="/products" onClick={() => setMenuOpen(false)}>PRODUCTS</Link>
+        <Link to="/about" onClick={() => setMenuOpen(false)}>ABOUT US</Link>
+        <Link to="/blog" onClick={() => setMenuOpen(false)}>BLOG</Link>
+      </div>
+
+      {/* ================= SIDE CART ================= */}
+      <SideCart open={cartOpen} onClose={() => setCartOpen(false)} />
     </>
   );
 }
