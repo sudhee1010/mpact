@@ -1,217 +1,217 @@
-import React from "react";
+import React, { useState, useMemo } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../components/Footer";
 
-/* ================= CART DATA ================= */
-const CART_ITEMS = [
+const INITIAL_CART = [
   {
     id: 1,
     title: "PROTEIN WAFERS – VARIETY PACK OF 10",
-    oldPrice: 499,
-    price: 399,
+    oldPrice: 2999,
+    price: 2000,
     rating: 5,
-    reviews: 15,
+    reviews: 99,
     image: "/images/product1.png",
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80% PEANUT",
-    ],
+    qty: 1,
+    specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS"],
   },
   {
     id: 2,
     title: "PROTEIN WAFERS – VARIETY PACK OF 10",
-    oldPrice: 499,
-    price: 399,
-    rating: 4,
-    reviews: 38,
+    oldPrice: 2999,
+    price: 2000,
+    rating: 5,
+    reviews: 99,
     image: "/images/product1.png",
-    specs: [
-      "NO PRESERVATIVES",
-      "JAGGERY BASED",
-      "NO ADDED COLOURS",
-      "NO GLUCOSE ADDED",
-      "80% PEANUT",
-    ],
+    qty: 1,
+    specs: ["NO PRESERVATIVES", "JAGGERY BASED", "NO ADDED COLOURS"],
   },
 ];
 
 export default function Cart() {
-  /* ================= PRICE CALCULATIONS ================= */
-
+  const [cart, setCart] = useState(INITIAL_CART);
   const packingCharges = 20;
 
-  // Total MRP (safety: oldPrice should not be less than price)
-  const totalMRP = CART_ITEMS.reduce(
-    (sum, item) => sum + Math.max(item.oldPrice, item.price),
-    0
-  );
+  const { totalMRP, discount, finalAmount } = useMemo(() => {
+    const mrp = cart.reduce((s, i) => s + i.oldPrice * i.qty, 0);
+    const sell = cart.reduce((s, i) => s + i.price * i.qty, 0);
+    return {
+      totalMRP: mrp,
+      discount: mrp - sell,
+      finalAmount: sell + packingCharges,
+    };
+  }, [cart]);
 
-  // Total selling price
-  const totalSellingPrice = CART_ITEMS.reduce(
-    (sum, item) => sum + item.price,
-    0
-  );
+  const incQty = (id) =>
+    setCart((c) => c.map((i) => (i.id === id ? { ...i, qty: i.qty + 1 } : i)));
 
-  // Discount amount
-  const totalDiscount = Math.max(totalMRP - totalSellingPrice, 0);
+  const decQty = (id) =>
+    setCart((c) =>
+      c.map((i) => (i.id === id && i.qty > 1 ? { ...i, qty: i.qty - 1 } : i))
+    );
 
-  // Final payable amount
-  const finalAmount = totalSellingPrice + packingCharges;
+  const removeItem = (id) => setCart((c) => c.filter((i) => i.id !== id));
 
   return (
     <>
       <style>{`
-        body {
-          background: #2f2f2f;
-          color: #fff;
+      body{background:#2f2f2f;color:#fff}
+
+      .cart-page{max-width:1600px;margin:auto;padding:40px}
+      h1{color:#ffeb00;margin-bottom:30px}
+
+      .layout{display:grid;grid-template-columns:2fr 1fr;gap:40px}
+
+      .item-card{
+        border:2px solid #ffeb00;
+        border-radius:12px;
+        padding:24px;
+        display:flex;
+        gap:24px;
+        margin-bottom:30px;
+        position:relative;
+        background:#262626;
+      }
+
+      .delete{
+        position:absolute;top:16px;right:16px;
+        cursor:pointer;font-size:18px;color:#ff4d4d
+      }
+
+      .img{
+        width:160px;height:200px;
+        border-radius:10px;
+        overflow:hidden;
+        background:#111;
+        flex-shrink:0;
+      }
+
+      .img img{width:100%;height:100%;object-fit:cover}
+
+      .details{flex:1}
+      .details h3{font-size:16px;margin-bottom:10px}
+
+      .specs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+      .spec{
+        border:1px solid #ffeb00;
+        padding:4px 8px;
+        font-size:11px;
+        border-radius:4px;
+        color:#ffeb00
+      }
+
+      .rating{color:#ffeb00;font-size:13px;margin-bottom:10px}
+
+      .price{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+      .price del{color:#aaa}
+      .price span{font-weight:700;font-size:16px}
+      .off{color:#00c853;font-size:13px}
+
+      /* 🔥 FIXED QUANTITY */
+      .qty-row{
+        display:flex;
+        align-items:center;
+        gap:12px;
+        margin-top:14px;
+        flex-wrap:wrap;
+      }
+
+      .qty-box{
+        display:flex;
+        align-items:center;
+        border:2px solid #ffeb00;
+        border-radius:6px;
+        overflow:hidden;
+        height:36px;
+      }
+
+      .qty-box button{
+        width:36px;
+        height:36px;
+        background:none;
+        border:none;
+        color:#ffeb00;
+        font-size:20px;
+        cursor:pointer;
+      }
+
+      .qty-box span{
+        width:36px;
+        text-align:center;
+        font-weight:700;
+      }
+
+      .price-box{
+        border:2px solid #ffeb00;
+        border-radius:12px;
+        padding:24px;
+        background:#262626;
+        height:fit-content;
+      }
+
+      .row{display:flex;justify-content:space-between;margin-bottom:14px}
+      .green{color:#00c853;font-weight:700}
+
+      .save{
+        border:1px solid #ffeb00;
+        padding:10px;
+        text-align:center;
+        margin:16px 0;
+      }
+
+      .order-btn{
+        width:100%;
+        padding:14px;
+        background:#ffeb00;
+        border:none;
+        font-weight:800;
+        cursor:pointer;
+      }
+
+      /* 📱 MOBILE */
+      @media(max-width:900px){
+        .layout{grid-template-columns:1fr}
+
+        .item-card{
+          flex-direction:column;
+          align-items:center;
+          text-align:center;
         }
 
-        .cart-page {
-          max-width: 1600px;
-          margin: auto;
-          padding: clamp(16px, 4vw, 60px);
-          min-height: 100vh;
-        }
+        .details{text-align:center}
+        .qty-row{justify-content:center}
+        .price{justify-content:center}
+      }
 
-        .cart-layout {
-          display: grid;
-          grid-template-columns: 2fr 1fr;
-          gap: 40px;
-        }
-
-        .cart-item {
-          display: flex;
-          gap: 30px;
-          margin-bottom: 50px;
-        }
-
-        .cart-img {
-          width: 160px;
-          height: 200px;
-          background: #1f1f1f;
-          border-radius: 8px;
-          overflow: hidden;
-        }
-
-        .cart-img img {
-          width: 100%;
-          height: 100%;
-          object-fit: cover;
-        }
-
-        .cart-details h3 {
-          font-size: 16px;
-          margin-bottom: 10px;
-        }
-
-        .specs {
-          display: flex;
-          flex-wrap: wrap;
-          gap: 8px;
-          margin-bottom: 12px;
-        }
-
-        .spec {
-          border: 1px solid #ffeb00;
-          color: #ffeb00;
-          padding: 4px 8px;
-          font-size: 11px;
-          border-radius: 3px;
-        }
-
-        .rating {
-          color: #ffeb00;
-          font-size: 13px;
-          margin-bottom: 6px;
-        }
-
-        .price del {
-          color: #aaa;
-          margin-right: 6px;
-        }
-
-        .price span {
-          font-weight: 800;
-          font-size: 16px;
-        }
-
-        .price-box {
-          border-left: 1px solid #aaa;
-          padding-left: 30px;
-        }
-
-        .price-box h3 {
-          margin-bottom: 20px;
-        }
-
-        .price-row {
-          display: flex;
-          justify-content: space-between;
-          margin-bottom: 14px;
-        }
-
-        .discount {
-          color: #00c853;
-          font-weight: bold;
-        }
-
-        .total {
-          color: #00c853;
-          font-weight: bold;
-        }
-
-        .place-order {
-          margin-top: 30px;
-          text-align: center;
-        }
-
-        .place-order button {
-          background: #ffeb00;
-          border: none;
-          padding: 14px 40px;
-          font-weight: bold;
-          cursor: pointer;
-        }
-
-        @media (max-width: 900px) {
-          .cart-layout {
-            grid-template-columns: 1fr;
-          }
-
-          .price-box {
-            border-left: none;
-            padding-left: 0;
-            border-top: 1px solid #aaa;
-            padding-top: 30px;
-          }
-
-          .cart-item {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-          }
-        }
+      @media(max-width:480px){
+        .cart-page{padding:20px}
+        .img{width:140px;height:180px}
+        h1{font-size:22px}
+      }
       `}</style>
 
       <div className="cart-page">
-        <div className="cart-layout">
-          {/* LEFT SIDE */}
+        <h1>SHOPPING CART</h1>
+
+        <div className="layout">
           <div>
-            {CART_ITEMS.map((item) => (
-              <div className="cart-item" key={item.id}>
-                <div className="cart-img">
-                  <img src={item.image} alt={item.title} />
+            {cart.map((item) => (
+              <div className="item-card" key={item.id}>
+                <div className="delete" onClick={() => removeItem(item.id)}>
+                  🗑
                 </div>
 
-                <div className="cart-details">
+                <div className="img">
+                  <img src={item.image} alt="" />
+                </div>
+
+                <div className="details">
                   <h3>{item.title}</h3>
 
                   <div className="specs">
-                    {item.specs.map((spec, i) => (
-                      <span className="spec" key={i}>{spec}</span>
+                    {item.specs.map((s, i) => (
+                      <span className="spec" key={i}>
+                        {s}
+                      </span>
                     ))}
                   </div>
 
@@ -222,41 +222,52 @@ export default function Cart() {
                   <div className="price">
                     <del>RS : {item.oldPrice}</del>
                     <span>RS : {item.price}</span>
+                    <span className="off">25% OFF</span>
+                  </div>
+
+                  <div className="qty-row">
+                    <span>Quantity:</span>
+                    <div className="qty-box">
+                      <button onClick={() => decQty(item.id)}>-</button>
+                      <span>{item.qty}</span>
+                      <button onClick={() => incQty(item.id)}>+</button>
+                    </div>
                   </div>
                 </div>
               </div>
             ))}
           </div>
 
-          {/* RIGHT SIDE */}
           <div className="price-box">
-            <h3>PRICE DETAILS</h3>
+            <h2>PRICE DETAILS</h2>
 
-            <div className="price-row">
-              <span>Price ({CART_ITEMS.length} items)</span>
-              <span>RS : {totalMRP}</span>
+            <div className="row">
+              <span>Price ({cart.length} items)</span>
+              <span>₹{totalMRP}</span>
             </div>
 
-            <div className="price-row discount">
+            <div className="row green">
               <span>Discount</span>
-              <span>- RS : {totalDiscount}</span>
+              <span>-₹{discount}</span>
             </div>
 
-            <div className="price-row">
+            <div className="row">
               <span>Packing & other charges</span>
-              <span>RS : {packingCharges}</span>
+              <span>₹{packingCharges}</span>
             </div>
 
-            <div className="price-row total">
+            <hr />
+
+            <div className="row green">
               <span>Total Amount</span>
-              <span>RS : {finalAmount}</span>
+              <span>₹{finalAmount}</span>
             </div>
 
-            <div className="place-order">
-              <Link to="/checkout">
-                <button>PLACE ORDER</button>
-              </Link>
-            </div>
+            <div className="save">You will save ₹{discount} on this order</div>
+
+            <Link to="/checkout">
+              <button className="order-btn">PLACE ORDER</button>
+            </Link>
           </div>
         </div>
       </div>
