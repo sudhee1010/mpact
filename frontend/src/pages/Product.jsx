@@ -4,14 +4,10 @@ import axios from "axios";
 import { Heart } from "lucide-react";
 import Footer from "../components/Footer";
 
-// Mock components - replace with your actual imports
-const Navbar = () => <div style={{ height: '60px', background: '#111', borderBottom: '2px solid #ffeb00' }}></div>;
-
-
 export default function Products() {
   const [categories, setCategories] = useState([]);
   const [productsByCategory, setProductsByCategory] = useState({});
-  const [quantities, setQuantities] = useState({});
+  // const [quantities, setQuantities] = useState({});
   const [favorites, setFavorites] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,7 +16,9 @@ export default function Products() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const { data } = await axios.get("http://localhost:5000/api/categories");
+        const { data } = await axios.get(
+          "http://localhost:5000/api/categories"
+        );
         setCategories(data);
       } catch (err) {
         setError("Failed to load categories");
@@ -36,9 +34,9 @@ export default function Products() {
         setLoading(true);
 
         const results = await Promise.all(
-          categories.map(cat =>
+          categories.map((cat) =>
             axios.get("http://localhost:5000/api/products", {
-              params: { category: cat._id }
+              params: { category: cat._id },
             })
           )
         );
@@ -59,18 +57,11 @@ export default function Products() {
     if (categories.length) fetchProducts();
   }, [categories]);
 
-  /* ================= HANDLERS ================= */
-  const handleQuantityChange = (productId, delta) => {
-    setQuantities(prev => ({
+  /* ================= FAVORITE HANDLER ================= */
+  const toggleFavorite = (productId) => {
+    setFavorites((prev) => ({
       ...prev,
-      [productId]: Math.max(1, (prev[productId] || 1) + delta)
-    }));
-  };
-
-  const toggleFavorite = productId => {
-    setFavorites(prev => ({
-      ...prev,
-      [productId]: !prev[productId]
+      [productId]: !prev[productId],
     }));
   };
 
@@ -78,7 +69,6 @@ export default function Products() {
   if (loading) {
     return (
       <>
-        <Navbar />
         <p style={{ textAlign: "center", marginTop: 100, color: "#ffeb00" }}>
           Loading products...
         </p>
@@ -89,7 +79,6 @@ export default function Products() {
   if (error) {
     return (
       <>
-        <Navbar />
         <p style={{ textAlign: "center", marginTop: 100, color: "red" }}>
           {error}
         </p>
@@ -99,8 +88,6 @@ export default function Products() {
 
   return (
     <>
-      <Navbar />
-
       <style>{`
   .page-wrapper {
     padding-top: 35px;
@@ -156,11 +143,12 @@ export default function Products() {
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .product-card:hover {
-  // transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 /* ================= DISCOUNT BADGE ================= */
@@ -173,8 +161,16 @@ export default function Products() {
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 800;
-  border-radius: 4px;
-  z-index: 10;
+  border-radius: 8px;
+  z-index: 1;
+}
+
+.discount-badge.hide {
+  visibility: hidden;
+}
+
+.discount-badge.show {
+  visibility: visible;
 }
 
 /* ================= FAVORITE BUTTON ================= */
@@ -305,81 +301,64 @@ export default function Products() {
   color: #4caf50;
 }
 
-/* ================= QUANTITY SELECTOR ================= */
-.quantity-selector {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px 12px;
-}
-
-.quantity-btn {
-  width: 32px;
-  height: 32px;
-  background: transparent;
-  border: 2px solid #ffeb00;
-  color: #ffeb00;
-  font-size: 18px;
-  font-weight: 800;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  border-radius: 4px;
-}
-
-.quantity-btn:hover {
-  background: #ffeb00;
-  color: #000;
-}
-
-.quantity-display {
-  min-width: 30px;
-  text-align: center;
-  color: #ffeb00;
-  font-size: 16px;
-  font-weight: 700;
-}
 
 /* ================= ACTION BUTTONS ================= */
 .action-buttons {
   display: flex;
   gap: 8px;
-  padding: 0 12px 12px;
+  padding: 12px;
   margin-top: auto;
 }
 
+/* Link wrapper */
+.action-link {
+  flex: 1;
+  display: flex;
+  text-decoration: none;
+}
+
+/* Buttons */
 .add-to-cart-btn,
 .buy-btn {
-  flex: 1;
-  padding: 10px;
-  border-radius: 6px;
+  width: 100%;
+  height: 48px;
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  cursor: pointer;
   font-family: "Jersey 25", cursive;
   font-weight: 800;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  border: 1px solid #ffeb00;
+  transition: background 0.25s ease, color 0.25s ease, border 0.25s ease;
 }
 
+/* Add to cart */
 .add-to-cart-btn {
   background: transparent;
-  color: #ffeb00;
+  color: #ffffff;
+  border: 2px solid #ffeb00;
+  border-radius: 8px;
 }
 
-.add-to-cart-btn:hover {
-  background: rgba(255, 235, 0, 0.1);
-}
-
+/* Buy now */
 .buy-btn {
+  background: #ffeb00;
+  color: #000;
+  border: 2px solid #ffeb00;
+  border-radius: 8px;
+}
+
+/* Add to Cart hover (outline → filled) */
+.add-to-cart-btn:hover {
   background: #ffeb00;
   color: #000;
 }
 
+/* Buy Now hover (slightly brighter) */
 .buy-btn:hover {
-  background: #fff;
-  border-color: #fff;
+  background: gold;
+  color: #000;
 }
 
 /* ================= MOBILE FIX ================= */
@@ -443,19 +422,27 @@ export default function Products() {
         <div className="products-page">
           <h1 className="page-title">FIND OUR PRODUCTS</h1>
 
-          {Object.keys(productsByCategory).map(categoryName => (
+          {Object.keys(productsByCategory).map((categoryName) => (
             <div className="section" key={categoryName}>
               <h2 className="section-title">{categoryName}</h2>
 
               <div className="product-grid">
-                {productsByCategory[categoryName].map(product => (
+                {productsByCategory[categoryName].slice(0, 4).map((product) => (
                   <div className="product-card" key={product._id}>
-                    {product.discountPercent && (
-                      <div className="discount-badge">{product.discountPercent}</div>
-                    )}
+                    <div
+                      className={`discount-badge ${
+                        product.discountPercent ? "show" : "hide"
+                      }`}
+                    >
+                      {product.discountPercent
+                        ? `${product.discountPercent}% OFF`
+                        : ""}
+                    </div>
 
                     <button
-                      className={`favorite-btn ${favorites[product._id] ? "active" : ""}`}
+                      className={`favorite-btn ${
+                        favorites[product._id] ? "active" : ""
+                      }`}
                       onClick={() => toggleFavorite(product._id)}
                     >
                       <Heart />
@@ -472,7 +459,9 @@ export default function Products() {
 
                     <div className="specs">
                       {product.highlights?.map((spec, i) => (
-                        <span className="spec" key={i}>{spec}</span>
+                        <span className="spec" key={i}>
+                          {spec}
+                        </span>
                       ))}
                     </div>
 
@@ -485,35 +474,24 @@ export default function Products() {
 
                     {product.originalPrice && (
                       <div className="price-box">
-                        <span className="old-price">₹{product.originalPrice}</span>
+                        <span className="old-price">
+                          ₹{product.originalPrice}
+                        </span>
                       </div>
                     )}
 
                     <div className="price">₹{product.price}</div>
 
-                    <div className="quantity-selector">
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(product._id, -1)}
-                      >
-                        −
-                      </button>
-                      <span className="quantity-display">
-                        {quantities[product._id] || 1}
-                      </span>
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(product._id, 1)}
-                      >
-                        +
-                      </button>
-                    </div>
-
                     <div className="action-buttons">
-                      <Link to="/cart">
-                        <button className="add-to-cart-btn">Add to Cart</button>
+                      <Link to="/cart" className="action-link">
+                        <button className="add-to-cart-btn">
+                          🛒&nbsp; Add to Cart
+                        </button>
                       </Link>
-                      <Link to={`/productspec/${product._id}`}>
+                      <Link
+                        to={`/productspec/${product._id}`}
+                        className="action-link"
+                      >
                         <button className="buy-btn">BUY NOW</button>
                       </Link>
                     </div>
@@ -522,8 +500,7 @@ export default function Products() {
               </div>
 
               <div className="see-more">
-                {/* <Link to={`/products?category=${categoryName}`}> */}
-                <Link to={`/seemore`}>
+                <Link to={`/seemore?category=${categoryName}`}>
                   <button>SEE MORE →</button>
                 </Link>
               </div>
