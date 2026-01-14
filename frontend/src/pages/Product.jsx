@@ -57,14 +57,7 @@ export default function Products() {
     if (categories.length) fetchProducts();
   }, [categories]);
 
-  /* ================= HANDLERS ================= */
-  // const handleQuantityChange = (productId, delta) => {
-  //   setQuantities(prev => ({
-  //     ...prev,
-  //     [productId]: Math.max(1, (prev[productId] || 1) + delta)
-  //   }));
-  // };
-
+  /* ================= FAVORITE HANDLER ================= */
   const toggleFavorite = (productId) => {
     setFavorites((prev) => ({
       ...prev,
@@ -150,11 +143,12 @@ export default function Products() {
   flex-direction: column;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   position: relative;
+  border-radius: 20px;
+  overflow: hidden;
 }
 
 .product-card:hover {
-  // transform: translateY(-4px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
+box-shadow: 0 4px 18px rgba(0, 0, 0, 0.25);
 }
 
 /* ================= DISCOUNT BADGE ================= */
@@ -167,7 +161,7 @@ export default function Products() {
   padding: 6px 12px;
   font-size: 14px;
   font-weight: 800;
-  border-radius: 4px;
+  border-radius: 8px;
   z-index: 1;
 }
 
@@ -433,7 +427,7 @@ export default function Products() {
               <h2 className="section-title">{categoryName}</h2>
 
               <div className="product-grid">
-                {productsByCategory[categoryName].map((product) => (
+                {productsByCategory[categoryName].slice(0, 4).map((product) => (
                   <div className="product-card" key={product._id}>
                     <div
                       className={`discount-badge ${
@@ -488,29 +482,11 @@ export default function Products() {
 
                     <div className="price">₹{product.price}</div>
 
-                    {/* <div className="quantity-selector">
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(product._id, -1)}
-                      >
-                        −
-                      </button>
-                      <span className="quantity-display">
-                        {quantities[product._id] || 1}
-                      </span>
-                      <button
-                        className="quantity-btn"
-                        onClick={() => handleQuantityChange(product._id, 1)}
-                      >
-                        +
-                      </button>
-                    </div> */}
-
                     <div className="action-buttons">
                       <Link to="/cart" className="action-link">
                         <button className="add-to-cart-btn">
-  🛒&nbsp; Add to Cart
-</button>
+                          🛒&nbsp; Add to Cart
+                        </button>
                       </Link>
                       <Link
                         to={`/productspec/${product._id}`}
@@ -524,8 +500,7 @@ export default function Products() {
               </div>
 
               <div className="see-more">
-                {/* <Link to={`/products?category=${categoryName}`}> */}
-                <Link to={`/seemore`}>
+                <Link to={`/seemore?category=${categoryName}`}>
                   <button>SEE MORE →</button>
                 </Link>
               </div>
