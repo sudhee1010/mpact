@@ -26,14 +26,19 @@ import Blog  from "./pages/blog/Blog.jsx"
 import SeeMore from "./pages/SeeMore";
 import NewProfile from "./pages/profile/Newprofile.jsx";
 import Wishlist from "./pages/Wishlist.jsx"
+import NewProfile from "./pages/profile/Newprofile.jsx"
+import Signup from "./pages/Signup.jsx";
+import  Login from "./pages/Login.jsx";
 
 function App() {
   const [loading, setLoading] = useState(true);
+  
 
   return (
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      
       <ScrollToTop />
 
       {/* LOADER OVERLAY */}
@@ -44,7 +49,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/products" element={<Product />} />
           <Route path="/seeMore" element={<SeeMore />} />
-          <Route path="/productspec" element={<ProductPage />} />
+          <Route path="/productspec/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<NewProfile />} />
           <Route path="/wishlist" element={<Wishlist />} />
@@ -68,6 +73,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/Nutrition" element={<Nutrition />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login/>}/>
+
 
         </Routes>
       </div>   

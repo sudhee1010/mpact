@@ -28,14 +28,14 @@ const ProductPage = () => {
       padding: "60px 40px",
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
-      gap: 60
+      gap: 20
     },
     mainImageContainer: {
       border: "2px solid #ffe600",
       borderRadius: 13,
       overflow: "hidden",
       background: "#fff",
-      width: "95%",
+      width: "88%",
       height: 560,
       marginLeft: "45px"
     },
@@ -50,7 +50,7 @@ const ProductPage = () => {
       gridTemplateColumns: "repeat(4, 1fr)",
       gap: 12,
       marginLeft: "47px",
-      width: "95%"
+      width: "88%"
     },
     thumbnailBox: {
       border: "2px solid transparent",
@@ -80,19 +80,31 @@ const ProductPage = () => {
       marginBottom: 16,
       textTransform: "uppercase"
     },
-    ratingContainer: {
-      display: "flex",
-      gap: 10,
-      marginBottom: 26
-    },
-    stars: {
-      color: "#ffc107",
-      fontSize: 18
-    },
-    reviewCount: {
-      color: "#ccc",
-      fontSize: 14
-    },
+  ratingContainer: {
+    display: "flex",
+    alignItems: "center",   // aligns everything vertically
+    gap: 10,
+    marginBottom: 36,
+  },
+
+  stars: {
+    color: "#ffc107",
+    fontSize: 18,
+    lineHeight: 1,
+  },
+
+  separator: {
+    color: "#777",
+    fontSize: 16,
+    marginTop: 1,           // optical centering
+  },
+
+  reviewCount: {
+    color: "#ccc",
+    fontSize: 14,
+    lineHeight: 1,
+    marginTop: 1,          // 🔑 aligns text with stars
+  },
     priceContainer: {
       display: "flex",
       gap: 14,
@@ -115,15 +127,18 @@ const ProductPage = () => {
       display: "grid",
       gridTemplateColumns: "repeat(3, max-content)",
       gap: 14,
-      marginBottom: 34
+      marginBottom: 34,
+    
     },
     tag: {
       border: "1.5px solid #ffe600",
       padding: "10px 16px",
-      borderRadius: 6,
-      fontSize: 12,
-      fontWeight: 600,
-      whiteSpace: "nowrap"
+      fontSize: 17.6,
+      fontWeight: 500,
+      whiteSpace: "nowrap",  
+      fontFamily: "'Jersey 25', sans-serif",
+      borderRadius: 4,
+      height: 46,
     },
     quantityContainer: {
       marginBottom: 34
@@ -141,7 +156,8 @@ const ProductPage = () => {
       overflow: "hidden",
       height: 52,
       background: "#2f2f2f",
-      width: "fit-content"
+      width: "fit-content",
+      height: 62
     },
     quantityButton: {
       width: 56,
@@ -197,12 +213,21 @@ addToCartButton: {
 
   fontFamily: "'Jersey 25', sans-serif",
   textDecoration: "none",
-  boxSizing: "border-box"
+  boxSizing: "border-box",
+  
+},
+cartIcon: {
+  width: 22,
+  height: 22,
+  filter: "brightness(0) invert(1)", // ✅ WHITE by default
+  transition: "filter 0.25s ease"
 },
 
-buyNowButton: {
+
+
+buyNowButton:{
   flex: 1,
-  height: 67,                 // 🔑 SAME height
+  height: 67,
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -210,7 +235,7 @@ buyNowButton: {
   background: "#ffeb00",
   color: "#000",
 
-  padding: "0 20px",          // 🔑 SAME padding
+  padding: "0 20px",
   fontSize: 23,
   fontWeight: 900,
 
@@ -220,18 +245,14 @@ buyNowButton: {
   cursor: "pointer",
   textTransform: "uppercase",
   letterSpacing: 1,
-  transition: "all 0.25s ease",
 
   fontFamily: "'Jersey 25', sans-serif",
   textDecoration: "none",
-  boxSizing: "border-box"
+  boxSizing: "border-box",
+
+  transition: "transform 0.25s ease, box-shadow 0.25s ease"
 },
 
-cartIcon: {
-  width: 26,
-  height: 26
-}
-,
 
   recommendedSection: {
     padding: "20px 0" // ⬅️ reduced gap (was 40px)
@@ -444,48 +465,71 @@ cartIcon: {
       cursor: "pointer",
       minWidth: 120 
     },
-    reviewsGrid: {
-      display: "grid",
-      gridTemplateColumns: "1.3fr 1fr",
-      gap: 10
-    },
-    reviewsLeftColumn: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 10,
-      marginLeft: -15
-    },
-    reviewCardWithImage: {
-      border: "1px solid #ffe600",
-      borderRadius: 10,
-      padding: 16,
-      height: "50%"
-    },
-    reviewImage: {
-      width: "100%",
-      borderRadius: 10,
-      marginBottom: 12
-    },
-    reviewStars: {
-      color: "#ffe600",
-      margin: "6px 0"
-    },
-    reviewText: {
-      fontSize: 13,
-      lineHeight: 1.6
-    },
-    reviewsRightColumn: {
-      display: "flex",
-      flexDirection: "column",
-      gap: 10
-    },
-    reviewCardText: {
-      border: "1px solid #ffe600",
-      borderRadius: 12,
-      padding: 20,
-      height: "30%",
-      width: "120%"
-    },
+  reviewsGrid: {
+    display: "grid",
+    gridTemplateColumns: "1.3fr 1fr",
+    gap: 10,
+  },
+
+  /* LEFT COLUMN — IMAGE REVIEWS (UNCHANGED) */
+  reviewsLeftColumn: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 10,
+    marginLeft: -15,
+  },
+
+  reviewCardWithImage: {
+    border: "1px solid #ffe600",
+    borderRadius: 10,
+    padding: 16,
+    background: "#2f2f2f",
+  },
+
+  reviewImage: {
+    width: "100%",
+    borderRadius: 10,
+    marginBottom: 12,
+  },
+
+  reviewStars: {
+    color: "#ffe600",
+    margin: "6px 0",
+  },
+
+  reviewText: {
+    fontSize: 13,
+    lineHeight: 1.6,
+    color: "#fff",
+  },
+
+  /* RIGHT COLUMN — CROPPED FROM LEFT */
+reviewsRightColumn: {
+  display: "flex",
+  flexDirection: "column",
+  gap: 10,
+
+  marginLeft: "-80px",   // existing left alignment
+  paddingLeft: 80,
+
+  marginRight: "-20px",  // 🔑 EXTENDS to the RIGHT
+  overflow: "visible",   // 🔑 allow extension
+},
+
+
+  /* RIGHT REVIEW CARD — MORE HEIGHT */
+  reviewCardText: {
+    border: "1px solid #ffe600",
+    borderRadius: 12,
+    padding: 20,
+
+    background: "#2f2f2f",
+    width: "100%",
+    color: "#fff",
+
+    minHeight: 281,   // 🔑 increase height safely
+    boxSizing: "border-box",
+  },
     rangeSection: {
       padding: "64px 0",
       background: "#2f2f2f"
@@ -574,7 +618,8 @@ cartIcon: {
       cursor: "pointer",
       borderRadius: 8,
       fontSize: 14,
-      letterSpacing: "0.5px"
+      letterSpacing: "0.5px",
+       fontFamily: "'Jersey 25', sans-serif",
     }
   };
 
@@ -633,12 +678,11 @@ cartIcon: {
               PACK OF 10
             </h1>
 
-            <div style={styles.ratingContainer}>
-              <div style={styles.stars}>★★★★★</div>
-              <span style={styles.reviewCount}>
-                | 198 Reviews
-              </span>
-            </div>
+           <div style={styles.ratingContainer}>
+  <div style={styles.stars}>★★★★★</div>
+  <span style={styles.separator}>|</span>
+  <span style={styles.reviewCount}>198 Reviews</span>
+</div>
 
             <div style={styles.priceContainer}>
               <span style={styles.price}>
@@ -713,29 +757,53 @@ cartIcon: {
             </div>
 <div style={styles.actionButtons}>
   {/* ADD TO CART */}
-  <Link
-    to="/cart"
-    onMouseEnter={(e) => {
-      e.currentTarget.style.background = "#ffeb00";
-      e.currentTarget.style.color = "#000";
-    }}
-    onMouseLeave={(e) => {
-      e.currentTarget.style.background = "#2f2f2f";
-      e.currentTarget.style.color = "#fff";
-    }}
-    style={styles.addToCartButton}
-  >
-    <img src="/icons/bag.png" alt="cart" style={styles.cartIcon} />
-    ADD TO CART
-  </Link>
+<Link
+  to="/cart"
+  style={styles.addToCartButton}
+  onMouseEnter={(e) => {
+    // button hover
+    e.currentTarget.style.background = "#ffeb00";
+    e.currentTarget.style.color = "#000";
+
+    // icon hover → BLACK
+    const img = e.currentTarget.querySelector("img");
+    if (img) {
+      img.style.filter = "brightness(0)";
+    }
+  }}
+  onMouseLeave={(e) => {
+    // button normal
+    e.currentTarget.style.background = "#2f2f2f";
+    e.currentTarget.style.color = "#fff";
+
+    // icon normal → WHITE
+    const img = e.currentTarget.querySelector("img");
+    if (img) {
+      img.style.filter = "brightness(0) invert(1)";
+    }
+  }}
+>
+  <img src="/icons/bag.png" alt="cart" style={styles.cartIcon} />
+  ADD TO CART
+</Link>
+
 
   {/* BUY NOW — FIXED */}
-  <Link
-    to="/checkout"
-    style={styles.buyNowButton}
-  >
-    BUY NOW
-  </Link>
+<Link
+  to="/checkout"
+  style={styles.buyNowButton}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform = "scale(1.08)";
+    e.currentTarget.style.boxShadow =
+      "0 12px 30px rgba(0, 0, 0, 0.55)";
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform = "scale(1)";
+    e.currentTarget.style.boxShadow = "none";
+  }}
+>
+  BUY NOW
+</Link>
 </div>
 
           </div>

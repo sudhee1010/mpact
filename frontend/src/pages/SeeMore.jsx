@@ -1,21 +1,38 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import Footer from "../components/Footer";
+import { Heart } from "lucide-react";
+import { useSearchParams } from "react-router-dom";
+import axios from "axios";
+
 
 /* ================= COMPONENT ================= */
 
-export default function ProductPage({
-  products = [],
-  totalPages = 1,
-  onPageChange = () => {},
-}) {
-  const [page, setPage] = useState(1);
+export default function ProductPage() {
+  // products = [],
+  // totalPages = 1,
+  // onPageChange = () => { },
+
+  // const [page, setPage] = useState(1);
   const [sortOption, setSortOption] = useState("Featured");
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [favorites, setFavorites] = useState({});
+  const toggleFavorite = (productId) => {
+    setFavorites((prev) => ({ ...prev, [productId]: !prev[productId] }));
+  };
   const [priceRange, setPriceRange] = useState({ min: 0, max: 5000 });
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [inStock, setInStock] = useState(false);
+
+
+  const [searchParams] = useSearchParams();
+  const categoryName = decodeURIComponent(searchParams.get("category"));
+
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [categoryId, setCategoryId] = useState(null);
+
 
   const [openSections, setOpenSections] = useState({
     categories: true,
@@ -24,24 +41,24 @@ export default function ProductPage({
     availability: true,
   });
 
-  const data = useMemo(() => {
-    return products.length ? products : MOCK_PRODUCTS;
-  }, [products]);
+  // const data = useMemo(() => {
+  //   return products.length ? products : MOCK_PRODUCTS;
+  // }, [products]);
 
   const filteredAndSortedData = useMemo(() => {
-    let result = [...data];
+    let result = [...products];
 
     // Filter by search
     if (searchQuery) {
       result = result.filter((p) =>
-        p.title.toLowerCase().includes(searchQuery.toLowerCase())
+        p.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
     // Filter by categories
-    if (selectedCategories.length > 0) {
-      result = result.filter((p) => selectedCategories.includes(p.category));
-    }
+    // if (selectedCategories.length > 0) {
+    //   result = result.filter((p) => selectedCategories.includes(p.category));
+    // }
 
     // Filter by price range
     result = result.filter(
@@ -50,13 +67,19 @@ export default function ProductPage({
 
     // Filter by ratings
     if (selectedRatings.length > 0) {
-      result = result.filter((p) => selectedRatings.includes(p.rating));
+      const minRating = Math.min(...selectedRatings);
+
+      result = result.filter(
+        (p) => (p.rating || 0) >= minRating
+      );
     }
 
+
     // Filter by stock
-    if (inStock) {
-      result = result.filter((p) => p.inStock);
-    }
+  if (inStock) {
+  result = result.filter((p) => p.countInStock > 0);
+}
+
 
     // Sort
     switch (sortOption) {
@@ -70,10 +93,10 @@ export default function ProductPage({
         result.sort((a, b) => b.rating - a.rating);
         break;
       case "Best Discount":
-        result.sort((a, b) => b.oldPrice - b.price - (a.oldPrice - a.price));
+        result.sort((a, b) => b.originalPrice - b.price - (a.originalPrice - a.price));
         break;
       case "Name: A to Z":
-        result.sort((a, b) => a.title.localeCompare(b.title));
+        result.sort((a, b) => a.name.localeCompare(b.name));
         break;
       default:
         break;
@@ -81,7 +104,8 @@ export default function ProductPage({
 
     return result;
   }, [
-    data,
+    // data
+    products,
     searchQuery,
     sortOption,
     selectedCategories,
@@ -90,26 +114,76 @@ export default function ProductPage({
     inStock,
   ]);
 
-  const handleNext = useCallback(() => {
-    if (page < totalPages) {
-      const next = page + 1;
-      setPage(next);
-      onPageChange(next);
-    }
-  }, [page, totalPages, onPageChange]);
+  // const handleNext = useCallback(() => {
+  //   if (page < totalPages) {
+  //     const next = page + 1;
+  //     setPage(next);
+  //     onPageChange(next);
+  //   }
+  // }, [page, totalPages, onPageChange]);
+
+  // useEffect(() => {
+  //   const onScroll = () => {
+  //     if (
+  //       window.innerHeight + window.scrollY >=
+  //       document.body.offsetHeight - 200
+  //     ) {
+  //       handleNext();
+  //     }
+  //   };
+  //   window.addEventListener("scroll", onScroll);
+  //   return () => window.removeEventListener("scroll", onScroll);
+  // }, [handleNext]);
+
 
   useEffect(() => {
-    const onScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 200
-      ) {
-        handleNext();
+    const fetchCategoryId = async () => {
+      try {
+        const { data } = await axios.get(
+          "http://localhost:5000/api/categories"
+        );
+
+        const matched = data.find(
+          (cat) => cat.name === categoryName
+        );
+
+        if (matched) {
+          setCategoryId(matched._id);
+        }
+      } catch (err) {
+        console.error("Failed to fetch category", err);
       }
     };
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [handleNext]);
+
+    if (categoryName) fetchCategoryId();
+  }, [categoryName]);
+
+
+
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        setLoading(true);
+        const { data } = await axios.get(
+          "http://localhost:5000/api/products",
+          {
+            params: { category: categoryId },
+          }
+        );
+        setProducts(data.products || []);
+      } catch (err) {
+        console.error("Failed to fetch products", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (categoryId) fetchProducts();
+  }, [categoryId]);
+
+
+
 
   const toggleCategory = (category) => {
     setSelectedCategories((prev) =>
@@ -330,13 +404,13 @@ export default function ProductPage({
         <div className={`mainContent ${showFilters ? "withSidebar" : ""}`}>
           {/* ================= TOP SECTION ================= */}
           <div className="topSection">
-            <h1 className="topTitle">FIND OUR PRODUCTS</h1>
+            <h1 className="topTitle">{categoryName}</h1>
 
             <div className="topControls">
               <div className="left">
                 <h2>ALL PRODUCTS</h2>
                 <p>
-                  Showing {filteredAndSortedData.length} of {data.length}{" "}
+                  Showing {filteredAndSortedData.length} of {products.length}{" "}
                   products
                 </p>
 
@@ -381,11 +455,25 @@ export default function ProductPage({
             </div>
           </div>
 
-          <div className="products">
+          {/* <div className="products">
             {filteredAndSortedData.map((p) => (
-              <ProductCard key={p.id} product={p} />
+              <ProductCard key={p._id} product={p} />
             ))}
-          </div>
+          </div> */}
+
+          {loading ? (
+            <p style={{ textAlign: "center", marginTop: 100 }}>
+              Loading products...
+            </p>
+          ) : (
+            <div className="products">
+              {filteredAndSortedData.map((p) => (
+                <ProductCard key={p._id} product={p} />
+              ))}
+            </div>
+          )}
+
+
         </div>
       </div>
 
@@ -757,27 +845,52 @@ export default function ProductPage({
 
         .fav {
           position: absolute;
-          top: 10px;
-          right: 10px;
-          background: #111;
-          border: none;
-          padding: 6px;
+          top: 12px;
+          right: 12px;
+          width: 40px;
+          height: 40px;
+          background: rgba(0, 0, 0, 0.7);
+          border: 1px solid #ffeb00;
           border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          z-index: 2;
+          transition: all 0.3s ease;
+          z-index: 10;
         }
 
+        .fav:hover {
+          background: rgba(255, 235, 0, 0.2);
+          transform: scale(1.1);
+        }
+
+        /* default icon */
         .fav svg {
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           fill: none;
-          stroke: #fff;
+          stroke: #ffeb00;
           stroke-width: 2;
         }
 
-        .fav:hover svg {
+        /* active button */
+        .fav.active {
+          background: #ffeb00;
+        }
+
+        /* active icon */
+        .fav.active svg {
+          fill: #ff0000;
+          stroke: #ff0000;
+        }
+
+        /* non-active icon */
+        .fav:not(.active) svg {
+          fill: none;
           stroke: #ffeb00;
         }
+
 
         .info {
           padding: 12px;
@@ -1024,6 +1137,7 @@ export default function ProductPage({
           }
         }
       `}</style>
+      <Footer />
     </>
   );
 }
@@ -1032,34 +1146,53 @@ export default function ProductPage({
 
 const ProductCard = ({ product }) => {
   const [qty, setQty] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <div className="card">
       <div className="imageWrap">
-        <span className="discount">25% OFF</span>
-        <img src={product.image} alt={product.title} />
-        <button className="fav">
-          <HeartIcon />
+        {/* <span className="discount">`{product.discountPercent}% OFF`</span> */}
+        {product.discountPercent && (
+          <span className="discount">{product.discountPercent}% OFF</span>
+        )}
+
+        {/* <img src={product.image} alt={product.title} /> */}
+        <img
+          src={product.images?.[0]?.url || "/images/Product1.png"}
+          alt={product.name}
+        />
+        <button
+          className={`fav ${isFavorite ? "active" : ""}`}
+          onClick={() => setIsFavorite(!isFavorite)}
+        >
+          <Heart />
         </button>
       </div>
 
       <div className="info">
-        <h3>{product.title}</h3>
+        <h3>{product.name}</h3>
 
         <div className="specs">
-          {product.specs.map((s, i) => (
+          {product.highlights?.map((s, i) => (
             <span key={i}>{s}</span>
           ))}
         </div>
 
+        {/* <div className="rating">
+          ★★★★☆ <span>({product.numReviews})</span>
+        </div> */}
         <div className="rating">
-          ★★★★☆ <span>({product.reviews})</span>
+          {"★".repeat(Math.round(product.rating || 0))}
+          {"☆".repeat(5 - Math.round(product.rating || 0))}
+          <span>({product.numReviews || 0})</span>
         </div>
 
+
         <div className="price">
-          <del>₹{product.oldPrice}</del>
+          {/* <del>₹{product.orginalPrice}</del> */}
+          {product.originalPrice && <del>₹{product.originalPrice}</del>}
           <strong>₹{product.price}</strong>
-          <span className="off">25% OFF</span>
+          <span className="off">{product.discountPercent}</span>
         </div>
 
         <div className="qty">
@@ -1073,217 +1206,12 @@ const ProductCard = ({ product }) => {
           <button className="buyBtn">BUY NOW</button>
         </div>
       </div>
-        
     </div>
-    
-    
   );
-  <Footer />
 };
 
-/* ================= MOCK DATA ================= */
-
-const MOCK_PRODUCTS = [
-  {
-    id: 1,
-    title: "Protein Bar – Caramel",
-    price: 190,
-    oldPrice: 240,
-    rating: 4,
-    reviews: 98,
-    image: "/images/Product1.png",
-    specs: ["SOFT CARAMEL", "HIGH PROTEIN", "NO ADDED COLOURS"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 2,
-    title: "Protein Bar – Chocolate",
-    price: 195,
-    oldPrice: 250,
-    rating: 5,
-    reviews: 112,
-    image: "/images/Product1.png",
-    specs: ["RICH CHOCOLATE", "20g PROTEIN", "LOW SUGAR"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 3,
-    title: "Protein Bar – Peanut Butter",
-    price: 200,
-    oldPrice: 260,
-    rating: 4,
-    reviews: 87,
-    image: "/images/Product1.png",
-    specs: ["PEANUT BUTTER", "HIGH FIBER", "ENERGY BOOST"],
-    category: "Peanut Butter",
-    inStock: true,
-  },
-  {
-    id: 4,
-    title: "Protein Bar – Almond Crunch",
-    price: 210,
-    oldPrice: 270,
-    rating: 5,
-    reviews: 145,
-    image: "/images/Product1.png",
-    specs: ["ALMOND CRUNCH", "GLUTEN FREE", "HIGH PROTEIN"],
-    category: "Protein Bars",
-    inStock: false,
-  },
-  {
-    id: 5,
-    title: "Protein Bar – Cookies & Cream",
-    price: 220,
-    oldPrice: 290,
-    rating: 4,
-    reviews: 134,
-    image: "/images/Product1.png",
-    specs: ["COOKIES & CREAM", "LOW CARB", "HIGH PROTEIN"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 6,
-    title: "Protein Bar – Vanilla Bliss",
-    price: 185,
-    oldPrice: 235,
-    rating: 4,
-    reviews: 76,
-    image: "/images/Product1.png",
-    specs: ["VANILLA FLAVOR", "NO ARTIFICIAL SWEETENERS", "HIGH PROTEIN"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 7,
-    title: "Protein Bar – Coffee Mocha",
-    price: 205,
-    oldPrice: 265,
-    rating: 5,
-    reviews: 158,
-    image: "/images/Product1.png",
-    specs: ["COFFEE MOCHA", "CAFFEINE BOOST", "LOW SUGAR"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 8,
-    title: "Protein Bar – Dark Chocolate",
-    price: 215,
-    oldPrice: 275,
-    rating: 5,
-    reviews: 191,
-    image: "/images/Product1.png",
-    specs: ["DARK CHOCOLATE", "ANTIOXIDANTS", "HIGH PROTEIN"],
-    category: "Protein Bars",
-    inStock: true,
-  },
-  {
-    id: 9,
-    title: "Protein Bar – Strawberry",
-    price: 195,
-    oldPrice: 245,
-    rating: 3,
-    reviews: 69,
-    image: "/images/Product1.png",
-    specs: ["STRAWBERRY FLAVOR", "FRUIT INFUSED", "LOW FAT"],
-    category: "Wafers",
-    inStock: true,
-  },
-  {
-    id: 10,
-    title: "Protein Bar – Banana Nut",
-    price: 210,
-    oldPrice: 270,
-    rating: 4,
-    reviews: 103,
-    image: "/images/Product1.png",
-    specs: ["BANANA NUT", "NATURAL FLAVORS", "ENERGY BOOST"],
-    category: "Wafers",
-    inStock: true,
-  },
-  {
-    id: 11,
-    title: "Protein Bar – Honey Oats",
-    price: 180,
-    oldPrice: 230,
-    rating: 3,
-    reviews: 94,
-    image: "/images/Product1.png",
-    specs: ["HONEY OATS", "WHOLE GRAINS", "DIGESTION FRIENDLY"],
-    category: "Wafers",
-    inStock: false,
-  },
-  {
-    id: 12,
-    title: "Protein Bar – Coconut Crunch",
-    price: 205,
-    oldPrice: 260,
-    rating: 5,
-    reviews: 167,
-    image: "/images/Product1.png",
-    specs: ["COCONUT CRUNCH", "MCT FATS", "HIGH PROTEIN"],
-    category: "Wafers",
-    inStock: true,
-  },
-  {
-    id: 13,
-    title: "Protein Bar – Orange Zest",
-    price: 190,
-    oldPrice: 240,
-    rating: 2,
-    reviews: 58,
-    image: "/images/Product1.png",
-    specs: ["ORANGE ZEST", "VITAMIN C", "REFRESHING TASTE"],
-    category: "Wafers",
-    inStock: true,
-  },
-  {
-    id: 14,
-    title: "Protein Bar – Mint Chocolate",
-    price: 215,
-    oldPrice: 275,
-    rating: 5,
-    reviews: 121,
-    image: "/images/Product1.png",
-    specs: ["MINT CHOCOLATE", "COOLING EFFECT", "LOW SUGAR"],
-    category: "Wafers",
-    inStock: true,
-  },
-  {
-    id: 15,
-    title: "Protein Bar – Blueberry",
-    price: 200,
-    oldPrice: 255,
-    rating: 4,
-    reviews: 73,
-    image: "/images/Product1.png",
-    specs: ["BLUEBERRY", "ANTIOXIDANTS", "IMMUNITY BOOST"],
-    category: "Peanut Butter",
-    inStock: true,
-  },
-  {
-    id: 16,
-    title: "Protein Bar – Classic Mix",
-    price: 185,
-    oldPrice: 235,
-    rating: 4,
-    reviews: 89,
-    image: "/images/Product1.png",
-    specs: ["MIXED FLAVORS", "VARIETY PACK", "HIGH PROTEIN"],
-    category: "Wafers",
-  },
-];
 
 /* ================= ICONS ================= */
-
-const HeartIcon = () => (
-  <svg viewBox="0 0 24 24">
-    <path d="M12 21s-6.7-4.4-9.3-7.6C-1.1 8.5 2.3 3 7.3 5.1 9 6 10.2 7.4 12 9c1.8-1.6 3-3 4.7-3.9 5-2.1 8.4 3.4 4.6 8.3C18.7 16.6 12 21 12 21z" />
-  </svg>
-);
 
 const FilterIcon = () => (
   <svg
