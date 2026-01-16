@@ -27,8 +27,10 @@ import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
 import NewProfile from "./pages/profile/Newprofile.jsx"
+import  Login from "./pages/Login.jsx";
 function App() {
   const [loading, setLoading] = useState(true);
+  
 
   return (
     <>
@@ -67,6 +69,7 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/Nutrition" element={<Nutrition />} />
+          <Route path="/login" element={<Login/>}/>
 
         </Routes>
       </div>   
