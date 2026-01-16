@@ -220,7 +220,8 @@ export const createProduct = async (req, res) => {
       category,
       originalPrice,
       price,
-      images
+      images,
+      countInStock
     } = req.body;
 
     const categoryExists = await Category.findOne({
@@ -253,7 +254,8 @@ export const createProduct = async (req, res) => {
       originalPrice,
       price,
       discountPercent,
-      images
+      images,
+      countInStock
     });
 
     res.status(201).json(product);

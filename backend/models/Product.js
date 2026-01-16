@@ -126,7 +126,12 @@ const productSchema = new mongoose.Schema(
     isActive: {
       type: Boolean,
       default: true
+    },
+    countInStock: {
+      type: Number,
+      default: 0
     }
+
   },
   { timestamps: true }
 );
