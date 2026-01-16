@@ -27,7 +27,9 @@ import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
 import NewProfile from "./pages/profile/Newprofile.jsx"
+import Signup from "./pages/Signup.jsx";
 import  Login from "./pages/Login.jsx";
+
 function App() {
   const [loading, setLoading] = useState(true);
   
@@ -36,6 +38,7 @@ function App() {
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      
       <ScrollToTop />
 
       {/* LOADER OVERLAY */}
@@ -69,7 +72,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/Nutrition" element={<Nutrition />} />
+          <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login/>}/>
+
 
         </Routes>
       </div>   
