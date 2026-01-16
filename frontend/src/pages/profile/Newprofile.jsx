@@ -3,6 +3,7 @@ import { User, Package, Heart, Settings, Edit, Search, UserCircle, ShoppingCart,
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState('profile');
+  const [isEditing, setIsEditing] = useState(false);
 
   return (
     <>
@@ -348,7 +349,6 @@ export default function ProfilePage() {
         .form-group {
           display: flex;
           flex-direction: column;
-          // max-width:400px
         }
 
         .form-group.full-width {
@@ -369,7 +369,12 @@ export default function ProfilePage() {
           padding: 0.75rem 1rem;
           color: #d1d5db;
           font-size: 1rem;
-          transition: border-color 0.2s;
+          transition: all 0.2s;
+        }
+
+        .form-input.dim {
+          opacity: 0.4;
+          pointer-events: none;
         }
 
         .form-input:focus {
@@ -391,7 +396,12 @@ export default function ProfilePage() {
           font-size: 1rem;
           resize: none;
           font-family: inherit;
-          transition: border-color 0.2s;
+          transition: all 0.2s;
+        }
+
+        .form-textarea.dim {
+          opacity: 0.4;
+          pointer-events: none;
         }
 
         .form-textarea:focus {
@@ -750,8 +760,6 @@ export default function ProfilePage() {
       `}</style>
 
       <div className="container">
-        
-
         {/* Main Content */}
         <main className="main-content">
           {/* Profile Header */}
@@ -774,9 +782,9 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <button className="edit-btn">
+              <button className="edit-btn" onClick={() => setIsEditing(!isEditing)}>
                 <Edit size={18} />
-                Edit Profile
+                {isEditing ? 'Save Profile' : 'Edit Profile'}
               </button>
             </div>
           </div>
@@ -829,7 +837,7 @@ export default function ProfilePage() {
                   <input
                     type="text"
                     placeholder="John Doe"
-                    className="form-input"
+                    className={`form-input ${!isEditing ? 'dim' : ''}`}
                   />
                 </div>
                 
@@ -838,7 +846,7 @@ export default function ProfilePage() {
                   <input
                     type="email"
                     placeholder="john.doe@example.com"
-                    className="form-input"
+                    className={`form-input ${!isEditing ? 'dim' : ''}`}
                   />
                 </div>
                 
@@ -847,7 +855,7 @@ export default function ProfilePage() {
                   <input
                     type="tel"
                     placeholder="+1 (555) 123-4567"
-                    className="form-input"
+                    className={`form-input ${!isEditing ? 'dim' : ''}`}
                   />
                 </div>
                 
@@ -866,7 +874,7 @@ export default function ProfilePage() {
                   <textarea
                     rows="3"
                     placeholder="123 Fitness Street, Gym City, GY 12345"
-                    className="form-textarea"
+                    className={`form-textarea ${!isEditing ? 'dim' : ''}`}
                   />
                 </div>
               </div>
@@ -1049,20 +1057,19 @@ export default function ProfilePage() {
           </label>
           
           <label className="notification-item">
-            <input type="checkbox" className="notification-checkbox" />
+           <input type="checkbox" className="notification-checkbox" />
             <span className="notification-label">Newsletter</span>
           </label>
         </div>
       </div>
 
-      {/* Delete Account Section */}
+       {/* Delete Account Section */}
       <div className="settings-card-danger">
         <h3 className="settings-section-title-danger">Delete Account</h3>
         <p className="settings-description">Permanently delete your account and all associated data</p>
         <button className="delete-account-btn">Delete Account</button>
       </div>
-
-      {/* Log Out */}
+       {/* Log Out */}
       <button className="logout-btn">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
     <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
@@ -1073,9 +1080,10 @@ export default function ProfilePage() {
 </button>
     </div>
   </div>
-)}
+  )}
         </main>
       </div>
     </>
   );
 }
+          
