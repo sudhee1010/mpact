@@ -24,7 +24,7 @@ import HelpSupport from "./pages/HelpSupport";
 import Nutrition from "./pages/blog/Nutrition.jsx"
 import Blog  from "./pages/blog/Blog.jsx"
 import SeeMore from "./pages/SeeMore";
-import NewProfile from "./pages/profile/Newprofile.jsx";
+// import NewProfile from "./pages/profile/Newprofile.jsx";
 import Wishlist from "./pages/Wishlist.jsx"
 import NewProfile from "./pages/profile/Newprofile.jsx"
 import Signup from "./pages/Signup.jsx";
