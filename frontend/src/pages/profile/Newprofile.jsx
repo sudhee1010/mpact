@@ -828,7 +828,7 @@ export default function ProfilePage() {
                   <label className="form-label">Full Name</label>
                   <input
                     type="text"
-                    defaultValue="John Doe"
+                    placeholder="John Doe"
                     className="form-input"
                   />
                 </div>
@@ -837,7 +837,7 @@ export default function ProfilePage() {
                   <label className="form-label">Email Address</label>
                   <input
                     type="email"
-                    defaultValue="john.doe@example.com"
+                    placeholder="john.doe@example.com"
                     className="form-input"
                   />
                 </div>
@@ -846,7 +846,7 @@ export default function ProfilePage() {
                   <label className="form-label">Phone Number</label>
                   <input
                     type="tel"
-                    defaultValue="+1 (555) 123-4567"
+                    placeholder="+1 (555) 123-4567"
                     className="form-input"
                   />
                 </div>
@@ -855,7 +855,7 @@ export default function ProfilePage() {
                   <label className="form-label">Member Since</label>
                   <input
                     type="text"
-                    defaultValue="January 2024"
+                    placeholder="January 2024"
                     disabled
                     className="form-input"
                   />
@@ -865,7 +865,7 @@ export default function ProfilePage() {
                   <label className="form-label">Shipping Address</label>
                   <textarea
                     rows="3"
-                    defaultValue="123 Fitness Street, Gym City, GY 12345"
+                    placeholder="123 Fitness Street, Gym City, GY 12345"
                     className="form-textarea"
                   />
                 </div>
