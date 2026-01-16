@@ -376,7 +376,7 @@ const MPACTBlog = () => {
 
           .latest-image {
             height: 220px;
-          }
+      }
         }
 
         /* Desktop Styles (768px+) for Featured Cards */

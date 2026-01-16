@@ -1,5 +1,6 @@
-import React, { useState, useMemo, useCallback, useEffect } from "react";
+import React, { useState, useMemo, useCallback, useEffect} from "react";
 import Footer from "../components/Footer";
+import { Heart } from "lucide-react";
 
 /* ================= COMPONENT ================= */
 
@@ -13,6 +14,10 @@ export default function ProductPage({
   const [searchQuery, setSearchQuery] = useState("");
   const [showFilters, setShowFilters] = useState(false);
   const [selectedCategories, setSelectedCategories] = useState([]);
+  const [favorites, setFavorites] = useState({});
+  const toggleFavorite = (productId) => {
+    setFavorites((prev) => ({ ...prev, [productId]: !prev[productId] }));
+  };
   const [priceRange, setPriceRange] = useState({ min: 0, max: 5000 });
   const [selectedRatings, setSelectedRatings] = useState([]);
   const [inStock, setInStock] = useState(false);
@@ -757,27 +762,52 @@ export default function ProductPage({
 
         .fav {
           position: absolute;
-          top: 10px;
-          right: 10px;
-          background: #111;
-          border: none;
-          padding: 6px;
+          top: 12px;
+          right: 12px;
+          width: 40px;
+          height: 40px;
+          background: rgba(0, 0, 0, 0.7);
+          border: 1px solid #ffeb00;
           border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
           cursor: pointer;
-          z-index: 2;
+          transition: all 0.3s ease;
+          z-index: 10;
         }
 
+        .fav:hover {
+          background: rgba(255, 235, 0, 0.2);
+          transform: scale(1.1);
+        }
+
+        /* default icon */
         .fav svg {
-          width: 18px;
-          height: 18px;
+          width: 20px;
+          height: 20px;
           fill: none;
-          stroke: #fff;
+          stroke: #ffeb00;
           stroke-width: 2;
         }
 
-        .fav:hover svg {
+        /* active button */
+        .fav.active {
+          background: #ffeb00;
+        }
+
+        /* active icon */
+        .fav.active svg {
+          fill: #ff0000;
+          stroke: #ff0000;
+        }
+
+        /* non-active icon */
+        .fav:not(.active) svg {
+          fill: none;
           stroke: #ffeb00;
         }
+
 
         .info {
           padding: 12px;
@@ -1024,6 +1054,7 @@ export default function ProductPage({
           }
         }
       `}</style>
+      <Footer />
     </>
   );
 }
@@ -1032,14 +1063,18 @@ export default function ProductPage({
 
 const ProductCard = ({ product }) => {
   const [qty, setQty] = useState(1);
+  const [isFavorite, setIsFavorite] = useState(false);
 
   return (
     <div className="card">
       <div className="imageWrap">
         <span className="discount">25% OFF</span>
         <img src={product.image} alt={product.title} />
-        <button className="fav">
-          <HeartIcon />
+        <button
+          className={`fav ${isFavorite ? "active" : ""}`}
+          onClick={() => setIsFavorite(!isFavorite)}
+        >
+          <Heart />
         </button>
       </div>
 
@@ -1073,12 +1108,8 @@ const ProductCard = ({ product }) => {
           <button className="buyBtn">BUY NOW</button>
         </div>
       </div>
-        
     </div>
-    
-    
   );
-  <Footer />
 };
 
 /* ================= MOCK DATA ================= */
@@ -1278,12 +1309,6 @@ const MOCK_PRODUCTS = [
 ];
 
 /* ================= ICONS ================= */
-
-const HeartIcon = () => (
-  <svg viewBox="0 0 24 24">
-    <path d="M12 21s-6.7-4.4-9.3-7.6C-1.1 8.5 2.3 3 7.3 5.1 9 6 10.2 7.4 12 9c1.8-1.6 3-3 4.7-3.9 5-2.1 8.4 3.4 4.6 8.3C18.7 16.6 12 21 12 21z" />
-  </svg>
-);
 
 const FilterIcon = () => (
   <svg
