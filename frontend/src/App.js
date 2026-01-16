@@ -27,9 +27,14 @@ import Profile from "./pages/profile/Profile";
 import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
 import NewProfile from "./pages/profile/Newprofile.jsx"
+<<<<<<< HEAD
 import Signup from "./pages/Signup.jsx";
+=======
+import  Login from "./pages/Login.jsx";
+>>>>>>> 5088e7683d7047a2ee697a185f1edb3852602297
 function App() {
   const [loading, setLoading] = useState(true);
+  
 
   return (
     <>
@@ -68,7 +73,11 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/Nutrition" element={<Nutrition />} />
+<<<<<<< HEAD
           <Route path="/signup" element={<Signup />} />
+=======
+          <Route path="/login" element={<Login/>}/>
+>>>>>>> 5088e7683d7047a2ee697a185f1edb3852602297
 
         </Routes>
       </div>   
