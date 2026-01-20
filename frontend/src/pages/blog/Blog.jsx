@@ -1,3 +1,4 @@
+
 import  Navbar  from "../../components/Navbar";
 // import Footer from "../../components/Footer";
 import React from 'react'
@@ -18,8 +19,7 @@ const MPACTBlog = () => {
     navigate("/Nutrition");
   }
 
-  
-  const filters = ['All', 'Nutrition', 'Recipes', 'Wellness', 'Ingredients', 'Fitness', 'Sustainability'];
+ const filters = ['All', 'Nutrition', 'Recipes', 'Wellness', 'Ingredients', 'Fitness', 'Sustainability'];
 
   const featuredArticles = [
     {
@@ -127,40 +127,177 @@ const MPACTBlog = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white">
+    <div className="min-h-screen bg-black text-white">
       <style>{`
-        /* Mobile First - Base Styles (0-640px) */
         * {
-          box-sizing: border-box;
           margin: 0;
           padding: 0;
+          box-sizing: border-box;
         }
 
         body {
-          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', sans-serif;
+          font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
         }
 
-        .container {
+        /* Mobile First - Base styles */
+        .top-bar {
+          background-color: #1f2937;
+          padding: 0.75rem 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          font-size: 0.75rem;
+        }
+
+        .main-header {
+          // background-color: #facc15;
+          // color: #000;
+          // position: sticky;
+          // top: 0;
+          // z-index: 50;
+        }
+
+        .header-container {
+          max-width: 1280px;
+          margin: 0 auto;
+          padding: 1rem;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .logo {
+          font-size: 1.5rem;
+          font-weight: 700;
+        }
+
+        .desktop-nav {
+          display: none;
+          gap: 2rem;
+        }
+
+        .mobile-menu-btn {
+          display: block;
+          background: none;
+          border: none;
+          cursor: pointer;
+        }
+
+        .mobile-nav {
+          padding: 1rem;
+          border-top: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .mobile-nav a {
+          display: block;
+          padding: 0.75rem 0;
+          color: #000;
+          text-decoration: none;
+        }
+
+        .header-icons {
+          display: none;
+          gap: 1rem;
+        }
+
+        .hero-section {
+          padding: 2rem 1rem 1rem;
+          background-color: #1f2937;
+        }
+
+        .hero-title {
+          font-size: 2rem;
+          font-weight: 700;
+          text-align: left;
+          margin-bottom: 0.5rem;
+        }
+
+        .hero-description {
+          font-size: 0.875rem;
+          color: #9ca3af;
+          margin-bottom: 1rem;
+        }
+
+        .search-container {
+          margin-bottom: 1rem;
+        }
+
+        .search-input {
           width: 100%;
-          padding-left: 1rem;
-          padding-right: 1rem;
+          background-color: transparent;
+          border: 1px solid #4b5563;
+          border-radius: 0.25rem;
+          padding: 0.5rem;
+          color: #fff;
+          font-size: 0.875rem;
+        }
+
+        .search-input:focus {
+          outline: none;
+          border-color: #facc15;
+        }
+
+        .filters {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .filter-btn {
+          background-color: #374151;
+          color: #fff;
+          border: none;
+          padding: 0.5rem 1rem;
+          border-radius: 9999px;
+          font-size: 0.75rem;
+          cursor: pointer;
+          transition: all 0.2s;
+        }
+
+        .filter-btn.active {
+          background-color: #facc15;
+          color: #000;
+        }
+
+        .filter-btn:hover {
+          background-color: #4b5563;
+        }
+
+        .filter-btn.active:hover {
+          background-color: #fbbf24;
+        }
+
+        .articles-count {
+          font-size: 0.75rem;
+          color: #6b7280;
+        }
+
+        .content-wrapper {
+          padding: 1rem;
+          max-width: 1280px;
           margin: 0 auto;
         }
 
-        /* Featured Article Card - Mobile */
-        .featured-article-card {
-          display: flex;
-          flex-direction: column;
-          border: 2px solid #facc15;
-          border-radius: 12px;
-          overflow: hidden;
-          background-color: #1f2937;
-          transition: all 0.3s ease;
+        .section-title {
+          font-size: 1.25rem;
+          font-weight: 700;
+          margin-bottom: 1rem;
+          text-transform: uppercase;
         }
 
-        .featured-article-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 10px 30px rgba(250, 204, 21, 0.3);
+        .featured-grid {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+          margin-bottom: 2rem;
+        }
+
+        .featured-card {
+          border: 1px solid #facc15;
+          border-radius: 0.5rem;
+          overflow: hidden;
+          background-color: #1f2937;
         }
 
         .featured-image-wrapper {
@@ -183,441 +320,287 @@ const MPACTBlog = () => {
           color: #000;
           padding: 0.5rem 1rem;
           border-radius: 9999px;
-          font-size: 0.875rem;
-          font-weight: 700;
-          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+          font-size: 0.75rem;
+          font-weight: 600;
         }
 
         .featured-content {
           padding: 1.5rem;
-          display: flex;
-          flex-direction: column;
         }
 
         .article-meta {
           display: flex;
           flex-wrap: wrap;
           gap: 0.75rem;
+          font-size: 0.75rem;
           color: #9ca3af;
-          font-size: 0.875rem;
-          margin-bottom: 1rem;
-        }
-
-        .meta-item {
-          display: flex;
-          align-items: center;
-          gap: 0.25rem;
+          margin-bottom: 0.75rem;
         }
 
         .article-title {
-          font-size: 1.5rem;
+          font-size: 1.125rem;
           font-weight: 700;
-          line-height: 1.3;
-          margin-bottom: 1rem;
-          color: #fff;
+          margin-bottom: 0.75rem;
+          line-height: 1.4;
         }
 
         .article-description {
+          font-size: 0.875rem;
           color: #d1d5db;
-          line-height: 1.6;
           margin-bottom: 1rem;
+          line-height: 1.5;
         }
 
         .article-tags {
           display: flex;
           flex-wrap: wrap;
           gap: 0.5rem;
-          margin-bottom: 1.5rem;
+          margin-bottom: 1rem;
         }
 
         .tag {
           background-color: transparent;
           border: 1px solid #4b5563;
-          padding: 0.375rem 0.75rem;
+          color: #d1d5db;
+          padding: 0.25rem 0.75rem;
           border-radius: 9999px;
-          font-size: 0.75rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
+          font-size: 0.7rem;
         }
 
-        .tag:hover {
-          background-color: #facc15;
-          color: #000;
-          border-color: #facc15;
-        }
-
-        .read-more-btn {
+        .read-more {
           color: #facc15;
-          font-weight: 600;
-          display: flex;
-          align-items: center;
-          gap: 0.5rem;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          align-self: flex-start;
+          text-decoration: none;
+          font-size: 0.875rem;
+          font-weight: 500;
+          display: inline-block;
         }
 
-        .read-more-btn:hover {
-          color: #fde047;
-          transform: translateX(4px);
+        .read-more:hover {
+          text-decoration: underline;
         }
 
-        /* Latest Articles Grid - Mobile */
-        .latest-articles-grid {
+        .latest-grid {
           display: grid;
           grid-template-columns: 1fr;
           gap: 1.5rem;
         }
 
-        .latest-article-card {
-          border: 2px solid #facc15;
-          border-radius: 12px;
+        .latest-card {
+          border: 1px solid #facc15;
+          border-radius: 0.5rem;
           overflow: hidden;
           background-color: #1f2937;
           display: flex;
           flex-direction: column;
-          transition: all 0.3s ease;
         }
 
-        .latest-article-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 10px 30px rgba(250, 204, 21, 0.3);
-          border-color: #fde047;
+        .latest-image-wrapper {
+          position: relative;
+          width: 100%;
+          height: 200px;
         }
 
         .latest-image {
           width: 100%;
-          height: 200px;
+          height: 100%;
           object-fit: cover;
         }
 
         .latest-content {
-          padding: 1.25rem;
-          flex-grow: 1;
+          padding: 1rem;
+          flex: 1;
           display: flex;
           flex-direction: column;
         }
 
         .latest-title {
-          font-size: 1.125rem;
+          font-size: 1rem;
           font-weight: 700;
+          margin-bottom: 0.5rem;
           line-height: 1.4;
-          margin-bottom: 0.75rem;
-          color: #fff;
         }
 
         .latest-description {
+          font-size: 0.8rem;
           color: #d1d5db;
-          font-size: 0.875rem;
-          line-height: 1.6;
-          margin-bottom: 1rem;
-          flex-grow: 1;
+          margin-bottom: 0.75rem;
+          line-height: 1.5;
+          flex: 1;
         }
 
-        /* Filter Buttons */
-        .filter-buttons {
-          display: flex;
-          flex-wrap: wrap;
-          justify-content: center;
-          gap: 0.75rem;
-          margin-bottom: 1.5rem;
-        }
-
-        .filter-btn {
-          padding: 0.5rem 1.25rem;
-          border-radius: 9999px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          cursor: pointer;
-          transition: all 0.2s ease;
-          border: 2px solid #4b5563;
-          background-color: transparent;
-          color: #fff;
-        }
-
-        .filter-btn.active {
-          background-color: #facc15;
-          color: #000;
-          border-color: #facc15;
-          box-shadow: 0 4px 6px rgba(250, 204, 21, 0.3);
-          transform: scale(1.05);
-        }
-
-        .filter-btn:hover:not(.active) {
-          border-color: #facc15;
-          color: #facc15;
-        }
-
-        /* Tablet Styles (641px - 1024px) */
-        @media (min-width: 641px) {
-          .container {
-            padding-left: 2rem;
-            padding-right: 2rem;
-            max-width: 1280px;
+        /* Tablet styles (≥ 640px) */
+        @media (min-width: 640px) {
+          .hero-title {
+            font-size: 2.5rem;
           }
 
-          .featured-image-wrapper {
-            height: 300px;
-          }
-
-          .article-title {
-            font-size: 1.75rem;
-          }
-
-          .featured-content {
-            padding: 2rem;
-          }
-
-          .latest-articles-grid {
+          .latest-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
           }
 
-          .latest-image {
-            height: 220px;
-      }
+          .section-title {
+            font-size: 1.5rem;
+          }
         }
 
-        /* Desktop Styles (768px+) for Featured Cards */
+        /* Desktop styles (≥ 768px) */
         @media (min-width: 768px) {
-          .featured-article-card {
-            flex-direction: row;
+          .top-bar {
+            display: none;
           }
 
-          .featured-image-wrapper {
-            width: 50%;
-            height: auto;
-            min-height: 400px;
-          }
-
-          .featured-content {
-            width: 50%;
-            padding: 2.5rem;
-          }
-
-          .article-title {
-            font-size: 2rem;
-          }
-
-          .article-description {
-            font-size: 1rem;
-          }
-        }
-
-        /* Large Desktop (1025px+) */
-        @media (min-width: 1025px) {
-          .latest-articles-grid {
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-          }
-
-          .article-title {
-            font-size: 2.25rem;
-          }
-
-          .featured-content {
-            padding: 3rem;
-          }
-
-          .latest-title {
-            font-size: 1.25rem;
-          }
-        }
-
-        /* Extra Large Desktop (1280px+) */
-        @media (min-width: 1280px) {
-          .container {
-            max-width: 1280px;
-          }
-
-          .latest-articles-grid {
-            gap: 2rem;
-          }
-        }
-
-        .header-container {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding: 1rem;
-        }
-
-        .logo {
-          font-size: 1.5rem;
-          font-weight: 700;
-          letter-spacing: -0.025em;
-        }
-
-        .nav-desktop {
-          display: none;
-          gap: 2rem;
-          font-size: 0.875rem;
-          font-weight: 600;
-        }
-
-        .nav-link {
-          cursor: pointer;
-          transition: all 0.2s ease;
-          text-decoration: none;
-          color: inherit;
-        }
-
-        .nav-link:hover {
-          text-decoration: underline;
-        }
-
-        .nav-link.active {
-          font-weight: 700;
-          border-bottom: 2px solid #000;
-        }
-
-        .header-icons {
-          display: flex;
-          align-items: center;
-          gap: 1rem;
-        }
-
-        .icon-btn {
-          cursor: pointer;
-          transition: transform 0.2s ease;
-        }
-
-        .icon-btn:hover {
-          transform: scale(1.1);
-        }
-
-        .mobile-menu {
-          display: none;
-          flex-direction: column;
-          gap: 0.75rem;
-          margin-top: 1rem;
-          padding-top: 1rem;
-          border-top: 1px solid #000;
-        }
-
-        .mobile-menu.open {
-          display: flex;
-        }
-
-        @media (min-width: 768px) {
-          .logo {
-            font-size: 1.875rem;
-          }
-
-          .nav-desktop {
+          .desktop-nav {
             display: flex;
+          }
+
+          .desktop-nav a {
+            color: #000;
+            text-decoration: none;
+            font-size: 0.875rem;
+            font-weight: 500;
+          }
+
+          .desktop-nav a:hover {
+            text-decoration: underline;
           }
 
           .mobile-menu-btn {
             display: none;
           }
 
-          .header-icons .icon-mobile {
-            display: none;
+          .header-icons {
+            display: flex;
           }
 
-          .header-container {
-            padding: 1rem 2rem;
+          .hero-section {
+            padding: 3rem 2rem 2rem;
+            text-align: center;
           }
-        }
 
-        /* Search Bar */
-        .search-wrapper {
-          position: relative;
-          max-width: 42rem;
-          margin: 0 auto;
-          margin-bottom: 1.5rem;
-        }
+          .hero-title {
+            font-size: 3rem;
+            text-align: center;
+          }
 
-        .search-icon {
-          position: absolute;
-          left: 1rem;
-          top: 50%;
-          transform: translateY(-50%);
-          color: #9ca3af;
-        }
+          .hero-description {
+            font-size: 1rem;
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 1.5rem;
+          }
 
-        .search-input {
-          width: 100%;
-          background-color: #1f2937;
-          border: 2px solid #4b5563;
-          border-radius: 0.5rem;
-          padding: 0.75rem 1rem 0.75rem 3rem;
-          color: #fff;
-          outline: none;
-          transition: border-color 0.2s ease;
-        }
+          .search-container {
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+          }
 
-        .search-input::placeholder {
-          color: #6b7280;
-        }
+          .filters {
+            justify-content: center;
+          }
 
-        .search-input:focus {
-          border-color: #facc15;
-        }
+          .articles-count {
+            text-align: center;
+          }
 
-        /* Section Titles */
-        .section-title {
-          font-size: 1.5rem;
-          font-weight: 700;
-          margin-bottom: 2rem;
-          letter-spacing: -0.025em;
-        }
+          .content-wrapper {
+            padding: 2rem;
+          }
 
-        @media (min-width: 768px) {
           .section-title {
-            font-size: 1.875rem;
+            font-size: 1.75rem;
+          }
+
+          .featured-card {
+            display: flex;
+            flex-direction: row;
+          }
+
+          .featured-image-wrapper {
+            width: 50%;
+            height: auto;
+          }
+
+          .featured-content {
+            width: 50%;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+          }
+
+          .article-title {
+            font-size: 1.5rem;
+          }
+
+          .article-description {
+            font-size: 0.95rem;
           }
         }
 
+        /* Large Desktop (≥ 1024px) */
         @media (min-width: 1024px) {
+          .latest-grid {
+            grid-template-columns: repeat(3, 1fr);
+          }
+
           .section-title {
-            font-size: 2.25rem;
+            font-size: 2rem;
+          }
+
+          .article-title {
+            font-size: 1.75rem;
           }
         }
       `}</style>
 
-      {/* Header */}
-      <header className="header">
-        <div className="header-container container">
-        
-          
-          {/* Desktop Navigation */}
+      {/* Top Bar - Mobile Only */}
+      <div className="top-bar">
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <span>MPACT</span>
+          <span>BLOG</span>
+        </div>
+        <div style={{ display: 'flex', gap: '1rem' }}>
+          <Search size={16} />
+          <User size={16} />
+          <ShoppingCart size={16} />
+        </div>
+      </div>
 
-          <div className="header-icons">
-            {/*  */}
+      {/* Main Header */}
+      <header className="main-header">
+        <div className="header-container">
+  
+
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            
             <button 
-              className="mobile-menu-btn icon-btn"
+              className="mobile-menu-btn"
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             >
               {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </div>
-
-          {/* Mobile Navigation */}
-          <nav className={`mobile-menu ${mobileMenuOpen ? 'open' : ''}`}>
-             <a href="#" className="nav-link">HOME</a>
-            <a href="#" className="nav-link">PRODUCTS</a>
-            <a href="#" className="nav-link">ABOUT US</a>
-            <a href="#" className="nav-link active">BLOG</a>
-            <a href="#" className="nav-link">WISHLIST</a>
-          </nav> 
         </div>
+
+        {mobileMenuOpen && (
+          <nav className="mobile-nav">
+            <a href="#">HOME</a>
+            <a href="#">PRODUCTS</a>
+            <a href="#">ABOUT US</a>
+            <a href="#" style={{ fontWeight: 700 }}>BLOG</a>
+            <a href="#">WISHLIST</a>
+          </nav>
+        )}
       </header>
 
       {/* Hero Section */}
-      <section style={{ textAlign: 'center', padding: '3rem 1rem' }}>
-        <h1 style={{ fontSize: 'clamp(2rem, 5vw, 3.5rem)', fontWeight: '700', marginBottom: '1rem', letterSpacing: '-0.025em' }}>
-          MPACT BLOG
-        </h1>
-        <p style={{ color: '#9ca3af', marginBottom: '2rem', fontSize: 'clamp(0.875rem, 2vw, 1.125rem)', maxWidth: '48rem', margin: '0 auto 2rem' }}>
+      <section className="hero-section">
+        <h1 className="hero-title">MPACT BLOG</h1>
+        <p className="hero-description">
           Discover insights on nutrition, wellness, and healthy living from our team of experts.
         </p>
 
-        {/* Search Bar */}
-        <div className="search-wrapper">
-          <Search className="search-icon" size={20} />
+        <div className="search-container">
           <input
             type="text"
             placeholder="Search articles, topics, or tags..."
@@ -627,8 +610,7 @@ const MPACTBlog = () => {
           />
         </div>
 
-        {/* Filter Buttons */}
-        <div className="filter-buttons">
+        <div className="filters">
           {filters.map((filter) => (
             <button
               key={filter}
@@ -640,48 +622,37 @@ const MPACTBlog = () => {
           ))}
         </div>
 
-        <p style={{ color: '#6b7280', fontSize: '0.875rem' }}>9 articles found</p>
+        <p className="articles-count">9 articles found</p>
       </section>
 
-      <div className="container" style={{ paddingBottom: '4rem' }}>
+      {/* Main Content */}
+      <div className="content-wrapper">
         {/* Featured Articles */}
-        <section style={{ marginBottom: '4rem' }}>
-          <h2 className="section-title">FEATURED ARTICLES</h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '2rem' }}>
+        <section style={{ marginBottom: '3rem' }}>
+          <h2 className="section-title">Featured Articles</h2>
+          <div className="featured-grid">
             {featuredArticles.map((article) => (
-              <div key={article.id} className="featured-article-card">
+              <div key={article.id} className="featured-card">
                 <div className="featured-image-wrapper">
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="featured-image"
-                  />
+                  <img src={article.image} alt={article.title} className="featured-image" />
                   <span className="article-tag">{article.tag}</span>
                 </div>
                 <div className="featured-content">
-                  <div className="article-meta">
-                    <span className="meta-item">
-                      <Calendar size={16} />
-                      {article.date}
-                    </span>
-                    <span className="meta-item">
-                      <UserCircle size={16} />
-                      {article.author}
-                    </span>
-                    <span className="meta-item">
-                      <Clock size={16} />
-                      {article.readTime}
-                    </span>
+                  <div>
+                    <div className="article-meta">
+                      <span>📅 {article.date}</span>
+                      <span>👤 {article.author}</span>
+                      <span>⏱ {article.readTime}</span>
+                    </div>
+                    <h3 className="article-title">{article.title}</h3>
+                    <p className="article-description">{article.description}</p>
+                    <div className="article-tags">
+                      {article.tags.map((tag, idx) => (
+                        <span key={idx} className="tag">{tag}</span>
+                      ))}
+                    </div>
                   </div>
-                  <h3 className="article-title">{article.title}</h3>
-                  <p className="article-description">{article.description}</p>
-                  <div className="article-tags">
-                    {article.tags.map((tag, idx) => (
-                      <span key={idx} className="tag">{tag}</span>
-                    ))}
-                  </div>
-                  <div className="read-more-btn" onClick={()=> navigateFunction("/Nutrition")}>Read More <span>→</span>
-                  </div>
+                  <a href="#" className="read-more" onClick={()=> navigateFunction ("/Nutirion")} > Read More →</a>
                 </div>
               </div>
             ))}
@@ -690,43 +661,28 @@ const MPACTBlog = () => {
 
         {/* Latest Articles */}
         <section>
-          <h2 className="section-title">LATEST ARTICLES</h2>
-          <div className="latest-articles-grid">
+          <h2 className="section-title">Latest Articles</h2>
+          <div className="latest-grid">
             {latestArticles.map((article) => (
-              <div key={article.id} className="latest-article-card">
-                <div style={{ position: 'relative' }}>
-                  <img
-                    src={article.image}
-                    alt={article.title}
-                    className="latest-image"
-                  />
+              <div key={article.id} className="latest-card">
+                <div className="latest-image-wrapper">
+                  <img src={article.image} alt={article.title} className="latest-image" />
                   <span className="article-tag">{article.tag}</span>
                 </div>
                 <div className="latest-content">
-                  <div className="article-meta" style={{ fontSize: '0.75rem', marginBottom: '0.75rem' }}>
-                    <span className="meta-item">
-                      <Calendar size={14} />
-                      {article.date}
-                    </span>
-                    <span className="meta-item">
-                      <UserCircle size={14} />
-                      {article.author}
-                    </span>
-                    <span className="meta-item">
-                      <Clock size={14} />
-                      {article.readTime}
-                    </span>
+                  <div className="article-meta">
+                    <span>📅 {article.date}</span>
+                    <span>👤 {article.author}</span>
+                    <span>⏱ {article.readTime}</span>
                   </div>
                   <h3 className="latest-title">{article.title}</h3>
                   <p className="latest-description">{article.description}</p>
-                  <div className="article-tags" style={{ marginBottom: '1rem' }}>
+                  <div className="article-tags">
                     {article.tags.map((tag, idx) => (
                       <span key={idx} className="tag">{tag}</span>
                     ))}
                   </div>
-                  <div className="read-more-btn" style={{ fontSize: '0.875rem' }}   onClick={()=> navigateFunction("/Nutrition")}>
-                    Read More <span>→</span>
-                  </div>
+                  <a href="#" className="read-more"onClick={()=> navigateFunction ("/Nutirion")}>Read More →</a>
                 </div>
               </div>
             ))}
