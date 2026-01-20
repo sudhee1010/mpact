@@ -23,17 +23,22 @@ import SuccessPopup from "./pages/SuccessPopup.jsx";
 import HelpSupport from "./pages/HelpSupport";
 import Nutrition from "./pages/blog/Nutrition.jsx"
 import Blog  from "./pages/blog/Blog.jsx"
-import Profile from "./pages/profile/Profile";
-import Prfle from "./pages/profile/Prfle";
 import SeeMore from "./pages/SeeMore";
+// import NewProfile from "./pages/profile/Newprofile.jsx";
+import Wishlist from "./pages/Wishlist.jsx"
 import NewProfile from "./pages/profile/Newprofile.jsx"
+import Signup from "./pages/Signup.jsx";
+import  Login from "./pages/Login.jsx";
+
 function App() {
   const [loading, setLoading] = useState(true);
+  
 
   return (
     <>
       {/* NAVBAR IS ALWAYS MOUNTED */}
       <Navbar />
+      
       <ScrollToTop />
 
       {/* LOADER OVERLAY */}
@@ -47,6 +52,7 @@ function App() {
           <Route path="/productspec/:id" element={<ProductPage />} />
           <Route path="/checkout" element={<Checkout />} />
           <Route path="/profile" element={<NewProfile />} />
+          <Route path="/wishlist" element={<Wishlist />} />
           <Route path="/help" element={<HelpSupport />} />
 
 
@@ -67,6 +73,9 @@ function App() {
           <Route path="/about" element={<About />} />
           <Route path="/faq" element={<Faq />} />
           <Route path="/Nutrition" element={<Nutrition />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/login" element={<Login/>}/>
+
 
         </Routes>
       </div>   
